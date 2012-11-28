@@ -5,14 +5,15 @@
     <!--
     TODO
         * Select key length
-        * Don't use 'input' fields for values except for the message
+        * Don't use 'input' fields for values, since they aren't (except for the message field).
         * Hash the message properly according to RSASSA-PSS before blinding
         * Allow text message/create random text message
         * Do signing server-side to speed up
     -->
 
-    <script src="http://leemon.com/crypto/BigInt.js"></script>
+    <center><h1>RSA blinding in JavaScript</h1></center>
 
+    <script src="http://leemon.com/crypto/BigInt.js"></script>
 
     <script>
         // Random test singing keys for various key lengths
@@ -286,6 +287,13 @@ function do_all() {
 }
 
 </script>
+
+<center>
+    <font size=-2>
+        (c) 2012 <a href="http://nils.toedtmann.net/">Nils Toedtmann</a>, <a href="http://opencoin.org/">OpenCoin</a>.
+        Based on <a href="http://leemon.com/">Leemon Baird</a>'s <a href="http://leemon.com/crypto/BigInt.js">BigInt.js</a> library.
+    </font>
+</center>
 
 
 </body>
