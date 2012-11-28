@@ -81,19 +81,32 @@
             <td><input name=text_message      type=text size=65></td> 
         </tr>
 
-        <tr>
-            <td colspan="4"><hr></td>
-        </tr>
+        <tr><td colspan="4"><hr></td></tr>
+        <tr></tr>
 
         <tr>
-            <td colspan="4" align="center"><input type=button name=do_it_all value="Do it!" onclick="do_all()"></td>
+            <td colspan="4" align="center">
+                <input type=button name=do_it_all value="Blind the message" onclick="phase1()">
+                &nbsp; &nbsp; or &nbsp; &nbsp;
+                <input type=button name=do_it_all value="Blind the message, sign it, and verify the signature" onclick="do_all()">
+            </td>
         </tr>
+
+        <tr></tr>
+        <tr><td colspan="4"><hr></td></tr>
 
         <tr>
             <th>variable</th>
             <th>formula</th> 
             <th>time [ms]</th>
             <th>value</th>
+        </tr>
+
+        <tr>
+            <td colspan="4"><hr></td>
+        </tr>
+        <tr>
+            <td colspan="4"><font size=-2>Wallet fetches the Issuer's public key <i>(n,e)</i> and blinds its message:</font></td>
         </tr>
 
         <tr>
@@ -118,15 +131,25 @@
         </tr>
 
         <tr>
-            <td colspan="4"><hr></td>
-        </tr>
-
-        <tr>
             <td>blind message</td>
             <td><i>bm = b*m mod n</i></td>
             <td><input name=text_blind_message_time type=text size=6></td>
             <td><input name=text_blind_message      type=text size=65></td>
         </tr>
+
+        <tr>
+            <td></td><td></td>
+            <td><input name=text_wallet_phase1_time type=text size=6></td>
+            <td><font size=-2>Total time for the Wallet to create blind message</font></td>
+        </tr>
+
+        <tr>
+            <td colspan="4"><hr></td>
+        </tr>
+        <tr>
+            <td colspan="4"><font size=-2>Issuer signs blind message:</font></td>
+        </tr>
+
 
         <tr>
             <td>blind signature</td>
@@ -138,6 +161,30 @@
         <tr>
             <td colspan="4"><hr></td>
         </tr>
+        <tr>
+            <td colspan="4"><font size=-2>Wallet unblinds and verifies the returned blind signature message:</font></td>
+        </tr>
+
+        <tr>
+            <td>signature</td>
+            <td><i>s = u*(bs) mod n</i></td>
+            <td><input name=text_unblind_signature_time type=text size=6></td>
+            <td><input name=text_unblind_signature      type=text size=65></td>
+        </tr>
+
+        <tr>
+            <td>verify signature</td>
+            <td><i>m = s^e mod n ?</i></td>
+            <td><input name=text_verify_signature_time type=text size=6></td>
+            <td><input name=text_verify_signature      type=text size=65></td>
+        </tr>
+
+        <tr>
+            <td></td><td></td>
+            <td><input name=text_wallet_phase2_time type=text size=6></td>
+            <td><font size=-2>Total time for the Wallet to unblind and verify signature</font></td>
+        </tr>
+
 
     </table>
   </td></tr></table></center>
@@ -149,41 +196,53 @@
 value_max_length = 64
 
 function pick_message() {
-    message = randBigInt(bitlegth-1,1);
+    message     = randBigInt(bitlegth-1,1);
+    message_str = bigInt2str(message,currBase);
     document.btform.text_message.value      = shorten_string(bigInt2str(message,currBase), value_max_length);
 }
 pick_message() 
 
-function do_all() {
+function phase1() {
 
     startTime=new Date();
     blinding_nonce = randBigInt(bitlegth,1);
     endTime=new Date();
+    blinding_nonce_time = endTime.getTime()-startTime.getTime();
 
     document.btform.text_blinding_nonce.value      = shorten_string(bigInt2str(blinding_nonce,currBase), value_max_length);
-    document.btform.text_blinding_nonce_time.value = ''+(endTime.getTime()-startTime.getTime());
+    document.btform.text_blinding_nonce_time.value = ''+blinding_nonce_time;
 
     startTime=new Date();
     blinder=powMod(blinding_nonce,e,n)
     endTime=new Date();
+    blinder_time = endTime.getTime()-startTime.getTime();
 
     document.btform.text_blinder.value      = shorten_string(bigInt2str(blinder,currBase), value_max_length);
-    document.btform.text_blinder_time.value = ''+(endTime.getTime()-startTime.getTime());
+    document.btform.text_blinder_time.value = ''+blinder_time;
 
     startTime=new Date();
     unblinder = inverseMod(blinding_nonce,n);
     endTime=new Date();
+    unblinder_time = endTime.getTime()-startTime.getTime();
 
     document.btform.text_unblinder.value      = shorten_string(bigInt2str(unblinder,currBase), value_max_length);
-    document.btform.text_unblinder_time.value = ''+(endTime.getTime()-startTime.getTime());
+    document.btform.text_unblinder_time.value = ''+unblinder_time;
 
     // Blind message
     startTime=new Date();
     blind_message = multMod(blinder,message,n);
     endTime=new Date();
+    blind_message_time = endTime.getTime()-startTime.getTime();
 
     document.btform.text_blind_message.value      = shorten_string(bigInt2str(blind_message,currBase), value_max_length);
-    document.btform.text_blind_message_time.value = ''+(endTime.getTime()-startTime.getTime());
+    document.btform.text_blind_message_time.value = ''+blind_message_time;
+
+    document.btform.text_wallet_phase1_time.value    = ''+(blinding_nonce_time+blinder_time+unblinder_time+blind_message_time);
+}
+
+
+function do_all() {
+    phase1()
 
     // Signer signs message blindly
     startTime=new Date();
@@ -192,6 +251,30 @@ function do_all() {
 
     document.btform.text_blind_signature.value      = shorten_string(bigInt2str(blind_signature,currBase), value_max_length);
     document.btform.text_blind_signature_time.value = ''+(endTime.getTime()-startTime.getTime());
+
+    // Unblind signature
+    startTime=new Date();
+    signature = multMod(unblinder,blind_signature,n);
+    endTime=new Date();
+    signature_time = endTime.getTime()-startTime.getTime();
+
+    document.btform.text_unblind_signature.value      = shorten_string(bigInt2str(signature,currBase), value_max_length);
+    document.btform.text_unblind_signature_time.value = ''+signature_time;
+
+    // Verify signature
+    startTime=new Date();
+    message2 = powMod(signature,e,n)
+    endTime=new Date();
+    message2_time = endTime.getTime()-startTime.getTime();
+    message2_str = bigInt2str(message2,currBase);
+
+    // For some reason, i get "false" when i compare the BigInts (message == message2) instead of the strings.
+    document.btform.text_verify_signature.value      = (message_str == message2_str)
+ // document.btform.text_verify_signature.value      = shorten_string(message2_str, value_max_length);
+    document.btform.text_verify_signature_time.value = ''+message2_time;
+
+    document.btform.text_wallet_phase2_time.value    = ''+(signature_time+message2_time);
+
 }
 
 </script>
