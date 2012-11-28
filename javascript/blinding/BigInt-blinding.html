@@ -1,0 +1,176 @@
+<html>
+<head><title>RSA blinding timings</title></head>
+<BODY>
+  
+    <script src="http://leemon.com/crypto/BigInt.js"></script>
+
+
+    <script>
+        // A random 1024bit test mint key
+        var test_key_1024_n_10base = '50627820219869774840534863587014811269175028232047628519071590862595588659880326373570321832391367905095022692904368723070494008484969214316957188279155652278651718833989334392440029145157766561275408580411085909849634394981874535917349655299726547254564053932537532246064690142381334535190022716641846367601';
+        var test_key_1024_e_10base = '65537';
+        var test_key_1024_d_10base = '2342242563844014180028101780609867826848019982598660446310100607220193551989824825131837218606445633584816345039993377303656527362046273979721595356247614189731625650586359912191221460315110551825131536281801580160766703515370733464284839788088479004626861588270785599409899702397806382050775837170006750817';
+    </script>
+
+
+    <script>
+        currBase=10;
+        var bitlegth=1024;
+
+        var n = str2bigInt(test_key_1024_n_10base,10,0);
+        var e = str2bigInt(test_key_1024_e_10base,10,0);
+        var d = str2bigInt(test_key_1024_d_10base,10,0);
+
+        var blinding_nonce = str2bigInt('1',10,0);
+        var blinder        = str2bigInt('1',10,0);
+        var unblinder      = str2bigInt('1',10,0);
+
+    </script>
+
+
+    <script>
+        function shorten_string(s,n) {
+            var l = s.length;
+            if (l <= n) {
+                return s;
+            }
+            if (n < 5) {
+                return s.slice(0,n-1)
+            }
+            head = n/2-1;
+            tail = n - head - 3;
+            return s.slice(0,head-1) + "..." + s.slice(l-1-tail,l-1)
+        }
+    </script>
+
+
+
+<form name=btform>
+  <center><table border=2 cellspacing=0 cellpadding=0><tr><td>
+    <table bgColor="lightgray" border=0 cellspacing=10 cellpadding=1>
+
+        <tr>
+            <td>message</td>
+            <td><i>m = <input type=button name=do_message value="random" onclick="pick_message()"></i></td>
+            <td></td> 
+            <td><input name=text_message      type=text size=65></td> 
+        </tr>
+
+        <tr>
+            <td colspan="4"><hr></td>
+        </tr>
+
+        <tr>
+            <td colspan="4" align="center"><input type=button name=do_it_all value="Do it!" onclick="do_all()"></td>
+        </tr>
+
+        <tr>
+            <th>variable</th>
+            <th>formula</th> 
+            <th>time [ms]</th>
+            <th>value</th>
+        </tr>
+
+        <tr>
+            <td>nonce</td>
+            <td><i>r = random</i></td>
+            <td><input name=text_blinding_nonce_time type=text size=6></td>
+            <td><input name=text_blinding_nonce      type=text size=65></td>
+        </tr>
+
+        <tr>
+            <td>blinder</td>
+            <td><i>b = r^e mod n</i></td>
+            <td><input name=text_blinder_time type=text size=6></td>
+            <td><input name=text_blinder      type=text size=65></td>
+        </tr>
+
+        <tr>
+            <td>unblinder</td>
+            <td><i>u = 1/r mod n</i></td>
+            <td><input name=text_unblinder_time type=text size=6></td>
+            <td><input name=text_unblinder      type=text size=65></td>
+        </tr>
+
+        <tr>
+            <td colspan="4"><hr></td>
+        </tr>
+
+        <tr>
+            <td>blind message</td>
+            <td><i>bm = b*m mod n</i></td>
+            <td><input name=text_blind_message_time type=text size=6></td>
+            <td><input name=text_blind_message      type=text size=65></td>
+        </tr>
+
+        <tr>
+            <td>blind signature</td>
+            <td><i>bs = (bm)^d mod n</i></td>
+            <td><input name=text_blind_signature_time type=text size=6></td>
+            <td><input name=text_blind_signature      type=text size=65></td>
+        </tr>
+
+        <tr>
+            <td colspan="4"><hr></td>
+        </tr>
+
+    </table>
+  </td></tr></table></center>
+</form>
+
+
+
+<script>
+value_max_length = 64
+
+function pick_message() {
+    message = randBigInt(bitlegth-1,1);
+    document.btform.text_message.value      = shorten_string(bigInt2str(message,currBase), value_max_length);
+}
+pick_message() 
+
+function do_all() {
+
+    startTime=new Date();
+    blinding_nonce = randBigInt(bitlegth,1);
+    endTime=new Date();
+
+    document.btform.text_blinding_nonce.value      = shorten_string(bigInt2str(blinding_nonce,currBase), value_max_length);
+    document.btform.text_blinding_nonce_time.value = ''+(endTime.getTime()-startTime.getTime());
+
+    startTime=new Date();
+    blinder=powMod(blinding_nonce,e,n)
+    endTime=new Date();
+
+    document.btform.text_blinder.value      = shorten_string(bigInt2str(blinder,currBase), value_max_length);
+    document.btform.text_blinder_time.value = ''+(endTime.getTime()-startTime.getTime());
+
+    startTime=new Date();
+    unblinder = inverseMod(blinding_nonce,n);
+    endTime=new Date();
+
+    document.btform.text_unblinder.value      = shorten_string(bigInt2str(unblinder,currBase), value_max_length);
+    document.btform.text_unblinder_time.value = ''+(endTime.getTime()-startTime.getTime());
+
+    // Blind message
+    startTime=new Date();
+    blind_message = multMod(blinder,message,n);
+    endTime=new Date();
+
+    document.btform.text_blind_message.value      = shorten_string(bigInt2str(blind_message,currBase), value_max_length);
+    document.btform.text_blind_message_time.value = ''+(endTime.getTime()-startTime.getTime());
+
+    // Signer signs message blindly
+    startTime=new Date();
+    blind_signature = powMod(blind_message,d,n);
+    endTime=new Date();
+
+    document.btform.text_blind_signature.value      = shorten_string(bigInt2str(blind_signature,currBase), value_max_length);
+    document.btform.text_blind_signature_time.value = ''+(endTime.getTime()-startTime.getTime());
+}
+
+</script>
+
+
+</body>
+</html>
