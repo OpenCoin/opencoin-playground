@@ -1,14 +1,31 @@
 <html>
-<head><title>RSA blinding timings</title></head>
-<BODY>
+
+<head>
+    <title>RSA blinding timings - OpenCoin.org</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+</head>
+
+<body>
  
     <!--
+
+    COPYRIGHT:
+        (c) 2012 Nils Toedtmann <nils at opencoin dot org>
+
+
+
+    DISCAIMER:
+        I know this is dodgy code. I am a protocol designer, not a coder. It's good enough for me :-)
+
     TODO
-        * Select key length
+        * Turn this into proper HTML+JS
         * Don't use 'input' fields for values, since they aren't (except for the message field).
-        * Hash the message properly according to RSASSA-PSS before blinding
-        * Allow text message/create random text message
+        * Use "jsbn" for big ints <http://www-cs-students.stanford.edu/~tjw/jsbn/>
+        * Use "sjcl" for hashes <http://crypto.stanford.edu/sjcl/>
+        * Hash the message properly before blinding, if possible according to RSASSA-PSS
+        * Allow text message/create random text message 
         * Do signing server-side to speed up
+
     -->
 
     <center><h1>RSA blinding in JavaScript</h1></center>
@@ -36,16 +53,18 @@
         messagelength=256;
 
         currBase=10;
-        var n               = str2bigInt('1',currBase,0);
-        var e               = str2bigInt('1',currBase,0);
-        var d               = str2bigInt('1',currBase,0);
         var blinding_nonce  = str2bigInt('1',currBase,0);
         var blinder         = str2bigInt('1',currBase,0);
         var unblinder       = str2bigInt('1',currBase,0);
 
-     // var bitlength=1024;
-        var bitlength=2048;
-     // var bitlength=4096;
+        function setKeyLength(kl) {
+            keylength = kl
+            n = str2bigInt(test_key_10base['n_'+keylength],currBase,0);
+            e = str2bigInt(test_key_10base['e_'+keylength],currBase,0);
+            d = str2bigInt(test_key_10base['d_'+keylength],currBase,0);
+        }
+
+        setKeyLength(2048);
     </script>
 
 
@@ -77,25 +96,26 @@
             <td><input name=text_message      type=text size=65></td> 
         </tr>
 
+        <tr><td colspan="4"><hr></td></tr>
+
+        <tr></tr>
         <tr>
             <td>key length</td>
-            <td><!--INSERT DROP DOWN LIST HERE TO SELECT VALUE OF VARIABLE bitlenth --></td>
+            <td><select onchange="setKeyLength(this.value)">
+                <option                     value="1024">1024 bit</option>     
+                <option selected="selected" value="2048">2048 bit</option>     
+                <option                     value="4096">4096 bit</option>     
+            </select></td>
             <td></td>
-            <td><input name=text_bitlength    type=text size=5>bit</td> 
-        </tr>
 
-        <tr><td colspan="4"><hr></td></tr>
-        <tr></tr>
-
-        <tr>
-            <td colspan="4" align="center">
+            <td align="center">
                 <input type=button name=do_it_all value="Blind the message" onclick="phase1()">
                 &nbsp; &nbsp; or &nbsp; &nbsp;
-                <input type=button name=do_it_all value="Blind the message, sign it, and unblind verify the signature" onclick="do_all()">
+                <input type=button name=do_it_all value="Blind it, sign it, and unblind and verify the signature" onclick="do_all()">
             </td>
         </tr>
-
         <tr></tr>
+
         <tr><td colspan="4"><hr></td></tr>
 
         <tr>
@@ -109,7 +129,7 @@
             <td colspan="4"><hr></td>
         </tr>
         <tr>
-            <td colspan="4"><font size=-2>Wallet fetches the Issuer's public key <i>(n,e)</i> and blinds its message:</font></td>
+            <td colspan="4"><font size=-2>Wallet fetches the Issuer's public key <i>(n,e)</i> and blinds the message:</font></td>
         </tr>
 
         <tr>
@@ -202,19 +222,10 @@ function pick_message() {
 }
 
 pick_message() 
-document.btform.text_bitlength.value    = bitlength;
-
-function set_issuer_key() {
-    n = str2bigInt(test_key_10base['n_'+bitlength],currBase,0);
-    e = str2bigInt(test_key_10base['e_'+bitlength],currBase,0);
-    d = str2bigInt(test_key_10base['d_'+bitlength],currBase,0);
-}
 
 function phase1() {
-    set_issuer_key()
-
     startTime=new Date();
-    blinding_nonce = randBigInt(bitlength,1);
+    blinding_nonce = randBigInt(keylength,1);
     endTime=new Date();
     blinding_nonce_time = endTime.getTime()-startTime.getTime();
 
