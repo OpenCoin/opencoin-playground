@@ -131,7 +131,7 @@
             <td colspan="4"><hr></td>
         </tr>
         <tr>
-            <td colspan="4"><font size=-2>Wallet fetches the Issuer's public key <i>(n,e)</i> and blinds the message:</font></td>
+            <td colspan="4"><font size=-2>Wallet fetches the Issuer's public key <i>(n,e)</i>, blinds the message and sends it to the Issuer:</font></td>
         </tr>
 
         <tr>
@@ -156,13 +156,6 @@
         </tr>
 
         <tr>
-            <td>unblinder</td>
-            <td><i>u = 1/r mod n</i></td>
-            <td><input name=text_unblinder_time type=text size=6></td>
-            <td><input name=text_unblinder      type=text size=65></td>
-        </tr>
-
-        <tr>
             <td>blind message</td>
             <td><i>bm = b*m mod n</i></td>
             <td><input name=text_blind_message_time type=text size=6></td>
@@ -175,11 +168,21 @@
             <td><font size=-2>Total time for the Wallet to create blind message</font></td>
         </tr>
 
+        <tr><td colspan="4"><hr></td></tr>
         <tr>
-            <td colspan="4"><hr></td>
+            <td colspan="4"><font size=-2>Wallet - while waiting for the Issuer to return the signature - calculates the unblinder:</font></td>
         </tr>
+
         <tr>
-            <td colspan="4"><font size=-2>Issuer signs blind message with its secret key <i>(n,d)</i>:</font></td>
+            <td>unblinder</td>
+            <td><i>u = 1/r mod n</i></td>
+            <td><input name=text_unblinder_time type=text size=6></td>
+            <td><input name=text_unblinder      type=text size=65></td>
+        </tr>
+
+        <tr><td colspan="4"><hr></td></tr>
+        <tr>
+            <td colspan="4"><font size=-2>Issuer signs blind message with its secret key <i>(n,d)</i> and returns the result:</font></td>
         </tr>
 
 
@@ -190,11 +193,11 @@
             <td><input name=text_blind_signature      type=text size=65></td>
         </tr>
 
+
+        <tr><td colspan="4"><hr></td></tr>
+
         <tr>
-            <td colspan="4"><hr></td>
-        </tr>
-        <tr>
-            <td colspan="4"><font size=-2>Wallet unblinds and verifies the returned blind signature:</font></td>
+            <td colspan="4"><font size=-2>Wallet - once it received the blind signature - unblinds and verifies it:</font></td>
         </tr>
 
         <tr>
@@ -265,14 +268,6 @@ function phase1() {
     document.btform.text_blinder.value      = shorten_string(bigInt2str(blinder,currBase), value_max_length);
     document.btform.text_blinder_time.value = ''+blinder_time;
 
-    startTime=new Date();
-    unblinder = inverseMod(blinding_nonce,n);
-    endTime=new Date();
-    unblinder_time = endTime.getTime()-startTime.getTime();
-
-    document.btform.text_unblinder.value      = shorten_string(bigInt2str(unblinder,currBase), value_max_length);
-    document.btform.text_unblinder_time.value = ''+unblinder_time;
-
     // Blind message
     startTime=new Date();
     blind_message = multMod(blinder,message,n);
@@ -282,7 +277,16 @@ function phase1() {
     document.btform.text_blind_message.value      = shorten_string(bigInt2str(blind_message,currBase), value_max_length);
     document.btform.text_blind_message_time.value = ''+blind_message_time;
 
-    document.btform.text_wallet_phase1_time.value    = ''+(hash_time+blinding_nonce_time+blinder_time+unblinder_time+blind_message_time);
+    document.btform.text_wallet_phase1_time.value    = ''+(hash_time+blinding_nonce_time+blinder_time+blind_message_time);
+
+    startTime=new Date();
+    unblinder = inverseMod(blinding_nonce,n);
+    endTime=new Date();
+    unblinder_time = endTime.getTime()-startTime.getTime();
+
+    document.btform.text_unblinder.value      = shorten_string(bigInt2str(unblinder,currBase), value_max_length);
+    document.btform.text_unblinder_time.value = ''+unblinder_time;
+
 }
 
 
