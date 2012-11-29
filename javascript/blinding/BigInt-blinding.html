@@ -32,6 +32,7 @@
     <center><h1>RSA blinding in JavaScript</h1></center>
 
     <script src="http://leemon.com/crypto/BigInt.js"></script>
+    <script src="http://www.bichlmeier.info/sha256.js"></script>
 
     <script>
         // Random test singing keys for various key lengths
@@ -87,7 +88,7 @@
 
 
 <form name=btform>
-  <center><table border=2 cellspacing=0 cellpadding=0><tr><td>
+  <center><table border=0 cellspacing=0 cellpadding=0><tr><td>
     <table bgColor="lightgray" border=0 cellspacing=10 cellpadding=1>
 
         <tr>
@@ -131,6 +132,13 @@
         </tr>
         <tr>
             <td colspan="4"><font size=-2>Wallet fetches the Issuer's public key <i>(n,e)</i> and blinds the message:</font></td>
+        </tr>
+
+        <tr>
+            <td>hash <sup>[1]</sup></td>
+            <td><i>h=SHA256(m)</i></td>
+            <td><input name="text_hash_time" size="6" type="text"></td>
+            <td><input name="text_hash" size="65" type="text"></td>
         </tr>
 
         <tr>
@@ -211,6 +219,14 @@
 
 
     </table>
+    <font size=-2>
+        <br>
+        (c) 2012 <a href="http://nils.toedtmann.net/">Nils Toedtmann</a>, <a href="http://opencoin.org/">OpenCoin</a>.<br>
+        Based on <a href="http://leemon.com/">Leemon Baird</a>'s <a href="http://leemon.com/crypto/BigInt.js">BigInt.js</a> and
+        Christoph Bichlmeier's <a href="http://www.bichlmeier.info/sha256.html">sha256.js</a> libraries.<br>
+        <br>
+        [1] The hash is currently not used in the calculations. It is only computed here to give an impression of its speed. We'll implement a RSA-PSS-style hash soon.
+    </font>
   </td></tr></table></center>
 </form>
 
@@ -225,6 +241,14 @@ function pick_message() {
 pick_message() 
 
 function phase1() {
+    startTime=new Date();
+    hash=sha256_digest(message_str); // This hash isn't integrated to the subsequent operations. We'll use RSA-PSS for that.
+    endTime=new Date();
+    hash_time = endTime.getTime()-startTime.getTime();
+  
+    document.btform.text_hash.value      = ''+hash;
+    document.btform.text_hash_time.value = ''+hash_time;
+
     startTime=new Date();
     blinding_nonce = randBigInt(keylength,1);
     endTime=new Date();
@@ -258,7 +282,7 @@ function phase1() {
     document.btform.text_blind_message.value      = shorten_string(bigInt2str(blind_message,currBase), value_max_length);
     document.btform.text_blind_message_time.value = ''+blind_message_time;
 
-    document.btform.text_wallet_phase1_time.value    = ''+(blinding_nonce_time+blinder_time+unblinder_time+blind_message_time);
+    document.btform.text_wallet_phase1_time.value    = ''+(hash_time+blinding_nonce_time+blinder_time+unblinder_time+blind_message_time);
 }
 
 
@@ -300,12 +324,6 @@ function do_all() {
 
 </script>
 
-<center>
-    <font size=-2>
-        (c) 2012 <a href="http://nils.toedtmann.net/">Nils Toedtmann</a>, <a href="http://opencoin.org/">OpenCoin</a>.
-        Based on <a href="http://leemon.com/">Leemon Baird</a>'s <a href="http://leemon.com/crypto/BigInt.js">BigInt.js</a> library.
-    </font>
-</center>
 
 
 </body>
