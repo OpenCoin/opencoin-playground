@@ -5,8 +5,10 @@ import os
 import oc_crypto
 import containers
 
+os.makedirs('artifacts', exist_ok=True)
 
 def write(document, name):
+
     if isinstance(document, containers.Container):
         document = document.dumps()
 
