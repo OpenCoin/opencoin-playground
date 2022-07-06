@@ -134,7 +134,6 @@ class RequestMinting(Request):
 
 class ResponseMinting(Response):
     blind_signatures = fields.List(fields.Nested(BlindSignature()),required=True)
-    transaction_reference = BigInt(required=True)
     type = TypeField("response minting")
 
 class CoinStack(Schema):

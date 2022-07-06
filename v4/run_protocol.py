@@ -1,5 +1,6 @@
 import datetime
 import os
+from pprint import pprint
 
 import containers
 import oc_crypto
@@ -14,14 +15,19 @@ class DummyIssuer:
 
     def sign(self, blind):
         mk_id = blind.mint_key_id
-        denomination = issuer.mkc[mk_id].mint_key.denomination
-        bsignature = oc_crypto.sign_blind(blind.data.blinded_payload_hash,
+        bsignature = oc_crypto.sign_blind(blind.blinded_payload_hash,
                                           self.mkc_private[mk_id][1])
-        blind_signature = create(containers.BlindSignature,
-                                 blind_signature=bsignature,
-                                 reference=blind.data.reference)
-        return blind_signature
+        return create(containers.BlindSignature,
+                      blind_signature=bsignature,
+                      reference=blind.reference)
 
+    def sum_blinds(self, blinds):
+        amount = 0
+        for blind in blinds:
+            mk_id = blind.mint_key_id
+            mkc = self.mkc[mk_id]
+            amount += mkc.mint_key.denomination
+        return amount
 
 class DummyWallet:
 
@@ -252,18 +258,16 @@ blind_signatures = []
 for blind in alice.blinds.values():
     blind_signature = issuer.sign(blind)
     blind_signatures.append(blind_signature)
-    write(blind_signature, f"blind_signature_{reference}.oc")
+    write(blind_signature, f"blind_signature_{blind_signature.reference}.oc")
 
 
 response_minting = create(containers.ResponseMinting,
                           message_reference=4,
-                          transaction_reference=request_minting.transaction_reference,
                           blind_signatures=[blind_signature.data for blind_signature in blind_signatures])
-write(response_minting, 'response_minting.oc')
+write(response_minting, 'response_minting_a.oc')
 
 
 # back to the client side
-coins = {}
 for blind_signature in response_minting.blind_signatures:
     reference = blind_signature.reference
     coin = alice.unblind(blind_signature)
@@ -286,7 +290,7 @@ for reference in list(alice.coins.keys()):
     del alice.blinds_private[reference]
 
 denomination = 2
-# Bob needs to renew the coins. He needs some 2 coins
+# Bob needs to renew the coins. He wants some 2 opencent coins.
 for i in range(4):
     reference = f'b{i}'
     payload, blind = bob.prepare_blind(reference, denomination)
@@ -300,3 +304,35 @@ request_renewal = create(containers.RequestRenewal,
                          blinds=[blind.data for blind in bob.blinds.values()]
                          )
 write(request_renewal, 'request_renewal.oc')
+
+
+
+# we are on the issuer side now
+
+# does the sum for coins and blinds match?
+coin_sum = sum(coin.payload.denomination for coin in request_renewal.coins)
+assert(coin_sum == issuer.sum_blinds(request_renewal.blinds))
+
+print(f'renew coins worth {coin_sum}')
+
+blind_signatures = []
+for blind in request_renewal.blinds:
+    blind_signature = issuer.sign(blind)
+    blind_signatures.append(blind_signature)
+    write(blind_signature, f"blind_signature_{blind_signature.reference}.oc")
+
+
+response_minting = create(containers.ResponseMinting,
+                          message_reference=request_renewal.message_reference,
+                          blind_signatures=blind_signatures)
+write(response_minting, 'response_minting_b.oc')
+
+# back to bob, who unblinds the signatures
+for blind_signature in response_minting.blind_signatures:
+    reference = blind_signature.reference
+    coin = bob.unblind(blind_signature)
+
+    # just for show
+    print(f'validated coin {reference}:', validate_coin(bob, coin))
+
+    write(coin, f"coin_{reference}.oc")
