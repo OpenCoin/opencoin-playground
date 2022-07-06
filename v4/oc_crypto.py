@@ -1,5 +1,5 @@
 import rsa
-from rsa import randnum, common, prime, sign
+from rsa import randnum, common, prime, sign, PublicKey, PrivateKey
 from rsa.randnum import randint, read_random_odd_int
 
 

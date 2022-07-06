@@ -1,50 +1,149 @@
 import datetime
-
 import os
 
-import oc_crypto
 import containers
+import oc_crypto
 
-os.makedirs('artifacts', exist_ok=True)
+
+class DummyIssuer:
+
+    def __init__(self):
+        self.cddcs = {}  # serial: cddc
+        self.mkc = {}  # mintkey_id: mkc
+        self.mkc_private = {}  # mintkey_id: private key
+
+    def sign(self, blind):
+        mk_id = blind.mint_key_id
+        denomination = issuer.mkc[mk_id].mint_key.denomination
+        bsignature = oc_crypto.sign_blind(blind.data.blinded_payload_hash,
+                                          self.mkc_private[mk_id][1])
+        blind_signature = create(containers.BlindSignature,
+                                 blind_signature=bsignature,
+                                 reference=blind.data.reference)
+        return blind_signature
+
+
+class DummyWallet:
+
+    def __init__(self):
+        self.cddcs = {}  # serial: cddc
+        self.mkc = {}  # mintkey_id: mkc
+        self.mkc_by_denomination = {}  # denomination: mkc
+        self.payloads = {}  # reference: payload
+        self.blinds = {}  # reference: blind
+        self.blinds_private = {}  # reference: (bf, bi)
+        self.coins = {}  # reference: coin
+
+    def add_mkc(self, mkc):
+        if not isinstance(mkc, containers.Container):
+            mkc = containers.MintKeyCertificate(mkc)
+        self.mkc[mkc.mint_key.id]=mkc
+        self.mkc_by_denomination[mkc.mint_key.denomination]=mkc
+
+
+    def prepare_blind(self, reference, denomination):
+        serial = oc_crypto.read_random_odd_int(256)
+        mkc = self.mkc_by_denomination[denomination]
+        payload = create(containers.Payload,
+                         protocol_version=cdd.data.protocol_version,
+                         issuer_id=cdd.data.id,
+                         cdd_location=cdd.data.cdd_location,
+                         denomination=denomination,
+                         mint_key_id=mkc.mint_key.id,
+                         serial=serial)
+        self.payloads[reference] = payload
+
+        mk_public = mkc.public_key
+
+        bf, bi = oc_crypto.get_blinding_factors(mk_public)
+        blinded = oc_crypto.blind_message(payload.hash(), bf, mk_public)
+        blind = create(containers.Blind,
+                       reference=reference,
+                       blinded_payload_hash=blinded,
+                       mint_key_id=mint_key_certificates[denomination].data.mint_key.id)
+
+        self.blinds[reference] = blind
+        self.blinds_private[reference] = (bf, bi)
+        return payload, blind
+
+    def unblind(self, blind_signature):
+        reference = blind_signature.reference
+        mk_id = self.blinds[reference].mint_key_id
+        mkc = self.mkc[mk_id]
+        mk_pub = mkc.public_key
+        bsignature = blind_signature.blind_signature
+        signature = oc_crypto.unblind(bsignature, self.blinds_private[reference][1], mk_pub)
+        validated = oc_crypto.decrypt(signature, mk_pub) == self.payloads[reference].hash()
+        if not validated:
+            raise Exception('unblinded invalid signature')
+        coin = create(containers.Coin,
+                      payload=self.payloads[reference].data,
+                      signature=signature,
+                      )
+        self.coins[reference] = coin
+        return coin
+
+def validate_coin(wallet_holder, coin):
+    mk_id = coin.payload.mint_key_id
+    mkc = wallet_holder.mkc[mk_id]
+    mk_pub = mkc.public_key
+    return oc_crypto.decrypt(coin.signature, mk_pub) == containers.Payload(data=coin.payload).hash()
+
+artifacts_dir = 'artifacts'
+
+os.makedirs(artifacts_dir, exist_ok=True)
+for f in os.listdir(artifacts_dir):
+    os.remove(os.path.join(artifacts_dir, f))
+
 
 def write(document, name):
-
     if isinstance(document, containers.Container):
-        document = document.dumps()
+        document = document.dumps(2)
 
-    with open(os.path.join('artifacts', name), 'w') as f:
+    with open(os.path.join(artifacts_dir, name), 'w') as f:
         f.write(document)
 
+
+def create(containerclass, **kwargs):
+    kwargs['_add_type'] = True
+    c =  containerclass(**kwargs)
+    # name = c.data.type.replace(' ','_')+'.oc'
+    # write(c, name)
+    return c
+
+issuer = DummyIssuer()
+alice = DummyWallet()
+bob = DummyWallet()
 
 
 (issuer_public, issuer_secret) = oc_crypto.newkeys(512)
 now = datetime.datetime.now()
 
-cdd_data = dict(protocol_version="http://opencoin.org/1.0",
-                cdd_location="http://opencent.org",
-                issuer_cipher_suite="RSA-SHA512-CHAUM86",
-                issuer_public_master_key=dict(modulus=issuer_public.n,
-                                              public_exponent=issuer_public.e,
-                                              type="rsa public key"),
-                cdd_serial=1,
-                cdd_signing_date=now,
-                cdd_expiry_date=now + datetime.timedelta(days=365),
-                currency_name="OpenCent",
-                currency_divisor=100,
-                info_service=[[10, "http://opencent.org"]],
-                validation_service=[[10, "http://opencent.org"],
-                                    [20, "http://opencent.com/validate"]],
-                renewal_service=[[10, "http://opencent.org"]],
-                invalidation_service=[[10, "http://opencent.org"]],
-                denominations=[1, 2, 5],
-                additional_info="",
-                type="cdd")
-
-cdd = containers.CDD(cdd_data)
+cdd = create(containers.CDD,
+             protocol_version="https://opencoin.org/1.0",
+             cdd_location="https://opencent.org",
+             issuer_cipher_suite="RSA-SHA512-CHAUM86",
+             issuer_public_master_key=dict(modulus=issuer_public.n,
+                                           public_exponent=issuer_public.e,
+                                           type="rsa public key"),
+             cdd_serial=1,
+             cdd_signing_date=now,
+             cdd_expiry_date=now + datetime.timedelta(days=365),
+             currency_name="OpenCent",
+             currency_divisor=100,
+             info_service=[[10, "https://opencent.org"]],
+             validation_service=[[10, "https://opencent.org"],
+                                 [20, "https://opencent.com/validate"]],
+             renewal_service=[[10, "https://opencent.org"]],
+             invalidation_service=[[10, "https://opencent.org"]],
+             denominations=[1, 2, 5],
+             additional_info="")
 cdd.set_id("issuer_public_master_key")
 
 cddc = containers.CDDC(document_data=cdd)
 cddc.sign(issuer_secret)
+
+issuer.cddcs[cddc.data.cdd.cdd_serial] = cddc
 
 write(cddc, 'cddc.oc')
 
@@ -55,75 +154,149 @@ for d in cdd.data.denominations:
     (public, secret) = oc_crypto.newkeys(512)
     mint_keys[d] = (public, secret)
 
-    mint_key_data = dict(issuer_id=cdd.data.id,
-                         cdd_serial=cdd.data.cdd_serial,
-                         public_mint_key=dict(modulus=public.n,
-                                              public_exponent=public.e,
-                                              type="rsa public key"),
-                         denomination=d,
-                         sign_coins_not_before=now,
-                         sign_coins_not_after=now + datetime.timedelta(days=365),
-                         coins_expiry_date=now + datetime.timedelta(days=365 + 100),
-                         type="mint key")
-
-    mk = containers.MintKey(mint_key_data)
+    mk = create(containers.MintKey,
+                issuer_id=cdd.data.id,
+                cdd_serial=cdd.data.cdd_serial,
+                public_mint_key=dict(modulus=public.n,
+                                     public_exponent=public.e,
+                                     type="rsa public key"),
+                denomination=d,
+                sign_coins_not_before=now,
+                sign_coins_not_after=now + datetime.timedelta(days=365),
+                coins_expiry_date=now + datetime.timedelta(days=365 + 100))
     mk.set_id('public_mint_key')
-    mint_key_certificate = containers.MintKeyCertificate(document_data=mk)
-    mint_key_certificate.sign(issuer_secret)
+    mkc = containers.MintKeyCertificate(document_data=mk)
+    mkc.sign(issuer_secret)
 
-    mint_key_certificates[d] = mint_key_certificate
-    write(mint_key_certificate, f'mkc_{d}.oc')
+    mint_key_certificates[d] = mkc
+
+    mkc_id = mkc.data.mint_key.id
+
+    issuer.mkc[mkc_id] = mkc
+    issuer.mkc_private[mkc_id] = (public, secret)
+
+    write(mkc, f'mkc_{d}.oc')
+
+
+
+# Clients fetch cddc serial and cddcs
+
+request_cdd_serial = create(containers.RequestCDDSerial,
+                            message_reference=1)
+write(request_cdd_serial, 'request_cdd_serial.oc')
+
+response_cdd_serial = create(containers.ResponseCDDSerial,
+                             message_reference=1,
+                             cdd_serial=1)
+write(response_cdd_serial, 'response_cdd_serial.oc')
+
+
+request_cddc = create(containers.RequestCDDC,
+                      message_reference=2,
+                      cdd_serial=response_cdd_serial.data.cdd_serial)
+write(request_cddc, 'request_cddc.oc')
+
+response_cddc = create(containers.ResponseCDDC,
+                       message_reference=2,
+                       cddc=cddc.data)
+write(response_cddc, 'response_cddc.oc')
+
+cddc_client = containers.CDDC(data=response_cddc.cddc)
+alice.cddcs[cddc_client.cdd.cdd_serial]=cddc_client
+bob.cddcs[cddc_client.cdd.cdd_serial]=cddc_client
+
+# clients fetch all mint keys
+
+request_mint_key_certificates = create(containers.RequestMintKeyCertificates,
+                                       message_reference=3,
+                                       mint_key_ids=[],
+                                       denominations=cddc_client.cdd.denominations)
+write(request_mint_key_certificates, 'request_mkc.oc')
+
+response_mint_key_certificates = create(containers.ResponseMintKeyCertificates,
+                                        message_reference=3,
+                                        keys=[mkc.data for mkc in issuer.mkc.values()])
+write(response_mint_key_certificates, 'response_mkc.oc')
+
+for mkc_data in response_mint_key_certificates.keys:
+    mkc = containers.MintKeyCertificate(data=mkc_data)
+    alice.add_mkc(mkc)
+    bob.add_mkc(mkc)
+
+
+
+
 
 payloads = {}
 blinds = {}
-for i, d in enumerate(cdd.data.denominations):
-    serial = oc_crypto.read_random_odd_int(256)
-    payload_data = dict(protocol_version="http://opencoin.org/1.0",
-                        issuer_id=cdd.data.id,
-                        cdd_location="http://opencent.org",
-                        denomination=d,
-                        mint_key_id=mint_key_certificates[d].data.mint_key.id,
-                        serial=serial,
-                        type="payload")
-    payload = containers.Payload(payload_data)
-    payloads[i] = payload
-    write(payload, f'payload_{i}.oc')
 
-    mk_public, mk_secret = mint_keys[d]
+# Alice prepares some blinds
 
-    bf, bi = oc_crypto.get_blinding_factors(mk_public)
-    blinded = oc_crypto.blind_message(payload.hash(), bf, mk_public)
-    blind = containers.Blind(dict(reference=f"r_{i}",
-                       blinded_payload_hash=blinded,
-                       mint_key_id=mint_key_certificates[d].data.mint_key.id,
-                       type="blinded payload hash"
-                       )
-                  )
-    blinds[i] = (d, bf, bi, blind)
-    write(blind, f'blind_{i}.oc')
+for i, denomination in enumerate(cdd.denominations):
+    reference = f'a{i}'
+    payload, blind = alice.prepare_blind(reference, denomination)
+    write(payload, f'payload_{reference}.oc')
+    write(blind, f'blind_{reference}.oc')
+
+
+request_minting = create(containers.RequestMinting,
+                         message_reference=4,
+                         transaction_reference=oc_crypto.read_random_odd_int(256),
+                         blinds=[blind.data for blind in alice.blinds.values()])
+write(request_minting, 'request_minting.oc')
+
+
 
 # we are on the issuer side now, leaving out the transport
-blind_signatures = {}
-for i, (d,_,_,blind) in blinds.items():
-    bsignature = oc_crypto.sign_blind(blind.data.blinded_payload_hash,
-                                      mint_keys[d][1])
-    blind_signature = containers.BlindSignature(dict(blind_signature=bsignature,
-                                          reference=blind.data.reference,
-                                          type="blind signature"))
-    blind_signatures[i]=blind_signature
-    write(blind_signature,f"blind_signature_{i}.oc")
+blind_signatures = []
+for blind in alice.blinds.values():
+    blind_signature = issuer.sign(blind)
+    blind_signatures.append(blind_signature)
+    write(blind_signature, f"blind_signature_{reference}.oc")
+
+
+response_minting = create(containers.ResponseMinting,
+                          message_reference=4,
+                          transaction_reference=request_minting.transaction_reference,
+                          blind_signatures=[blind_signature.data for blind_signature in blind_signatures])
+write(response_minting, 'response_minting.oc')
 
 
 # back to the client side
-for i, (d,bf, bi, blind) in blinds.items():
-    mk_pub = mint_keys[d][0]
-    bsignature = blind_signatures[i].data.blind_signature
-    signature = oc_crypto.unblind(bsignature, bi, mk_pub)
-    validated = oc_crypto.decrypt(signature, mk_pub) == payloads[i].hash()
-    print(f'validated coin {i}:', validated)
-    coin = containers.Coin(dict(
-            payload=payloads[i].data,
-            signature=signature,
-            type="coin"
-    ))
-    write(coin,f"coin_{i}.oc")
+coins = {}
+for blind_signature in response_minting.blind_signatures:
+    reference = blind_signature.reference
+    coin = alice.unblind(blind_signature)
+
+    # just for show
+    print(f'validated coin {reference}:', validate_coin(alice, coin))
+
+    write(coin, f"coin_{reference}.oc")
+
+# alice hands it over to bob
+coinstack = create(containers.CoinStack,
+                   subject="a little gift",
+                   coins=[coin.data for coin in alice.coins.values()])
+write(coinstack, 'coinstack.oc')
+
+# she deletes all traces of those coins - she is honest
+for reference in list(alice.coins.keys()):
+    del alice.coins[reference]
+    del alice.blinds[reference]
+    del alice.blinds_private[reference]
+
+denomination = 2
+# Bob needs to renew the coins. He needs some 2 coins
+for i in range(4):
+    reference = f'b{i}'
+    payload, blind = bob.prepare_blind(reference, denomination)
+    write(payload, f'payload_{reference}.oc')
+    write(blind, f'blind_{reference}.oc')
+
+request_renewal = create(containers.RequestRenewal,
+                         message_reference=5,
+                         transaction_reference=oc_crypto.read_random_odd_int(128),
+                         coins=coinstack.coins,
+                         blinds=[blind.data for blind in bob.blinds.values()]
+                         )
+write(request_renewal, 'request_renewal.oc')

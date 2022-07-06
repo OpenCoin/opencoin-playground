@@ -83,15 +83,78 @@ class Coin(Schema):
     type = TypeField("coin")
 
 class Blind(Schema):
-    reference = fields.String(required=True)
     blinded_payload_hash = BigInt(required=True)
     mint_key_id = BigInt(required=True)
+    reference = fields.String(required=True)
     type = TypeField("blinded payload hash")
 
 class BlindSignature(Schema):
-    reference = fields.String(required=True)
     blind_signature = BigInt(required=True)
+    reference = fields.String(required=True)
     type = TypeField("blind signature")
+
+# -------------- Messages ------------------------
+
+class Request(Schema):
+    message_reference =  fields.Integer(required=True)
+
+class Response(Schema):
+    message_reference = fields.Integer(required=True)
+    status_code =  fields.Integer(requried=True,dump_default=200)
+    status_description = fields.String(required=True, dump_default="ok")
+
+class RequestCDDSerial(Request):
+    type = TypeField("request cdd serial")
+
+class ResponseCDDSerial(Response):
+    cdd_serial = fields.Integer(required=True)
+    type = TypeField("response cdd serial")
+
+class RequestCDDC(Request):
+    cdd_serial = fields.Integer(required=True)
+    type = TypeField("request cddc")
+
+class ResponseCDDC(Response):
+    cddc = fields.Nested(CDDC, required=True)
+    type = TypeField("response cddc")
+
+class RequestMintKeyCertificates(Request):
+    denominations = fields.List(fields.Integer(), required=True)
+    mint_key_ids = fields.List(BigInt(), required=True)
+    type = TypeField("request mint key certificates")
+
+class ResponseMintKeyCertificates(Response):
+    keys = fields.List(fields.Nested(MintKeyCertificate()), required=True)
+    type = TypeField("response mint key certificates")
+
+class RequestMinting(Request):
+    blinds = fields.List(fields.Nested(Blind()), required=True)
+    transaction_reference = BigInt(required=True)
+    type = TypeField("request minting")
+
+class ResponseMinting(Response):
+    blind_signatures = fields.List(fields.Nested(BlindSignature()),required=True)
+    transaction_reference = BigInt(required=True)
+    type = TypeField("response minting")
+
+class CoinStack(Schema):
+    coins = fields.List(fields.Nested(Coin()), required=True)
+    subject = fields.String(required=True)
+    type = TypeField("coins")
+
+class RequestRenewal(Schema):
+    transaction_reference = BigInt(required=True)
+    coins = fields.List(fields.Nested(Coin()), required=True)
+    blinds = fields.List(fields.Nested(Blind()), required=True)
+    type = TypeField("request renewal")
+
+class RequestRedeeming(Schema):
+    coins = fields.List(fields.Nested(Coin()), required=True)
+    transaction_reference = BigInt(required=True)
+    type = TypeField("request redeeming")
+
+
+
 
 if __name__ == '__main__':
     pprint(JSONSchema().dump(Coin()))
