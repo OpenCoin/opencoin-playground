@@ -98,7 +98,7 @@ def validate_coin(wallet_holder, coin):
 
 message_id = iter(range(1,10000))
 
-artifacts_dir = 'artifacts'
+artifacts_dir = 'docs/artifacts'
 
 os.makedirs(artifacts_dir, exist_ok=True)
 for f in os.listdir(artifacts_dir):
