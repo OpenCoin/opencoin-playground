@@ -9,12 +9,14 @@ needed for the documentation.
 ```mermaid
 flowchart TD
 
+
 run_protocol.py--uses-->containers.py--uses-->schemata.py
-run_protocol.py--generates-->artifacts
+run_protocol.py--generates-->artifacts[docs/artifacts]
 run_protocol.py--uses-->oc_crypto.py--uses-->rsa
+artifacts --described in--> readme[docs/README.md]
 ```
 
-`run_protocol.py` is the main file, that generates the examples in the `artifacts` directory. These files have a suffix
+`run_protocol.py` is the main file, that generates the examples in the `docs/artifacts` directory. These files have a suffix
 of `.oc`, as in OpenCoin, but really are just json files. It uses `oc_crypto.py`, which is a minimalistic layer 
 on top of the [`python-rsa`](https://pypi.org/project/rsa/) package - we don't want to implement our own crypto.
 Having said that, there are some small helper functions to help with the blinding.
@@ -23,6 +25,8 @@ Having said that, there are some small helper functions to help with the blindin
 [marshmallow](https://marshmallow.readthedocs.io) to describe them.
 
 `containers.py` uses `schemata.py`, and are the python classes that are used in the protocol. 
+
+[`docs/README.md`](docs/README.md) is the main documentation document at the moment.
 
 ## Conventions
 

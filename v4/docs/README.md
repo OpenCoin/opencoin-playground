@@ -112,6 +112,10 @@ Having said all of the above, we scope the protocol and it's description in the 
 
 ## Appendix
 
+### Artifacts
+
+Details of the documents in the [artifacts directory](artifacts)
+
 ### JSON Schemata
 
 
