@@ -1,0 +1,10 @@
+@startuml
+
+rectangle Issuer as issuer
+actor Alice as alice
+actor Bob as bob
+issuer <--> alice: mint
+alice -> bob: transfer
+issuer <--> bob: renew
+
+@enduml

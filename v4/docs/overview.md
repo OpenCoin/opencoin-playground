@@ -1,18 +1,4 @@
-```mermaid
-flowchart TD
-
-
-issuer[[Issuer]]
-
-alice(Alice)
-bob(Bob)
-
-
-issuer <--1. mint--> alice
-alice -.2. transfer.-> bob
-bob <--3. renew-->issuer
-
-```
+![overview](overview.svg)
 
 
 ```mermaid
