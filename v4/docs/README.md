@@ -65,19 +65,30 @@ Having said all of the above, we scope the protocol and it's description in the 
 
 **Only the core** - lots of developments have happened since [we started](#history). Take the example of messangers like Signal, Telegram or WhatsApp. The have opened new ways to transport messages, and they take care of identifying the communication partner. This especially means that message transport and authentication stays out of scope.
 
-## History
+## History and old results
 
+- Project history
+- Project papers
+- Crypto report
+- Legal report
+- Code bases (v1, sandbox, javascript implementation)
 
 ## Overview
+
+![sequence](sequence.svg)
+
+&rarr; High level description of the steps, referring to chapters in [Message Flow Details](#message-flow-details)
 
 ### Assumptions
 
 - Transport Layer Security
 - Authentication
 
-### Sequence
+### Problems
 
-![sequence](sequence.svg)
+- Tax
+- Money laundering
+- Blackmail and other crime
 
 ## Message Flow Details
 
@@ -98,8 +109,6 @@ Having said all of the above, we scope the protocol and it's description in the 
 ### 7. Redeem
 
 ## Reference
-
-
 
 ## Appendix
 
