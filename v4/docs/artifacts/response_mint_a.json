@@ -1,0 +1,23 @@
+{
+  "blind_signatures": [
+    {
+      "blind_signature": "29974881943ed68fc91db9c2755a8d82fdb5f3711fe12e475d0c6e81d54a2f7c1a4e4135e5c6b1828309666b2b54ec125acb991f09144e48b7ff9b1f9a614f34",
+      "reference": "a0",
+      "type": "blind signature"
+    },
+    {
+      "blind_signature": "74921dcaffae250160dd843c4d9788d87d88898fd6e99f73014b63ddff117807f21683c015a122c77c6a06db91bde993134c5995fe21cc822392dc66b96ad64c",
+      "reference": "a1",
+      "type": "blind signature"
+    },
+    {
+      "blind_signature": "5fdf1e82192e280f0325656943507f9e63d8ce4dbe2b05005b2239cc728413d3e1728584bc4e87fd9a6a19726fd09b8cbc55eab3c46ce70ff474965e31487f48",
+      "reference": "a2",
+      "type": "blind signature"
+    }
+  ],
+  "message_reference": 4,
+  "status_code": 200,
+  "status_description": "ok",
+  "type": "response minting"
+}

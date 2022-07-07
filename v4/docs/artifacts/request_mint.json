@@ -1,0 +1,25 @@
+{
+  "blinds": [
+    {
+      "blinded_payload_hash": "752c98bf37a5882174d2342826d748569161520e43d9d503e2b412ee0efcb7a053671fd665129fd3899a7d5596bcbd2682f48a68c522d3d4b0f3d567f02e58af",
+      "mint_key_id": "4e6ad29b08dc304c3355a03ba5715654776fe0ddf9986cf8174a990d797b287e",
+      "reference": "a0",
+      "type": "blinded payload hash"
+    },
+    {
+      "blinded_payload_hash": "3281af86f704ba8a84a901a6d129bfcc1fdf6ad495a0a4ece0b14b369ecb13e3d06239d3e6842f6f71d1fd356839c191fa388cb7de0b5e280dc44778be506e75",
+      "mint_key_id": "c6784d58d35e85660508b990396be26877b2b9d4b63d28c30389a1e6fcff9f07",
+      "reference": "a1",
+      "type": "blinded payload hash"
+    },
+    {
+      "blinded_payload_hash": "5e3c2cbcaf205a954c46d91657f361bc13eead3b06b42fc9cd8b481ee6cb17528357144f2a9816b6fe4ee4fd27f3bf49d7e56b5795d1591e5ce20c1229544d16",
+      "mint_key_id": "9df77621df0bd6398076bd4b8772cdc48965e38df35fd4cbaebc9323a5bdd907",
+      "reference": "a2",
+      "type": "blinded payload hash"
+    }
+  ],
+  "message_reference": 4,
+  "transaction_reference": "faee9bb36759f2459223963799bdba094903a359ddbd1a6d2f2867dc33d6ff17",
+  "type": "request minting"
+}

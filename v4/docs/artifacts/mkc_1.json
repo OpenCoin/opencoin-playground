@@ -1,0 +1,19 @@
+{
+  "mint_key": {
+    "cdd_serial": 1,
+    "coins_expiry_date": "2023-10-15T16:00:33.411374",
+    "denomination": 1,
+    "id": "4e6ad29b08dc304c3355a03ba5715654776fe0ddf9986cf8174a990d797b287e",
+    "issuer_id": "4bb1991e1a988a569038f68c3a03d76719a4eb767bc70e93a857dcde8b8a1d65",
+    "public_mint_key": {
+      "modulus": "a0c72860978b05a29bed0e997e7fd7abc5a1b906442135c1a18766267859e72c22d7b5fe8968cf16839b8f30c849f3c3f9904d912569c717d145786dcae10565",
+      "public_exponent": 65537,
+      "type": "rsa public key"
+    },
+    "sign_coins_not_after": "2023-07-07T16:00:33.411374",
+    "sign_coins_not_before": "2022-07-07T16:00:33.411374",
+    "type": "mint key"
+  },
+  "signature": "26fcff166f4bd12ff42b6056661ad75ebbe10dab3f4f86b9a7ab28ee729a7638c521249c27e4b989a39bc8068fffdd8358007c41242664accda35a0b80643289",
+  "type": "mint key certificate"
+}

@@ -118,6 +118,12 @@ Details of the documents in the [artifacts directory](artifacts)
 
 ### JSON Schemata
 
+### Ideas
+
+- use .oc file ending
+- oc over html
+- opencoin.org as a web interface demo provider, that can handle .oc files
+
 
 
 ## Footnotes

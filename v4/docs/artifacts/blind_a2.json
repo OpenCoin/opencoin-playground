@@ -1,0 +1,6 @@
+{
+  "blinded_payload_hash": "5e3c2cbcaf205a954c46d91657f361bc13eead3b06b42fc9cd8b481ee6cb17528357144f2a9816b6fe4ee4fd27f3bf49d7e56b5795d1591e5ce20c1229544d16",
+  "mint_key_id": "9df77621df0bd6398076bd4b8772cdc48965e38df35fd4cbaebc9323a5bdd907",
+  "reference": "a2",
+  "type": "blinded payload hash"
+}
