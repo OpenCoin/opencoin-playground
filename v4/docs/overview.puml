@@ -3,8 +3,12 @@
 rectangle Issuer as issuer
 actor Alice as alice
 actor Bob as bob
+actor Charlene as charlene
+
 issuer <--> alice: mint
 alice -> bob: transfer
 issuer <--> bob: renew
+bob -> charlene: transfer
+issuer <--> charlene: redeem
 
 @enduml
