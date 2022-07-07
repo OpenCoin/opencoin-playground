@@ -180,8 +180,8 @@ class MintKey(Container):
     schema = schemata.MintKey()
 
 
-class MintKeyCertificate(SignedContainer):
-    schema = schemata.MintKeyCertificate()
+class MKC(SignedContainer):
+    schema = schemata.MKC()
     document_class = MintKey
 
     @property
@@ -223,35 +223,35 @@ class ResponseCDDC(Response):
     schema = schemata.ResponseCDDC()
 
 
-class RequestMintKeyCertificates(Request):
-    schema = schemata.RequestMintKeyCertificates()
+class RequestMKCs(Request):
+    schema = schemata.RequestMKCs()
 
 
-class ResponseMintKeyCertificates(Response):
-    schema = schemata.ResponseMintKeyCertificates()
+class ResponseMKCs(Response):
+    schema = schemata.ResponseMKCs()
 
 
-class RequestMinting(Request):
-    schema = schemata.RequestMinting()
+class RequestMint(Request):
+    schema = schemata.RequestMint()
 
 
-class ResponseMinting(Response):
-    schema = schemata.ResponseMinting()
+class ResponseMint(Response):
+    schema = schemata.ResponseMint()
 
 
 class CoinStack(Container):
     schema = schemata.CoinStack()
 
 
-class RequestRenewal(Container):
-    schema = schemata.RequestRenewal()
+class RequestRenew(Container):
+    schema = schemata.RequestRenew()
 
 
-class RequestRedeeming(Container):
-    schema = schemata.RequestRedeeming()
+class RequestRedeem(Container):
+    schema = schemata.RequestRedeem()
 
-class ResponseRedeeming(Container):
-    schema = schemata.ResponseRedeeming()
+class ResponseRedeem(Container):
+    schema = schemata.ResponseRedeem()
 
 class ResponseDelay(Container):
     schema = schemata.ResponseDelay()

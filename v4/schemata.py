@@ -69,7 +69,7 @@ class MintKey(Schema):
     type = TypeField("mint key")
 
 
-class MintKeyCertificate(Schema):
+class MKC(Schema):
     mint_key = fields.Nested(MintKey(), required=True)
     signature = BigInt(required=True)
     type = TypeField("mint key certificate")
@@ -135,24 +135,24 @@ class ResponseCDDC(Response):
     type = TypeField("response cddc")
 
 
-class RequestMintKeyCertificates(Request):
+class RequestMKCs(Request):
     denominations = fields.List(fields.Integer(), required=True)
     mint_key_ids = fields.List(BigInt(), required=True)
     type = TypeField("request mint key certificates")
 
 
-class ResponseMintKeyCertificates(Response):
-    keys = fields.List(fields.Nested(MintKeyCertificate()), required=True)
+class ResponseMKCs(Response):
+    keys = fields.List(fields.Nested(MKC()), required=True)
     type = TypeField("response mint key certificates")
 
 
-class RequestMinting(Request):
+class RequestMint(Request):
     blinds = fields.List(fields.Nested(Blind()), required=True)
     transaction_reference = BigInt(required=True)
     type = TypeField("request minting")
 
 
-class ResponseMinting(Response):
+class ResponseMint(Response):
     blind_signatures = fields.List(fields.Nested(BlindSignature()), required=True)
     type = TypeField("response minting")
 
@@ -163,19 +163,19 @@ class CoinStack(Schema):
     type = TypeField("coins")
 
 
-class RequestRenewal(Request):
+class RequestRenew(Request):
     transaction_reference = BigInt(required=True)
     coins = fields.List(fields.Nested(Coin()), required=True)
     blinds = fields.List(fields.Nested(Blind()), required=True)
     type = TypeField("request renewal")
 
 
-class RequestRedeeming(Request):
+class RequestRedeem(Request):
     coins = fields.List(fields.Nested(Coin()), required=True)
     type = TypeField("request redeeming")
 
 
-class ResponseRedeeming(Response):
+class ResponseRedeem(Response):
     type = TypeField("response redeeming")
 
 

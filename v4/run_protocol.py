@@ -43,7 +43,7 @@ class DummyWallet:
 
     def add_mkc(self, mkc):
         if not isinstance(mkc, containers.Container):
-            mkc = containers.MintKeyCertificate(mkc)
+            mkc = containers.MKC(mkc)
         self.mkc[mkc.mint_key.id] = mkc
         self.mkc_by_denomination[mkc.mint_key.denomination] = mkc
 
@@ -174,7 +174,7 @@ for d in cdd.data.denominations:
                 sign_coins_not_after=now + datetime.timedelta(days=365),
                 coins_expiry_date=now + datetime.timedelta(days=365 + 100))
     mk.set_id('public_mint_key')
-    mkc = containers.MintKeyCertificate(document_data=mk)
+    mkc = containers.MKC(document_data=mk)
     mkc.sign(issuer_secret)
 
     mint_key_certificates[d] = mkc
@@ -213,19 +213,19 @@ bob.cddcs[cddc_client.cdd.cdd_serial] = cddc_client
 
 # clients fetch all mint keys
 
-request_mint_key_certificates = create(containers.RequestMintKeyCertificates,
+request_mint_key_certificates = create(containers.RequestMKCs,
                                        message_reference=next(message_id),
                                        mint_key_ids=[],
                                        denominations=cddc_client.cdd.denominations)
 write(request_mint_key_certificates, 'request_mkc.oc')
 
-response_mint_key_certificates = create(containers.ResponseMintKeyCertificates,
+response_mint_key_certificates = create(containers.ResponseMKCs,
                                         message_reference=request_mint_key_certificates.message_reference,
                                         keys=[mkc.data for mkc in issuer.mkc.values()])
 write(response_mint_key_certificates, 'response_mkc.oc')
 
 for mkc_data in response_mint_key_certificates.keys:
-    mkc = containers.MintKeyCertificate(data=mkc_data)
+    mkc = containers.MKC(data=mkc_data)
     alice.add_mkc(mkc)
     bob.add_mkc(mkc)
 
@@ -240,11 +240,11 @@ for i, denomination in enumerate(cdd.denominations):
     write(payload, f'payload_{reference}.oc')
     write(blind, f'blind_{reference}.oc')
 
-request_minting = create(containers.RequestMinting,
+request_minting = create(containers.RequestMint,
                          message_reference=next(message_id),
                          transaction_reference=oc_crypto.read_random_odd_int(256),
                          blinds=[blind.data for blind in alice.blinds.values()])
-write(request_minting, 'request_minting.oc')
+write(request_minting, 'request_mint.oc')
 
 # we are on the issuer side now, leaving out the transport
 blind_signatures = []
@@ -253,10 +253,10 @@ for blind in alice.blinds.values():
     blind_signatures.append(blind_signature)
     write(blind_signature, f"blind_signature_{blind_signature.reference}.oc")
 
-response_minting = create(containers.ResponseMinting,
+response_minting = create(containers.ResponseMint,
                           message_reference=request_minting.message_reference,
                           blind_signatures=[blind_signature.data for blind_signature in blind_signatures])
-write(response_minting, 'response_minting_a.oc')
+write(response_minting, 'response_mint_a.oc')
 
 # back to the client side
 for blind_signature in response_minting.blind_signatures:
@@ -288,13 +288,13 @@ for i in range(4):
     write(payload, f'payload_{reference}.oc')
     write(blind, f'blind_{reference}.oc')
 
-request_renewal = create(containers.RequestRenewal,
+request_renewal = create(containers.RequestRenew,
                          message_reference=next(message_id),
                          transaction_reference=oc_crypto.read_random_odd_int(128),
                          coins=coinstack.coins,
                          blinds=[blind.data for blind in bob.blinds.values()]
                          )
-write(request_renewal, 'request_renewal.oc')
+write(request_renewal, 'request_renew.oc')
 
 
 # the issuer is on a break, let's signal that
@@ -325,10 +325,10 @@ for blind in request_renewal.blinds:
     blind_signatures.append(blind_signature)
     write(blind_signature, f"blind_signature_{blind_signature.reference}.oc")
 
-response_minting = create(containers.ResponseMinting,
+response_minting = create(containers.ResponseMint,
                           message_reference=request_renewal.message_reference,
                           blind_signatures=blind_signatures)
-write(response_minting, 'response_minting_b.oc')
+write(response_minting, 'response_mint_b.oc')
 
 # back to bob, who unblinds the signatures
 for blind_signature in response_minting.blind_signatures:
@@ -343,18 +343,18 @@ for blind_signature in response_minting.blind_signatures:
 
 # bob wants to redeem the first two coins
 
-request_redeeming = create(containers.RequestRedeeming,
+request_redeeming = create(containers.RequestRedeem,
                            message_reference=next(message_id),
                            coins=list(list(bob.coins.values())[:2]))
 
-write(request_redeeming, 'request_redeeming.oc')
+write(request_redeeming, 'request_redeem.oc')
 
 
 # the issuer checks the coins
 
 assert(all(validate_coin(issuer,coin) for coin in request_renewal.coins))
 
-response_redeeming = create(containers.ResponseRedeeming,
+response_redeeming = create(containers.ResponseRedeem,
                              message_reference = request_redeeming.message_reference
                              )
-write(response_redeeming, 'response_redeeming.oc')
+write(response_redeeming, 'response_redeem.oc')
