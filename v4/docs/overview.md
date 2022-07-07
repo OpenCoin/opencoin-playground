@@ -1,5 +1,20 @@
-![overview](overview.svg)
+```mermaid
+flowchart TD
 
+
+issuer[[Issuer]]
+
+alice(Alice)
+bob(Bob)
+
+
+issuer <--1. mint--> alice
+alice -.2. transfer.-> bob
+bob <--3. renew-->issuer
+
+```
+
+![overview](overview.svg)
 
 ```mermaid
 sequenceDiagram
@@ -51,12 +66,12 @@ bob -->> bob: tokenize sum
 bob -->> bob: prepare blinds
 note right of bob: Payloads<br>Blinds<br>----<br>blinding factors
 
-bob ->> issuer: 4. RequestRenew
+bob ->> issuer: 5. RequestRenew
 note right of issuer: Coins<br>Blinds
 
 opt Some Delay
     issuer ->> bob: ResponseDelay
-    bob ->> issuer: 5. RequestResume
+    bob ->> issuer: 6. RequestResume
 end
 
 issuer-->>issuer: validate coins
@@ -72,7 +87,6 @@ note right of issuer: Coins
 issuer->>bob: ResponseRedeem
 
 
-
-
-
 ```
+
+![sequence](sequence.svg)
