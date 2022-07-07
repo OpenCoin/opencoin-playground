@@ -29,6 +29,7 @@ class DummyIssuer:
             amount += mkc.mint_key.denomination
         return amount
 
+
 class DummyWallet:
 
     def __init__(self):
@@ -43,9 +44,8 @@ class DummyWallet:
     def add_mkc(self, mkc):
         if not isinstance(mkc, containers.Container):
             mkc = containers.MintKeyCertificate(mkc)
-        self.mkc[mkc.mint_key.id]=mkc
-        self.mkc_by_denomination[mkc.mint_key.denomination]=mkc
-
+        self.mkc[mkc.mint_key.id] = mkc
+        self.mkc_by_denomination[mkc.mint_key.denomination] = mkc
 
     def prepare_blind(self, reference, denomination):
         serial = oc_crypto.read_random_odd_int(256)
@@ -89,11 +89,14 @@ class DummyWallet:
         self.coins[reference] = coin
         return coin
 
+
 def validate_coin(wallet_holder, coin):
     mk_id = coin.payload.mint_key_id
     mkc = wallet_holder.mkc[mk_id]
     mk_pub = mkc.public_key
     return oc_crypto.decrypt(coin.signature, mk_pub) == containers.Payload(data=coin.payload).hash()
+
+message_id = iter(range(1,10000))
 
 artifacts_dir = 'artifacts'
 
@@ -112,15 +115,15 @@ def write(document, name):
 
 def create(containerclass, **kwargs):
     kwargs['_add_type'] = True
-    c =  containerclass(**kwargs)
+    c = containerclass(**kwargs)
     # name = c.data.type.replace(' ','_')+'.oc'
     # write(c, name)
     return c
 
+
 issuer = DummyIssuer()
 alice = DummyWallet()
 bob = DummyWallet()
-
 
 (issuer_public, issuer_secret) = oc_crypto.newkeys(512)
 now = datetime.datetime.now()
@@ -183,44 +186,41 @@ for d in cdd.data.denominations:
 
     write(mkc, f'mkc_{d}.oc')
 
-
-
 # Clients fetch cddc serial and cddcs
 
 request_cdd_serial = create(containers.RequestCDDSerial,
-                            message_reference=1)
+                            message_reference=next(message_id))
 write(request_cdd_serial, 'request_cdd_serial.oc')
 
 response_cdd_serial = create(containers.ResponseCDDSerial,
-                             message_reference=1,
+                             message_reference=request_cdd_serial.message_reference,
                              cdd_serial=1)
 write(response_cdd_serial, 'response_cdd_serial.oc')
 
-
 request_cddc = create(containers.RequestCDDC,
-                      message_reference=2,
+                      message_reference=next(message_id),
                       cdd_serial=response_cdd_serial.data.cdd_serial)
 write(request_cddc, 'request_cddc.oc')
 
 response_cddc = create(containers.ResponseCDDC,
-                       message_reference=2,
+                       message_reference=request_cddc.message_reference,
                        cddc=cddc.data)
 write(response_cddc, 'response_cddc.oc')
 
 cddc_client = containers.CDDC(data=response_cddc.cddc)
-alice.cddcs[cddc_client.cdd.cdd_serial]=cddc_client
-bob.cddcs[cddc_client.cdd.cdd_serial]=cddc_client
+alice.cddcs[cddc_client.cdd.cdd_serial] = cddc_client
+bob.cddcs[cddc_client.cdd.cdd_serial] = cddc_client
 
 # clients fetch all mint keys
 
 request_mint_key_certificates = create(containers.RequestMintKeyCertificates,
-                                       message_reference=3,
+                                       message_reference=next(message_id),
                                        mint_key_ids=[],
                                        denominations=cddc_client.cdd.denominations)
 write(request_mint_key_certificates, 'request_mkc.oc')
 
 response_mint_key_certificates = create(containers.ResponseMintKeyCertificates,
-                                        message_reference=3,
+                                        message_reference=request_mint_key_certificates.message_reference,
                                         keys=[mkc.data for mkc in issuer.mkc.values()])
 write(response_mint_key_certificates, 'response_mkc.oc')
 
@@ -228,10 +228,6 @@ for mkc_data in response_mint_key_certificates.keys:
     mkc = containers.MintKeyCertificate(data=mkc_data)
     alice.add_mkc(mkc)
     bob.add_mkc(mkc)
-
-
-
-
 
 payloads = {}
 blinds = {}
@@ -244,14 +240,11 @@ for i, denomination in enumerate(cdd.denominations):
     write(payload, f'payload_{reference}.oc')
     write(blind, f'blind_{reference}.oc')
 
-
 request_minting = create(containers.RequestMinting,
-                         message_reference=4,
+                         message_reference=next(message_id),
                          transaction_reference=oc_crypto.read_random_odd_int(256),
                          blinds=[blind.data for blind in alice.blinds.values()])
 write(request_minting, 'request_minting.oc')
-
-
 
 # we are on the issuer side now, leaving out the transport
 blind_signatures = []
@@ -260,12 +253,10 @@ for blind in alice.blinds.values():
     blind_signatures.append(blind_signature)
     write(blind_signature, f"blind_signature_{blind_signature.reference}.oc")
 
-
 response_minting = create(containers.ResponseMinting,
-                          message_reference=4,
+                          message_reference=request_minting.message_reference,
                           blind_signatures=[blind_signature.data for blind_signature in blind_signatures])
 write(response_minting, 'response_minting_a.oc')
-
 
 # back to the client side
 for blind_signature in response_minting.blind_signatures:
@@ -298,7 +289,7 @@ for i in range(4):
     write(blind, f'blind_{reference}.oc')
 
 request_renewal = create(containers.RequestRenewal,
-                         message_reference=5,
+                         message_reference=next(message_id),
                          transaction_reference=oc_crypto.read_random_odd_int(128),
                          coins=coinstack.coins,
                          blinds=[blind.data for blind in bob.blinds.values()]
@@ -306,12 +297,25 @@ request_renewal = create(containers.RequestRenewal,
 write(request_renewal, 'request_renewal.oc')
 
 
+# the issuer is on a break, let's signal that
 
-# we are on the issuer side now
+response_delay = create(containers.ResponseDelay,
+                        message_reference = request_renewal.message_reference,
+                        status_code=300)
+write(response_delay, 'response_delay.oc')
+
+
+# bob waits, then asks to resume
+
+request_resume=create(containers.RequestResume,
+                      message_reference=next(message_id),
+                      transaction_reference=request_renewal.transaction_reference)
+write(request_resume, 'request_resume.oc')
 
 # does the sum for coins and blinds match?
+assert(request_resume.transaction_reference == request_renewal.transaction_reference)
 coin_sum = sum(coin.payload.denomination for coin in request_renewal.coins)
-assert(coin_sum == issuer.sum_blinds(request_renewal.blinds))
+assert (coin_sum == issuer.sum_blinds(request_renewal.blinds))
 
 print(f'renew coins worth {coin_sum}')
 
@@ -320,7 +324,6 @@ for blind in request_renewal.blinds:
     blind_signature = issuer.sign(blind)
     blind_signatures.append(blind_signature)
     write(blind_signature, f"blind_signature_{blind_signature.reference}.oc")
-
 
 response_minting = create(containers.ResponseMinting,
                           message_reference=request_renewal.message_reference,
@@ -336,3 +339,22 @@ for blind_signature in response_minting.blind_signatures:
     print(f'validated coin {reference}:', validate_coin(bob, coin))
 
     write(coin, f"coin_{reference}.oc")
+
+
+# bob wants to redeem the first two coins
+
+request_redeeming = create(containers.RequestRedeeming,
+                           message_reference=next(message_id),
+                           coins=list(list(bob.coins.values())[:2]))
+
+write(request_redeeming, 'request_redeeming.oc')
+
+
+# the issuer checks the coins
+
+assert(all(validate_coin(issuer,coin) for coin in request_renewal.coins))
+
+response_redeeming = create(containers.ResponseRedeeming,
+                             message_reference = request_redeeming.message_reference
+                             )
+write(response_redeeming, 'response_redeeming.oc')

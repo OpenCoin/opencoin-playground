@@ -243,9 +243,18 @@ class CoinStack(Container):
     schema = schemata.CoinStack()
 
 
+class RequestRenewal(Container):
+    schema = schemata.RequestRenewal()
+
+
 class RequestRedeeming(Container):
     schema = schemata.RequestRedeeming()
 
+class ResponseRedeeming(Container):
+    schema = schemata.ResponseRedeeming()
 
-class RequestRenewal(Container):
-    schema = schemata.RequestRenewal()
+class ResponseDelay(Container):
+    schema = schemata.ResponseDelay()
+
+class RequestResume(Container):
+    schema = schemata.RequestResume()

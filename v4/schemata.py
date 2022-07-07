@@ -141,19 +141,26 @@ class CoinStack(Schema):
     subject = fields.String(required=True)
     type = TypeField("coins")
 
-class RequestRenewal(Schema):
+class RequestRenewal(Request):
     transaction_reference = BigInt(required=True)
     coins = fields.List(fields.Nested(Coin()), required=True)
     blinds = fields.List(fields.Nested(Blind()), required=True)
     type = TypeField("request renewal")
 
-class RequestRedeeming(Schema):
+class RequestRedeeming(Request):
     coins = fields.List(fields.Nested(Coin()), required=True)
-    transaction_reference = BigInt(required=True)
     type = TypeField("request redeeming")
 
+class ResponseRedeeming(Response):
+    type = TypeField("response redeeming")
 
+class ResponseDelay(Response):
+    status_code = fields.Integer(requried=True, dump_default=300)
+    type = TypeField("response delay")
 
+class RequestResume(Request):
+    transaction_reference = BigInt(required=True)
+    type = TypeField("request resume")
 
 if __name__ == '__main__':
     pprint(JSONSchema().dump(Coin()))
