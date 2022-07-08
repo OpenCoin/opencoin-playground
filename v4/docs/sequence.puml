@@ -11,15 +11,15 @@ issuer --> issuer: create MKCs
 rnote right of issuer: MKCs
 
 
-alice->issuer: 1. RequestCDDCSerial
+alice->issuer: RequestCDDCSerial
 issuer->alice: ResponseCDDCSerial
-rnote right of alice: cdd_serial: 1
+rnote right of alice: CDD serial
 
-alice->issuer: 2. RequestCDDC
+alice->issuer: RequestCDDC
 issuer->alice:  ResponseCDDC
 rnote right of alice: CDDC
 
-alice->issuer: 3. RequestMKCs
+alice->issuer: RequestMKCs
 issuer->alice: ResponseMKCs
 rnote right of alice: MKCs
 
@@ -29,7 +29,7 @@ rnote right of bob: CDDC\nMKCs
 alice --> alice: prepare blinds
 rnote left of alice: Payloads\nBlinds\n-\nblinding factors
 
-alice -> issuer: 4. RequestMint
+alice -> issuer: RequestMint
 rnote left of issuer: Blinds
 
 issuer --> issuer: sign blinds
@@ -40,8 +40,8 @@ rnote right of alice: BlindSignatures
 alice --> alice: unblind
 rnote left of alice: Coins
 
-alice -> bob: transfer CoinStack, e.g. using Signal
-rnote left of bob: Coinstack
+alice -> bob: transfer, e.g. using Signal
+rnote left of bob: CoinStack
 rnote right of bob: Coins
 
 bob --> bob: tokenize sum
@@ -49,12 +49,12 @@ bob --> bob: tokenize sum
 bob --> bob: prepare blinds
 rnote right of bob: Payloads\nBlinds\n-\nblinding factors
 
-bob -> issuer: 5. RequestRenew
+bob -> issuer: RequestRenew
 rnote right of issuer: Coins\nBlinds
 
 opt Some Delay
     issuer -> bob: ResponseDelay
-    bob -> issuer: 6. RequestResume
+    bob -> issuer: RequestResume
 end
 
 issuer-->issuer: validate coins
@@ -65,7 +65,7 @@ rnote left of bob: BlindSignatures
 bob --> bob: unblind
 rnote right of bob: Coins
 
-bob -> issuer: 7. RequestRedeem
+bob -> issuer: RequestRedeem
 rnote right of issuer: Coins
 issuer->bob: ResponseRedeem
 
