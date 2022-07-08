@@ -18,10 +18,9 @@ This version of the protocol build on previous work by the following authors:
 This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
 For more information go to **https://opencoin.org**
-  
-  
 
-![opencoin logo](opencoin.svg)
+<img src="opencoin.svg" style="height: 3em; vertical-align: middle; margin-top:2em; margin-bottom:3em;">
+
   
 # Intro
 
