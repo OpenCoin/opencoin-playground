@@ -2,25 +2,27 @@
 
 *a protocol for privacy preserving electronic cash payments*
 
-Version: 0.4 - draft (July 2022)
+Version: 0.4 - draft (July 2022)  
 Copyright (2022) J. Baach, N. Toedtmann
 
 This version of the protocol build on previous work by the following authors:
 
-​    Jörg Baach
-​    Nils Toedtmann
-​    J. K. Muennich
-​    M. Ryden
-​    J. Suhr
+  Jörg Baach  
+  Nils Toedtmann  
+  J. K. Muennich  
+  M. Ryden  
+  J. Suhr
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
 
 This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
-
-
 For more information go to **https://opencoin.org**
+  
+  
 
+![opencoin logo](opencoin.svg)
+  
 # Intro
 
 We propose a protocol that allows cash-like payments in the electronic world. It is based on the invention by David Chaum[^chaum82]. The main focus are *untraceable* payments, which means that even though there is a central entity (called the issuer, something like a bank), this central entity can't see the transactions happening. This is good for the privacy of the users.
@@ -65,6 +67,12 @@ One could say that bitcoin behaves more like gold, while OpenCoin behaves more l
 The trade-off seems to be that their system is harder is more complex and harder to understand. We also doubt that this complexities are necessary to reach the stated goals. We also doubt that the goals can really be reached, and also find that the systems documentation is quite hard to understand. This might be because they deliver implementations for all necessary software components, and are not really targeted at other implementations of they system.
 
 Because of all this one could say that GNU Taler is less open to other developers.
+
+## Problems
+
+- Tax
+- Money laundering
+- Blackmail and other crime
 
 # The OpenCoin protocol
 
@@ -173,12 +181,6 @@ Anyhow, the point of this step is that Alice transfers a CoinStack to Bob. And b
 #### RequestRedeem
 
 #### ResponseRedeem
-
-## Problems
-
-- Tax
-- Money laundering
-- Blackmail and other crime
 
 # Details
 
