@@ -207,11 +207,11 @@ class BlindSignature(Container):
     schema = schemata.BlindSignature()
 
 
-class RequestCDDSerial(Request):
+class RequestCDDCSerial(Request):
     schema = schemata.RequestCDDSerial()
 
 
-class ResponseCDDSerial(Response):
+class ResponseCDDCSerial(Response):
     schema = schemata.ResponseCDDSerial()
 
 

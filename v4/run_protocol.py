@@ -192,18 +192,18 @@ for d in cdd.data.denominations:
 
 # Clients fetch cddc serial and cddcs
 
-request_cdd_serial = create(containers.RequestCDDSerial,
-                            message_reference=next(message_id))
-write(request_cdd_serial, 'request_cdd_serial')
+request_cddc_serial = create(containers.RequestCDDCSerial,
+                             message_reference=next(message_id))
+write(request_cddc_serial, 'request_cddc_serial')
 
-response_cdd_serial = create(containers.ResponseCDDSerial,
-                             message_reference=request_cdd_serial.message_reference,
-                             cdd_serial=1)
-write(response_cdd_serial, 'response_cdd_serial')
+response_cddc_serial = create(containers.ResponseCDDCSerial,
+                              message_reference=request_cddc_serial.message_reference,
+                              cdd_serial=1)
+write(response_cddc_serial, 'response_cddc_serial')
 
 request_cddc = create(containers.RequestCDDC,
                       message_reference=next(message_id),
-                      cdd_serial=response_cdd_serial.data.cdd_serial)
+                      cdd_serial=response_cddc_serial.data.cdd_serial)
 write(request_cddc, 'request_cddc')
 
 response_cddc = create(containers.ResponseCDDC,

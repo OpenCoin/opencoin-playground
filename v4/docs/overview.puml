@@ -1,4 +1,5 @@
 @startuml
+skinparam backgroundColor transparent
 
 rectangle Issuer as issuer
 actor Alice as alice

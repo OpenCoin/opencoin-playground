@@ -1,5 +1,5 @@
 @startuml
-
+skinparam backgroundColor transparent
 
 actor Alice as alice
 participant "\nIssuer\n" as  issuer
@@ -11,8 +11,8 @@ issuer --> issuer: create MKCs
 rnote right of issuer: MKCs
 
 
-alice->issuer: 1. RequestCDDSerial
-issuer->alice: ResponseCDDSerial
+alice->issuer: 1. RequestCDDCSerial
+issuer->alice: ResponseCDDCSerial
 rnote right of alice: cdd_serial: 1
 
 alice->issuer: 2. RequestCDDC
