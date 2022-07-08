@@ -1,17 +1,17 @@
 {
   "blind_signatures": [
     {
-      "blind_signature": "5058415a5201b393843c0a86d20288be80ab45b60eaf269b43bea8a56a761d0deabde04da5b5538fb25f43c169e568c21575080375ef55e597165f5a538dc0e",
+      "blind_signature": "68f1e187086ad2d6333cc6b798397dda2390db6abd3ea603557afa54ac65600f5048232a34922bbcb4c7584f4dd4004500b45d79ef43f33673defab6dc109186",
       "reference": "a0",
       "type": "blind signature"
     },
     {
-      "blind_signature": "31ba402ffda0f5dbd0dbaed4015ce3d837fb34dc14266fc2342ea9226d85ab5b23de4a8274236340914f7d90a06188ede1f3b5f09f142d8202e0e8613ce9662",
+      "blind_signature": "4338c5154ce6a878d31aca476bf1d79d633df976a534f8fbefb24930c75c9bd25e87c1d0a2bda1ada7915ec7717a2aaba27dd7fd5ea58db900c4c5cf1c33cad5",
       "reference": "a1",
       "type": "blind signature"
     },
     {
-      "blind_signature": "d443048b88a474796d1066499c34c5d46bae5655330583695de7b39358964589f098b1914ba1255efcda29f19a11682ae42f8f0f6ccfd14230a355847e4f90ac",
+      "blind_signature": "7bf88ddc25e9c0c65813c25d694cb444777c54b385b06b59e3d783e9abe9be71ccebe820295cb2c0968619d7ab83daf4f3ba180b787a8612c2c76913d0774125",
       "reference": "a2",
       "type": "blind signature"
     }
@@ -19,5 +19,5 @@
   "message_reference": 4,
   "status_code": 200,
   "status_description": "ok",
-  "type": "response minting"
+  "type": "response mint"
 }

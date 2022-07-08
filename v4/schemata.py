@@ -131,7 +131,7 @@ class RequestCDDC(Request):
 
 
 class ResponseCDDC(Response):
-    cddc = fields.Nested(CDDC, required=True)
+    cddc = fields.Nested(CDDC(), required=True)
     type = TypeField("response cddc")
 
 
@@ -149,34 +149,34 @@ class ResponseMKCs(Response):
 class RequestMint(Request):
     blinds = fields.List(fields.Nested(Blind()), required=True)
     transaction_reference = BigInt(required=True)
-    type = TypeField("request minting")
+    type = TypeField("request mint")
 
 
 class ResponseMint(Response):
     blind_signatures = fields.List(fields.Nested(BlindSignature()), required=True)
-    type = TypeField("response minting")
+    type = TypeField("response mint")
 
 
 class CoinStack(Schema):
     coins = fields.List(fields.Nested(Coin()), required=True)
     subject = fields.String(required=True)
-    type = TypeField("coins")
+    type = TypeField("coinstack")
 
 
 class RequestRenew(Request):
     transaction_reference = BigInt(required=True)
     coins = fields.List(fields.Nested(Coin()), required=True)
     blinds = fields.List(fields.Nested(Blind()), required=True)
-    type = TypeField("request renewal")
+    type = TypeField("request renew")
 
 
 class RequestRedeem(Request):
     coins = fields.List(fields.Nested(Coin()), required=True)
-    type = TypeField("request redeeming")
+    type = TypeField("request redeem")
 
 
 class ResponseRedeem(Response):
-    type = TypeField("response redeeming")
+    type = TypeField("response redeem")
 
 
 class ResponseDelay(Response):
@@ -199,4 +199,11 @@ for name, obj in inspect.getmembers(sys.modules[__name__]):
             type2schema[typname]=obj
 
 if __name__ == '__main__':
-    pprint(JSONSchema().dump(Coin()))
+    import json
+    for name, schema in type2schema.items():
+        fieldnames = sorted(schema._declared_fields.keys())
+        print(name)
+        for fieldname in fieldnames:
+            print(f'- **{fieldname}**:')
+        print()
+        print()

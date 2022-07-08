@@ -164,9 +164,6 @@ class Response(Container):
 class PublicKey(Container):
     schema = schemata.PublicKey()
 
-
-
-
 class CDD(Container):
     schema = schemata.CDD()
 

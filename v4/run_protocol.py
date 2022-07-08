@@ -154,6 +154,10 @@ cdd = create(containers.CDD,
 cdd.set_id("issuer_public_master_key")
 write(cdd,'cdd.json')
 
+master_key = containers.PublicKey(data=cdd.issuer_public_master_key)
+write(master_key, 'issuer_public_master_key.json')
+
+
 cddc = containers.CDDC(document_data=cdd)
 cddc.sign(issuer_secret)
 
