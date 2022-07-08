@@ -2,9 +2,24 @@
 
 *a protocol for privacy preserving electronic cash payments*
 
-# Table of contents
+Version: 0.4 - draft (July 2022)
+Copyright (2022) J. Baach, N. Toedtmann
 
-[toc]
+This version of the protocol build on previous work by the following authors:
+
+​    Jörg Baach
+​    Nils Toedtmann
+​    J. K. Muennich
+​    M. Ryden
+​    J. Suhr
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
+
+This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+
+
+
+For more information go to **https://opencoin.org**
 
 # Intro
 
@@ -175,7 +190,12 @@ Anyhow, the point of this step is that Alice transfers a CoinStack to Bob. And b
 ## Building blocks
 
 Elements of messages, but never used standalone
+
 ### CDDC
+
+#### Description
+
+#### Example
 
 ```json
 {
@@ -220,6 +240,10 @@ Elements of messages, but never used standalone
 
 ### Mint Key Certificate (MKC)
 
+#### Description
+
+#### Example
+
 ```json
 {
   "mint_key": {
@@ -244,6 +268,11 @@ Elements of messages, but never used standalone
 [Source](artifacts/mkc_1.json)
 
 ### Blind
+
+#### Description
+
+#### Example
+
 ```json
 {
   "blinded_payload_hash": "3cc947ea0e017dab676ec5a674c464ed1eb3490c17dcb58dcd71c3106795e4c66da4b9c8705f80b60bdf5d006b4ebdf59ef5a956c3a453f57d2085f549f68c5e",
@@ -256,6 +285,11 @@ Elements of messages, but never used standalone
 
 
 ### Blind Signature
+
+#### Description
+
+#### Example
+
 ```json
 {
   "blind_signature": "5058415a5201b393843c0a86d20288be80ab45b60eaf269b43bea8a56a761d0deabde04da5b5538fb25f43c169e568c21575080375ef55e597165f5a538dc0e",
@@ -267,6 +301,12 @@ Elements of messages, but never used standalone
 
 
 ### Coin
+
+
+#### Description
+
+#### Example
+
 ```json
 {
   "payload": {
@@ -290,21 +330,495 @@ Elements of messages, but never used standalone
 
 ### CDDSerial
 
+#### RequestCDDSerial
+
+##### Description
+
+##### Example
+```json
+{
+  "message_reference": 1,
+  "type": "request cdd serial"
+}
+```
+[Source](artifacts/request_cddc_serial.json)
+
+
+#### ResponseCDDSerial
+
+##### Description
+
+##### Example
+```json
+{
+  "cdd_serial": 1,
+  "message_reference": 1,
+  "status_code": 200,
+  "status_description": "ok",
+  "type": "response cdd serial"
+}
+```
+[Source](artifacts/response_cddc_serial.json)
+
 ### CDDC
 
+#### RequestCDDC
+
+##### Description
+
+##### Example
+```json
+{
+  "cdd_serial": 1,
+  "message_reference": 2,
+  "type": "request cddc"
+}
+```
+[Source](artifacts/request_cddc.json)
+
+#### ResponseCDDC
+
+##### Description
+
+##### Example
+```json
+{
+  "cddc": {
+    "cdd": {
+      "additional_info": "",
+      "cdd_expiry_date": "2023-07-08T15:32:04.103469",
+      "cdd_location": "https://opencent.org",
+      "cdd_serial": 1,
+      "cdd_signing_date": "2022-07-08T15:32:04.103469",
+      "currency_divisor": 100,
+      "currency_name": "OpenCent",
+      "denominations": [1, 2, 5],
+      "id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+      "info_service": [
+        [10, "https://opencent.org"]
+      ],
+      "invalidation_service": [
+        [10, "https://opencent.org"]
+      ],
+      "issuer_cipher_suite": "RSA-SHA512-CHAUM86",
+      "issuer_public_master_key": {
+        "modulus": "9f4e001f979e03a9c755694f936bc68930a67813e1d8b3afb4d9de408088522d551eec8babcc2ef99fc1f2814d49aa0c3e497f05d77fcd932192c742caf0adaf",
+        "public_exponent": 65537,
+        "type": "rsa public key"
+      },
+      "protocol_version": "https://opencoin.org/1.0",
+      "renewal_service": [
+        [10, "https://opencent.org"]
+      ],
+      "type": "cdd",
+      "validation_service": [
+        [10, "https://opencent.org"],
+        [20, "https://opencent.com/validate"]
+      ]
+    },
+    "signature": "51287b6abca69924f8ab9ad121fb3a70fad0b4133d4c72e6e7142eb11ebdb770ac855b90301b124343ed97365dad40e62f0784fb7194f15e01b436d97d917318",
+    "type": "cdd certificate"
+  },
+  "message_reference": 2,
+  "status_code": 200,
+  "status_description": "ok",
+  "type": "response cddc"
+}
+```
+[Source](artifacts/response_cddc.json)
 
 
 ### MKCs
 
+#### RequestMKCs
+
+##### Description
+
+##### Example
+```json
+{
+  "denominations": [1, 2, 5],
+  "message_reference": 3,
+  "mint_key_ids": [],
+  "type": "request mint key certificates"
+}
+```
+[Source](artifacts/request_mkc.json)
+
+#### ResponseMKCs
+
+##### Description
+
+##### Example
+```json
+{
+  "keys": [
+    {
+      "mint_key": {
+        "cdd_serial": 1,
+        "coins_expiry_date": "2023-10-16T15:32:04.103469",
+        "denomination": 1,
+        "id": "ec98d90c8a418dd7a9671a4fd3be84ac3bcf14e29288d5dd2a1db687884f25f0",
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "public_mint_key": {
+          "modulus": "8e1d32a23f1f596c6103c1efab9d63076e69e0fdce512fdf3b6989fc4acd30a1316efffd8d6528c29256188aa6b149aebb03874cc8147383b913c8bd6f5e2869",
+          "public_exponent": 65537,
+          "type": "rsa public key"
+        },
+        "sign_coins_not_after": "2023-07-08T15:32:04.103469",
+        "sign_coins_not_before": "2022-07-08T15:32:04.103469",
+        "type": "mint key"
+      },
+      "signature": "5f0efbe98fee5610ec911297e32ea1d7676d894dc9528e435da8ac31b2d76c5cc7e2f44bf239b508a386850e87103bdbf7cad493c375c1047070a9770c512edc",
+      "type": "mint key certificate"
+    },
+    {
+      "mint_key": {
+        "cdd_serial": 1,
+        "coins_expiry_date": "2023-10-16T15:32:04.103469",
+        "denomination": 2,
+        "id": "8fea6f66fe0891e67c089b37459416f2bc285517b8c78fab4fb919e84d24fbba",
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "public_mint_key": {
+          "modulus": "bd9a22abc30d6641276df6f29b336fab051764a7ca98e272289b4c6e54e76ad24b756d62ef559317be941339ed220dac695b354fb0646591906afa2d6d202b4f",
+          "public_exponent": 65537,
+          "type": "rsa public key"
+        },
+        "sign_coins_not_after": "2023-07-08T15:32:04.103469",
+        "sign_coins_not_before": "2022-07-08T15:32:04.103469",
+        "type": "mint key"
+      },
+      "signature": "4af276841fdf8c76cdbafe5d5be1beda3c52a343465d9662855a30187bf9b1054b64939c21e3fe8fb65411c74a175867a2fe7ade4ef0728df217cb784e1f505e",
+      "type": "mint key certificate"
+    },
+    {
+      "mint_key": {
+        "cdd_serial": 1,
+        "coins_expiry_date": "2023-10-16T15:32:04.103469",
+        "denomination": 5,
+        "id": "48c351a32976c61879165787ed83948b8c3703e9abdd80b701ba5ab3334a3fa9",
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "public_mint_key": {
+          "modulus": "e613a15970970a017213682faf28c455e2ff0d4820e3e5f72eace9e0f0d875874674ed32a41db3051455bfa34ba4bb4d43a8cbd539730f88cf4927ecf218e6e5",
+          "public_exponent": 65537,
+          "type": "rsa public key"
+        },
+        "sign_coins_not_after": "2023-07-08T15:32:04.103469",
+        "sign_coins_not_before": "2022-07-08T15:32:04.103469",
+        "type": "mint key"
+      },
+      "signature": "348f92ddc72ecf3451d0f7e94b48e65e60e96b6ba4db195b336a6b2f943d2636a65d3721fa2e0d9ad55f149ca8db36bc6b87ed3fe13474243ee1e6990361a7f4",
+      "type": "mint key certificate"
+    }
+  ],
+  "message_reference": 3,
+  "status_code": 200,
+  "status_description": "ok",
+  "type": "response mint key certificates"
+}
+```
+[Source](artifacts/response_mkc.json)
+
 ### Mint
+
+#### RequestMint
+
+##### Description
+
+##### Example
+```json
+{
+  "blinds": [
+    {
+      "blinded_payload_hash": "3cc947ea0e017dab676ec5a674c464ed1eb3490c17dcb58dcd71c3106795e4c66da4b9c8705f80b60bdf5d006b4ebdf59ef5a956c3a453f57d2085f549f68c5e",
+      "mint_key_id": "ec98d90c8a418dd7a9671a4fd3be84ac3bcf14e29288d5dd2a1db687884f25f0",
+      "reference": "a0",
+      "type": "blinded payload hash"
+    },
+    {
+      "blinded_payload_hash": "1b795a0bed3bdc77d93cfcb0d8117474ba2f3aa6778c4b5cc131a99c5bdc9b497817432a05901af8e26ce56252383ee8d0932e8a5d550826cd8bb285f0cd489d",
+      "mint_key_id": "8fea6f66fe0891e67c089b37459416f2bc285517b8c78fab4fb919e84d24fbba",
+      "reference": "a1",
+      "type": "blinded payload hash"
+    },
+    {
+      "blinded_payload_hash": "a0b66f65dd98a99d59b830078331ef81e5117144fd0427b9788b87311de4497b64f9d4c065d365db3533514eba2256b455523e8491fb6de0e13e36ff38cb8528",
+      "mint_key_id": "48c351a32976c61879165787ed83948b8c3703e9abdd80b701ba5ab3334a3fa9",
+      "reference": "a2",
+      "type": "blinded payload hash"
+    }
+  ],
+  "message_reference": 4,
+  "transaction_reference": "ea8d3d8f2940daed8a60c5e30fee99dc8bcb7548aefc6e457141a0933d74465d",
+  "type": "request minting"
+}
+```
+[Source](artifacts/request_mint.json)
+
+#### ResponseMint
+
+##### Description
+
+##### Example
+```json
+{
+  "blind_signatures": [
+    {
+      "blind_signature": "5058415a5201b393843c0a86d20288be80ab45b60eaf269b43bea8a56a761d0deabde04da5b5538fb25f43c169e568c21575080375ef55e597165f5a538dc0e",
+      "reference": "a0",
+      "type": "blind signature"
+    },
+    {
+      "blind_signature": "31ba402ffda0f5dbd0dbaed4015ce3d837fb34dc14266fc2342ea9226d85ab5b23de4a8274236340914f7d90a06188ede1f3b5f09f142d8202e0e8613ce9662",
+      "reference": "a1",
+      "type": "blind signature"
+    },
+    {
+      "blind_signature": "d443048b88a474796d1066499c34c5d46bae5655330583695de7b39358964589f098b1914ba1255efcda29f19a11682ae42f8f0f6ccfd14230a355847e4f90ac",
+      "reference": "a2",
+      "type": "blind signature"
+    }
+  ],
+  "message_reference": 4,
+  "status_code": 200,
+  "status_description": "ok",
+  "type": "response minting"
+}
+```
+[Source](artifacts/response_mint_a.json)
 
 ### CoinStack
 
+#### CoinStack
+
+##### Description
+
+##### Example
+```json
+{
+  "coins": [
+    {
+      "payload": {
+        "cdd_location": "https://opencent.org",
+        "denomination": 1,
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "mint_key_id": "ec98d90c8a418dd7a9671a4fd3be84ac3bcf14e29288d5dd2a1db687884f25f0",
+        "protocol_version": "https://opencoin.org/1.0",
+        "serial": "cbf41b41c80e85ff09edf7b6378b88aefaf14cf5697faabb9566573d34564faf",
+        "type": "payload"
+      },
+      "signature": "44f6dc7319e1da0035b356141be002bb29972cf111c7f6efcb9ba9175ffaf861c07da661e1984b2b85f824146b577cacf2d8354dbab87e1ed8ca7e233987c85b",
+      "type": "coin"
+    },
+    {
+      "payload": {
+        "cdd_location": "https://opencent.org",
+        "denomination": 2,
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "mint_key_id": "8fea6f66fe0891e67c089b37459416f2bc285517b8c78fab4fb919e84d24fbba",
+        "protocol_version": "https://opencoin.org/1.0",
+        "serial": "e968db759e8392dccc40d7133bf20a8e63b6aa59eaa78ed2483f2e446f05ed33",
+        "type": "payload"
+      },
+      "signature": "61447b2796e6f550d370c07cb8413d965641873a702ec263c9313ced4d9fc3e0502e1239facae97c3e6eae4510a45c246d48e5055f947599888eeaf1ee63ad87",
+      "type": "coin"
+    },
+    {
+      "payload": {
+        "cdd_location": "https://opencent.org",
+        "denomination": 5,
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "mint_key_id": "48c351a32976c61879165787ed83948b8c3703e9abdd80b701ba5ab3334a3fa9",
+        "protocol_version": "https://opencoin.org/1.0",
+        "serial": "baa9c0c17eda2048c1b5c48e368880db5813d8f369e1a1bd5cfa16f9fbdff6bb",
+        "type": "payload"
+      },
+      "signature": "8496567f6aefd4bca8bbfd3b0536dfd36c0475186a6837fe0dccb15e28033b80cf0c8567df877ffba1a78b8816aae249d00b0ab06feef8e9e8cc1642ef660085",
+      "type": "coin"
+    }
+  ],
+  "subject": "a little gift",
+  "type": "coins"
+}
+```
+[Source](artifacts/coinstack.json)
+
 ### Renew
+
+#### RequestRenew
+
+##### Description
+
+##### Example
+```json
+{
+  "blinds": [
+    {
+      "blinded_payload_hash": "8b56ee70d433ac8290c3da1cfcf582f928aa303c8a1f9672d2ad5957e1cc2eadd72be28482f90475ee6f56bb18345986232326e9645c3d247fcd32a56640ac8c",
+      "mint_key_id": "8fea6f66fe0891e67c089b37459416f2bc285517b8c78fab4fb919e84d24fbba",
+      "reference": "b0",
+      "type": "blinded payload hash"
+    },
+    {
+      "blinded_payload_hash": "6b32c227b3035f2bc09e66d1d1344c304a58d8c68f9d8f1c5bacc128af6f0c492838a805bdd97893ce6937582bccc3e1d4c199bc4e54bf37680e19290de69611",
+      "mint_key_id": "8fea6f66fe0891e67c089b37459416f2bc285517b8c78fab4fb919e84d24fbba",
+      "reference": "b1",
+      "type": "blinded payload hash"
+    },
+    {
+      "blinded_payload_hash": "7a1223a28b47cb9aee1993a246f70d6bd91353a96ebc5a2e48a82971bb0ec7929fc150774cf35bcea6fe3f554fd3e26a75a73ecb0bcee59c69b7967fc4619f2",
+      "mint_key_id": "8fea6f66fe0891e67c089b37459416f2bc285517b8c78fab4fb919e84d24fbba",
+      "reference": "b2",
+      "type": "blinded payload hash"
+    },
+    {
+      "blinded_payload_hash": "126afab640de4708437ee48b93d2d163da6f485ac734e1f0fb63028270237627eb6e70b0c1128906dc0cc77292530c42ee63843499b1a4633a4a6d3f79be683b",
+      "mint_key_id": "8fea6f66fe0891e67c089b37459416f2bc285517b8c78fab4fb919e84d24fbba",
+      "reference": "b3",
+      "type": "blinded payload hash"
+    }
+  ],
+  "coins": [
+    {
+      "payload": {
+        "cdd_location": "https://opencent.org",
+        "denomination": 1,
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "mint_key_id": "ec98d90c8a418dd7a9671a4fd3be84ac3bcf14e29288d5dd2a1db687884f25f0",
+        "protocol_version": "https://opencoin.org/1.0",
+        "serial": "cbf41b41c80e85ff09edf7b6378b88aefaf14cf5697faabb9566573d34564faf",
+        "type": "payload"
+      },
+      "signature": "44f6dc7319e1da0035b356141be002bb29972cf111c7f6efcb9ba9175ffaf861c07da661e1984b2b85f824146b577cacf2d8354dbab87e1ed8ca7e233987c85b",
+      "type": "coin"
+    },
+    {
+      "payload": {
+        "cdd_location": "https://opencent.org",
+        "denomination": 2,
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "mint_key_id": "8fea6f66fe0891e67c089b37459416f2bc285517b8c78fab4fb919e84d24fbba",
+        "protocol_version": "https://opencoin.org/1.0",
+        "serial": "e968db759e8392dccc40d7133bf20a8e63b6aa59eaa78ed2483f2e446f05ed33",
+        "type": "payload"
+      },
+      "signature": "61447b2796e6f550d370c07cb8413d965641873a702ec263c9313ced4d9fc3e0502e1239facae97c3e6eae4510a45c246d48e5055f947599888eeaf1ee63ad87",
+      "type": "coin"
+    },
+    {
+      "payload": {
+        "cdd_location": "https://opencent.org",
+        "denomination": 5,
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "mint_key_id": "48c351a32976c61879165787ed83948b8c3703e9abdd80b701ba5ab3334a3fa9",
+        "protocol_version": "https://opencoin.org/1.0",
+        "serial": "baa9c0c17eda2048c1b5c48e368880db5813d8f369e1a1bd5cfa16f9fbdff6bb",
+        "type": "payload"
+      },
+      "signature": "8496567f6aefd4bca8bbfd3b0536dfd36c0475186a6837fe0dccb15e28033b80cf0c8567df877ffba1a78b8816aae249d00b0ab06feef8e9e8cc1642ef660085",
+      "type": "coin"
+    }
+  ],
+  "message_reference": 5,
+  "transaction_reference": "be209986090bf15fac94e32b04bf4b53",
+  "type": "request renewal"
+}
+```
+[Source](artifacts/request_renew.json)
 
 ### Resume
 
+
+#### ResponseDelay
+
+##### Description
+
+##### Example
+```json
+{
+  "message_reference": 5,
+  "status_code": 300,
+  "status_description": "ok",
+  "type": "response delay"
+}
+```
+[Source](artifacts/response_delay.json)
+
+#### RequestResume
+
+##### Description
+
+##### Example
+```json
+{
+  "message_reference": 6,
+  "transaction_reference": "be209986090bf15fac94e32b04bf4b53",
+  "type": "request resume"
+}
+```
+[Source](artifacts/request_resume.json)
+
+
 ### Redeem
+
+
+#### RequestRedeem
+
+##### Description
+
+##### Example
+```json
+{
+  "coins": [
+    {
+      "payload": {
+        "cdd_location": "https://opencent.org",
+        "denomination": 2,
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "mint_key_id": "8fea6f66fe0891e67c089b37459416f2bc285517b8c78fab4fb919e84d24fbba",
+        "protocol_version": "https://opencoin.org/1.0",
+        "serial": "b71b03576c31c733208775eb337849befdb904686f4dd6ce4e76fb779ba96c43",
+        "type": "payload"
+      },
+      "signature": "687ec5d2dda17102deb8203e208aebdaa6764fc7c91fb45aecb7ddceed720f8749247015c7f70ac651b21ed3ca409b6feff3ee97da174a65eae5e0c7a79ab756",
+      "type": "coin"
+    },
+    {
+      "payload": {
+        "cdd_location": "https://opencent.org",
+        "denomination": 2,
+        "issuer_id": "b7520e474a9b80032c051cca120dc52048d3f334fc5b0d9e12c9aca155e90d3a",
+        "mint_key_id": "8fea6f66fe0891e67c089b37459416f2bc285517b8c78fab4fb919e84d24fbba",
+        "protocol_version": "https://opencoin.org/1.0",
+        "serial": "d6bca1c6a01fa6c3b5ffa4e4d9445fbbad9cf8888a0a36b0773b569f39cbf501",
+        "type": "payload"
+      },
+      "signature": "69d8287ea6e9ba2644c293fcc5089ac9099e8e7990debb4ea5bbc6204f2eb43571a2d54e1e1f6fd7c65941e5e88fb91c02dc5ca8a0fc6ed907bf3f226d1b1e57",
+      "type": "coin"
+    }
+  ],
+  "message_reference": 7,
+  "type": "request redeeming"
+}
+```
+[Source](artifacts/request_redeem.json)
+
+#### ResponseRedeem
+
+##### Description
+
+##### Example
+```json
+{
+  "message_reference": 7,
+  "status_code": 200,
+  "status_description": "ok",
+  "type": "response redeeming"
+}
+```
+[Source](artifacts/response_redeem.json)
+
+
 
 # Reference
 
@@ -368,7 +882,33 @@ RequestRedeem
 ResponseRedeem
 
 
+
 ### Header
+
+##### Description
+
+##### Example
+```json
+
+```
+[Source]()
+
+
+### Request
+
+##### Description
+
+##### Example
+```json
+
+```
+[Source]()
+
+### Response
+
+##### Description
+
+##### Example
 ```json
 
 ```
