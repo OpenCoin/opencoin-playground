@@ -323,7 +323,7 @@ Elements of messages, but never used standalone
 ### Payload
 
 ##### Description
-- 
+
 - **cdd_location**:
 - **denomination**:
 - **issuer_id**:
@@ -916,6 +916,10 @@ coin
 #### RequestRedeem
 
 ##### Description
+
+- **coins**:
+- **message_reference**:
+- **type**:
 
 ##### Example
 ```json

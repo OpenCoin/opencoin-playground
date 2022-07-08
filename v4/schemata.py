@@ -200,10 +200,14 @@ for name, obj in inspect.getmembers(sys.modules[__name__]):
 
 if __name__ == '__main__':
     import json
+
+    all_field_names = set()
     for name, schema in type2schema.items():
         fieldnames = sorted(schema._declared_fields.keys())
         print(name)
         for fieldname in fieldnames:
+            all_field_names.add(fieldname)
             print(f'- **{fieldname}**:')
         print()
         print()
+    print(all_field_names)
