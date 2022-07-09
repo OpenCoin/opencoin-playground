@@ -19,9 +19,9 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
 
 For more information go to **https://opencoin.org**
 
-<img src="opencoin.svg" style="height: 3em; vertical-align: middle; margin-top:2em; margin-bottom:3em;">
+<img alt="opencoin logo" src="opencoin.svg" style="height: 3em; margin-top:2em; margin-bottom:3em;">
 
-  
+
 # Intro
 
 We propose a protocol that allows cash-like payments in the electronic world. It is based on the invention by David Chaum[^chaum82]. The main focus are *untraceable* payments, which means that even though there is a central entity (called the issuer, something like a bank), this central entity can't see the transactions happening. This is good for the privacy of the users.
@@ -45,7 +45,7 @@ Imagine Bob hands in a coin that Alice had minted. In order to ensure the coin c
 
 ## Who is it for?
 
-OpenCoin (the protocol) allows the development of applications for electronic cash. So firstly OpenCoin is targeted at developers. These applications however should allow everyone to make and receive electronic payments. It still requires somebody to run the central issuer. This issuer would issue an OpenCoin based electronic money system. Because electronic money is quite regulated in Europe (and other countries), the issuer would be most likely a regulated electronic money provider or a bank. We think, that a central bank would be the best issuer, because central banks issue money anyhow. But nothing technical stops you from using OpenCoin for your private project [^lwy].
+OpenCoin (the protocol) allows the development of applications for electronic cash. So firstly OpenCoin is targeted at developers. These applications however should allow everyone to make and receive electronic payments. It still requires somebody to run the central issuer. This issuer would issue an OpenCoin based electronic money system. Because electronic money is quite regulated in Europe (and other countries), the issuer would be most likely a regulated electronic money provider or a bank. We think, that a central bank would be the best issuer, because central banks issue money anyhow. But nothing technical stops you from using OpenCoin for your private project [^law].
 
 ## Alternatives
 
@@ -61,9 +61,9 @@ One could say that bitcoin behaves more like gold, while OpenCoin behaves more l
 
 ### GNU Taler
 
-[GNU Taler](taler.net) is build around the same central idea as OpenCoin. It started later, and is more complete than OpenCoin. They differ in the way the take care of the [renewal step](#renew) and coin splitting. They also make more assumptions regarding the clients (e.g. clients having key identifying them), they have clearer roles (e.g. consumer and merchant) and by all of this hope to get around the inherent problems of untraceable transfers, e.g. taxability.
+[GNU Taler](https://taler.net) is build around the same central idea as OpenCoin. It started later, and is more complete than OpenCoin. They differ in the way the take care of the [renewal step](#renew-messages) and coin splitting. They also make more assumptions regarding the clients (e.g. clients having key identifying them), they have clearer roles (e.g. consumer and merchant) and by all of this hope to get around the inherent problems of untraceable transfers, e.g. tax-ability.
 
-The trade-off seems to be that their system is harder is more complex and harder to understand. We also doubt that this complexities are necessary to reach the stated goals. We also doubt that the goals can really be reached, and also find that the systems documentation is quite hard to understand. This might be because they deliver implementations for all necessary software components, and are not really targeted at other implementations of they system.
+The trade-off seems to be that their system is harder is more complex and harder to understand. We also doubt that these complexities are necessary to reach the stated goals. We also doubt that the goals can really be reached, and also find that the system's documentation is quite hard to understand. This might be because they deliver implementations for all necessary software components, and are not really targeted at other implementations of they system.
 
 Because of all this one could say that GNU Taler is less open to other developers.
 
@@ -91,7 +91,7 @@ This is a high level description of the actual steps, details follow in the chap
 
 ### Participants
 
-**Issuer** can mint, refresh and redeem coins. This entity will probably an account handling system (a.k.a bank) behind it for doing actual real-world payments. The issuer is trusted to handle coins and payments correctly, but is *not trusted* in regards of privacy - the target of OpenCoin is to protect the privacy of the transfers.
+**Issuer** can mint, refresh and redeem coins. This entity will probably an account handling system (a.k.a. bank) behind it for doing actual real-world payments. The issuer is trusted to handle coins and payments correctly, but is *not trusted* regarding privacy - the target of OpenCoin is to protect the privacy of the transfers.
 
 **Alice** and **Bob** are clients using OpenCoin. Technically they are software clients, and they represent the *users* of the system.[^diag] They need to be known by the customer in order to mint or redeem coins. Authentication could be required to renew coin. This would allow a "closed" system, in which accounts of the users could be monitored.
 
@@ -99,47 +99,47 @@ This is a high level description of the actual steps, details follow in the chap
 
 #### create CDDC
 
-The issuer creates a pair of cryptographic keys (the currency keys), and signs a *Currency Description Document Certificate* (**CDDC**) with its secret key. This contains information about the currency, like denominations, urls but also the  public key. This is the top document which establishes the trust in all other elements.
+The issuer creates a pair of cryptographic keys (the currency keys), and signs a *Currency Description Document Certificate* ([CDDC](#cddc)) with its secret key. This contains information about the currency, like denominations, urls but also the  public key. This is the top document which establishes the trust in all other elements.
 
-Not mentioned in the CDDC but probably somewhere on the issuer website is the relation between opencoins and actual real-world money. Let's say the currency of an example issuer is called "opencent". The rule might be that one opencent is given out for one EUR cent, and redeemed for one EUR cent, effectively binding the opencent to the EUR.
+Not mentioned in the CDDC but probably somewhere on the issuer website is the relation between opencoins and actual real-world money. Let's say the currency of an example issuer is called "opencent".[^cent] The rule might be that one opencent is given out for one EUR cent, and redeemed for one EUR cent, effectively binding the opencent to the EUR.
 
 #### create MKCs
 
-For each denomination in the currency separate minting keys are generated, and a *Mint Key Certificate* (**MKC**) for them as well. Those MKCs are signed the secret currency key. The mint keys are only valid for a defined period of time.[^comp]
+For each denomination in the currency separate minting keys are generated, and a *Mint Key Certificate* ([MKC](#MKC)) for them as well. Those MKCs are signed the secret currency key. The mint keys are only valid for a defined period of time.[^comp]
 
 #### RequestCDDCSerial
 
-This message asks for the current serial number of the CDDC. The currency description could change over time, maybe because urls have changed. Every time a new CDDC is created, with a new, increasing serial number. The clients need to make sure to always use the most current CDDC, but they can cache it, allowing them to skip the next step.
+[RequestCDDCSerial](#requestcddserial-message) asks for the current serial number of the CDDC. The currency description could change over time, maybe because urls have changed. Every time a new CDDC is created, with a new, increasing serial number. The clients need to make sure to always use the most current CDDC, but they can cache it, allowing them to skip the next step.
 
 #### ResponseCDDCSerial
 
-This message contains the **CDDC serial**.
+[ResponseCDDSerial](#responsecddserial-message) contains the current serial of the [CDDC](#CDDC).
 
 #### RequestCDDC
 
-This message asks for a CDDC. If no serial is provided, the message asks for the most current CDDC.
+[RequestCDDC](#requestcddc-message) asks for a [CDDC](#CDDC). If no serial is provided, the message asks for the most current CDDC.
 
 #### ResponseCDDC
 
-This message contains the **CDDC**
+[ResponseCDDC](#responsecddc-message) contains the [CDDC](#CDDC)
 
 #### RequestMKCs
 
-With this message the client asks for the *Mint Key Certificates*. The client can specify specific denominations or *mint key ids*. An unspecified request will return all current MKCs.
+[RequestMKCs](#requestmkcs-message) asks for the [Mint Key Certificates](#mkc). The client can specify specific denominations or *mint key ids*. An unspecified request will return all current MKCs.
 
 #### ResponseMKCs
 
-This reply contains the **MKCs**
+[ResponseMCKs](#responsemkcs-message) contains the [MKCs](#mkc)
 
 #### prepare blinds
 
-This step prepares a coin. In essence this is a **payload** with a serial number, which is later on signed by the issuer using a denomination specific mint key. The "envelope" [mentioned above](#how-does-it-work) really means that the serial is blinded using a separate random secret **blinding factor** for each serial number. This factor is needed later on to "open up the envelope", reversing the blinding operation. Hence the client has to store the blinding factor for later on. As the blinding factor is individual for each serial number, a reference number is created to reference serial, blinding factor and blind.
+This step prepares a coin. In essence this is a [Payload](#payload) with a serial number, which is later on signed by the issuer using a denomination specific mint key. The "envelope" [mentioned above](#how-does-it-work) really means that the serial is blinded using a separate random secret **blinding factor** for each serial number. This factor is needed later on to "open up the envelope", reversing the blinding operation. Hence, the client has to store the blinding factor for later on. As the blinding factor is individual for each serial number, a reference number is created to reference serial, blinding factor and [Blind](#blind).
 
-The **blinds** contains the reference, the blind to be signed, and the mint key id for the denomination or value of the coin.
+The blinds contain the reference, the blind to be signed, and the mint key id for the denomination or value of the coin.
 
 #### RequestMint
 
-This message hands in the **blinds** created in the step before, asking for the blind to be signed.
+[RequestMint](#requestmint-message) hands in the [Blinds](#blind) created in the step before, asking for the blind to be signed.
 
 Most likely the issuer has authenticated the client. The mint key id tells the issuer what denomination to use for the signing operation. This will allow the issuer to deduct a payment for the minting operation (outside OpenCoin).
 
@@ -147,39 +147,59 @@ The message also carries a transaction_reference (a random number), in case ther
 
 #### sign blinds
 
-The issuer uses the secret minting key for the desired operation to sign the blind, creating the **blind signatures**.
+The issuer uses the secret minting key for the desired operation to sign the [Blind](#blind), creating [Blind Signatures](#blind-signature).
 
 #### ResponseMint
 
-This message contains the **blind signatures** for the blinds.
+[ResponseMint](#responsemint-message) contains the [Blind Signatures](#blind-signature) for the [Blinds](#blind).
 
 #### unblind
 
-The client will unblind the signature using the before stored secret blinding factor. This gives the client the signature for the serial number, and both together give the **coin**.
+The client will unblind the [Blind Signature](#blind-signature) using the before stored secret blinding factor. This gives the client the signature for the serial number, and both together give the [Coin](#coin).
 
 #### CoinStack
 
-When sending coins multiple coins can be combined into a **CoinStack**. This CoinStack can also have a "subject", maybe containing an order reference - the reason the CoinStack is handed over in the first place.
+When sending coins multiple coins can be combined into a [CoinStack](#coinstack-message). This CoinStack can also have a "subject", maybe containing an order reference - the reason the CoinStack is handed over in the first place.
 
 The transfer of the CoinStack is out of scope of the OpenCoin protocol. We imagine multiple ways: using a messenger like Signal, using email or using the Browser. A CoinStack can also be encoded using a QR code, and maybe printed out and sent using normal postal mail.
 
 Anyhow, the point of this step is that Alice transfers a CoinStack to Bob. And because she is a fair user, she will delete all coins that were contained in the CoinStack on her side.
 
-#### tokenize sum
+#### tokenize
+
+[Coins](#coin) that are received need to be swapped for new ones, in order to protect the receiver against double spending. Bob needs to decide which new coins he wants to have, and tokenize amount in the right way to have a good selection of future coin sizes. [^tokenize]
 
 #### prepare blinds
 
+Knowing the right coin selection from the step before Bob prepares [Blinds](#blind) the same way Alice has done with hers, creating [Payloads](#payload) (containing serials), and storing the blinding secrets under a reference.
+
 #### RequestRenew
+
+The renewal process is effectively the same as in minting new coins, but it is paid for in opencoins, instead of making a payment in the background using accounts. Hence, the [RequestRenew](#requestrenew-message) message needs to contain [Coins](#coin) that have a value that matches the sum of value of the [Blinds](#blind). The message also contains a transaction_reference in case a delay happens.
 
 #### ResponseDelay
 
+This step is optional.
+
+If something takes a while at the issuer when signing the blinds, either while handling a [RequestMint](#requestmint-message) or [RequestRenew](#requestrenew-message) a [ResponseDelay](#responsedelay-message) can be sent back to indicate that the client should try again sometime later. This allows the network connection be closed in the meantime. Hopefully operations resume in a short time.
+
+Delays should be avoided on the issuer side. 
+
 #### RequestResume
+
+Bob will try a suitable amount of time later on to resume the transaction (the renewal in this case). The [RequestResume](#requestresume-message) message will send over the transaction reference, and the issuer will hopefully respond with a [ResponseMint ](#responsemint-message) message, or with another [ResponseDelay](#responsedelay-message).
 
 #### validate coins
 
+Bob validates the [Coins](#coin), just as Alice did. 
+
 #### RequestRedeem
 
+Bob might want to swap some or all of the [Coins](#coin) he holds for real-world currency at the issuer. He sends in the coins in a [RequestRedeem](#requestredeem-message) message. This effectively takes the coins out of circulation, and the issuer will make a payment to Bob's account. This requires the client to be authenticated for this step, which again is outside the OpenCoin protocol.
+
 #### ResponseRedeem
+
+The issuer confirms that everything went ok using the [ResponseRedeem](#responseredeem-message) message.
 
 # Details
 
@@ -194,13 +214,14 @@ Elements of messages, but never used standalone
 
 ### RSA Public Key
 
-#### Description
+#### Fields
 
 - **modulus**:
 - **public_exponent**:
 - **type**:
 
 #### Example
+
 ```json
 {
   "modulus": "8004826974ed9eecc9261c6a695cd3f1bd33710ef3ba1ca8fbb1425d20f305020e7c80904d6d6e8a4358bf926f920e6167c2c780d9f34db6abe06a51c8ff2571",
@@ -213,7 +234,7 @@ Elements of messages, but never used standalone
 
 ### CDDC
 
-#### Description
+#### Fields
 
 - **cdd**:
   - **additional_info**:
@@ -278,10 +299,11 @@ Elements of messages, but never used standalone
 ```
 [Source](artifacts/cddc.json)
 
+### MKC
 
-### Mint Key Certificate (MKC)
+A *Mint Key Certificate*.
 
-#### Description
+#### Fields
 
 - **mint_key**:
   - **cdd_serial**:
@@ -323,7 +345,7 @@ Elements of messages, but never used standalone
 
 ### Payload
 
-##### Description
+##### Fields
 
 - **cdd_location**:
 - **denomination**:
@@ -349,7 +371,7 @@ Elements of messages, but never used standalone
 
 ### Blind
 
-#### Description
+#### Fields
 
 - **blinded_payload_hash**:
 - **mint_key_id**:
@@ -371,7 +393,7 @@ Elements of messages, but never used standalone
 
 ### Blind Signature
 
-#### Description
+#### Fields
 
 - **blind_signature**:
 - **reference**:
@@ -391,7 +413,7 @@ Elements of messages, but never used standalone
 
 ### Coin
 
-#### Description
+#### Fields
 
 coin
 - **payload**:
@@ -421,11 +443,11 @@ coin
 
 ## Messages
 
-### CDDSerial
+### CDDSerial Messages
 
-#### RequestCDDSerial
+#### RequestCDDSerial Message
 
-##### Description
+##### Fields
 
 - **message_reference**:
 - **type**:
@@ -439,8 +461,7 @@ coin
 ```
 [Source](artifacts/request_cddc_serial.json)
 
-
-#### ResponseCDDSerial
+#### ResponseCDDSerial Message
 
 - **cdd_serial**:
 - **message_reference**:
@@ -448,7 +469,7 @@ coin
 - **status_description**:
 - **type**:
 
-##### Description
+##### Fields
 
 ##### Example
 ```json
@@ -462,15 +483,15 @@ coin
 ```
 [Source](artifacts/response_cddc_serial.json)
 
-### CDDC
+### CDDC Messages
 
-#### RequestCDDC
+#### RequestCDDC Message
 
 - **cdd_serial**:
 - **message_reference**:
 - **type**:
 
-##### Description
+##### Fields
 
 ##### Example
 ```json
@@ -482,9 +503,9 @@ coin
 ```
 [Source](artifacts/request_cddc.json)
 
-#### ResponseCDDC
+#### ResponseCDDC Message
 
-##### Description
+##### Fields
 
 - **cddc**:
 - **message_reference**:
@@ -540,16 +561,16 @@ coin
 [Source](artifacts/response_cddc.json)
 
 
-### MKCs
+### MKC Messages
 
-#### RequestMKCs
+#### RequestMKCs Message
 
 - **denominations**:
 - **message_reference**:
 - **mint_key_ids**:
 - **type**:
 
-##### Description
+##### Fields
 
 ##### Example
 ```json
@@ -562,7 +583,7 @@ coin
 ```
 [Source](artifacts/request_mkc.json)
 
-#### ResponseMKCs
+#### ResponseMKCs Message
 
 - **keys**:
 - **message_reference**:
@@ -570,7 +591,7 @@ coin
 - **status_description**:
 - **type**:
 
-##### Description
+##### Fields
 
 ##### Example
 ```json
@@ -642,11 +663,11 @@ coin
 ```
 [Source](artifacts/response_mkc.json)
 
-### Mint
+### Mint Messages
 
-#### RequestMint
+#### RequestMint Message
 
-##### Description
+##### Fields
 
 - **blinds**:
 - **message_reference**:
@@ -683,9 +704,9 @@ coin
 ```
 [Source](artifacts/request_mint.json)
 
-#### ResponseMint
+#### ResponseMint Message
 
-##### Description
+##### Fields
 
 - **blind_signatures**:
 - **message_reference**:
@@ -721,11 +742,11 @@ coin
 ```
 [Source](artifacts/response_mint_a.json)
 
-### CoinStack
+### CoinStack Messages
 
-#### CoinStack
+#### CoinStack Message
 
-##### Description
+##### Fields
 
 - **coins**:
 - **subject**:
@@ -781,11 +802,21 @@ coin
 ```
 [Source](artifacts/coinstack.json)
 
-### Renew
+### Renew Messages
 
-#### RequestRenew
+Coins that are received need to be swapped for new ones, in order to protect the receiver against double spending. Otherwise, the sender could keep a copy of the coins and try to use the coins again. Before doing so we need to ask: what coin sizes should be chosen for the coins to be minted?
 
-##### Description
+What if we have not the right coin selection for an amount to pay?  Imagine that the price is 5 opencent, but we just have coins in the sizes: 2, 2, 2.
+
+One solution would be to require the recipient to give change. This would make the protocol more complicated, and would just shift the problem to the recipient. Another approach is to allow partial spending coins, but this again makes the protocol more complicated.[^partial]
+
+The easy way out is to aim for a selection of coins that allows us to pay *any* amount below or equal to the sum of all coins. E.g. if we own the value of 6 opencent it would be advisable to have coin selection 2,2,1,1 in order to pay all possible amounts. This also prevents *amount tracing*, where an awkward price (13.37) asks for an awkward coin exchange at the issuer beforehand. 
+
+So, we need to look at the combined sum of coins received and coins already in possession, and needs to find the right coin selection to be able to make all possible future coin transfers. We will then know which coins to keep, and what blinds to make and paying for the minting using *all* the just received coins and using *some* existing coins.
+
+#### RequestRenew Message
+
+##### Fields
 
 - **blinds**:
 - **coins**:
@@ -870,11 +901,11 @@ coin
 ```
 [Source](artifacts/request_renew.json)
 
-### Resume
+### Resume Messages
 
-#### ResponseDelay
+#### ResponseDelay Message
 
-##### Description
+##### Fields
 
 - **message_reference**:
 - **status_code**:
@@ -892,9 +923,9 @@ coin
 ```
 [Source](artifacts/response_delay.json)
 
-#### RequestResume
+#### RequestResume Message
 
-##### Description
+##### Fields
 
 - **message_reference**:
 - **transaction_reference**:
@@ -911,12 +942,11 @@ coin
 [Source](artifacts/request_resume.json)
 
 
-### Redeem
+### Redeem Messages
 
+#### RequestRedeem Message
 
-#### RequestRedeem
-
-##### Description
+##### Fields
 
 - **coins**:
 - **message_reference**:
@@ -959,9 +989,9 @@ coin
 ```
 [Source](artifacts/request_redeem.json)
 
-#### ResponseRedeem
+#### ResponseRedeem Message
 
-##### Description
+##### Fields
 
 - **message_reference**:
 - **status_code**:
@@ -981,21 +1011,23 @@ coin
 
 
 
-# Reference
+# Appendix
 
-## Appendix
+## FAQ
+
+
 
 ## Scope
 
-Having said all of the above, we scope the protocol and it's description in the following way:
+Having said all of the above, we scope the protocol, and it's description in the following way:
 
-**Targeted at developers** - developers should be enabled (and motivated) by the OpenCoin protocol to implement standard confirming software components and apps. However we hope that this documentation is also understandable for the interested user (or founder, investor, auditor, etc.)
+**Targeted at developers** - developers should be enabled (and motivated) by the OpenCoin protocol to implement standard confirming software components and apps. However, we hope that this documentation is also understandable for the interested user (or founder, investor, auditor, etc.)
 
 **Just the protocol** - we don't deliver any ready to use implementations. This allows us to fully focus on the protocol, and keeps a separation to actual implementations.
 
-**Easy to understand** - we try to avoid complexity. This affects the protocol itself as well as it's documentation. This means: if you, the reader, don't understand a sentence or a concept, please contact us. We will improve the description. Being easy to understand is one of the main goals of OpenCoin.
+**Easy to understand** - we try to avoid complexity. This affects the protocol itself as well as its documentation. This means: if you, the reader, don't understand a sentence or a concept, please contact us. We will improve the description. Being easy to understand is one of the main goals of OpenCoin.
 
-**Only the core** - lots of developments have happened since [we started](#history). Take the example of messengers like Signal, Telegram or WhatsApp. The have opened new ways to transport messages, and they take care of identifying the communication partner. This especially means that message transport and authentication stays out of scope.
+**Only the core** - lots of developments have happened since [we started](#history-and-old-results). Take the example of messengers like Signal, Telegram or WhatsApp. The have opened new ways to transport messages, and they take care of identifying the communication partner. This especially means that message transport and authentication stays out of scope.
 
 ## History and old results
 
@@ -1046,7 +1078,7 @@ ResponseRedeem
 
 ### Header
 
-##### Description
+##### Fields
 
 ##### Example
 ```json
@@ -1057,7 +1089,7 @@ ResponseRedeem
 
 ### Request
 
-##### Description
+##### Fields
 
 ##### Example
 ```json
@@ -1067,7 +1099,7 @@ ResponseRedeem
 
 ### Response
 
-##### Description
+##### Fields
 
 ##### Example
 ```json
@@ -1075,14 +1107,21 @@ ResponseRedeem
 ```
 [Source]()
 
+  
 
-# Footnotes
+
+<div style="height:5em"></div>
 
 [^chaum82]: David Chaum, “Blind signatures for untraceable payments”, Advances in Cryptology - Crypto ‘82, Springer-Verlag (1983), 199-203.
 
-[^lwy]: Please check with your lawyer if this is a good idea.
-
+[^law]: Please check with your lawyer if this is a good idea.
 [^diag]: To keep the diagram simple we have left out Charlene who was mentioned above in "[How does it work?](#how-does-it-work)". Bob does everything she does.
-
+[^cent]: "opencent" refers to the specific example currency. The generic term "opencoin" refers to any currency following the OpenCoin protocol (of which opencent is one).
 [^comp]: This is to minimize damage in case the mint keys get compromised.
+[^tokenize]: It might be that also some existing coins might be needed to be swapped to get a good coin selection. See [Renew](#renew-messages).
+[^partial]: GNU Taler experiments with this approach: in essence coins don't have serials but keys, which can sign a partial amount to be spent. This requires more smartness to avoid double spending, introducing new problems to be solved.
+
+
+
+
 

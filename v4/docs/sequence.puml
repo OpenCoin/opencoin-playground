@@ -44,7 +44,7 @@ alice -> bob: transfer, e.g. using Signal
 rnote left of bob: CoinStack
 rnote right of bob: Coins
 
-bob --> bob: tokenize sum
+bob --> bob: tokenize
 
 bob --> bob: prepare blinds
 rnote right of bob: Payloads\nBlinds\n-\nblinding factors
