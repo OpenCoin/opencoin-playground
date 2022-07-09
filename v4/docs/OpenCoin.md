@@ -87,7 +87,7 @@ When requesting the issuer to mint or redeem coins some form of **authentication
 
 ## Description
 
-This is a high level description of the actual steps, details follow in the chapters in [Details](#details).
+This is a high level description of the actual steps, details follow in the chapters in [Details](#details).[^2nd]
 
 ### Participants
 
@@ -1102,6 +1102,7 @@ ResponseRedeem
 
 [^law]: Please check with your lawyer if this is a good idea.
 [^diag]: To keep the diagram simple we have left out Charlene who was mentioned above in "[How does it work?](#how-does-it-work)". Bob does everything she does.
+[^2nd]: It is easier to follow along with the above diagram open in a second window (or printout).
 [^cent]: "opencent" refers to the specific example currency. The generic term "opencoin" refers to any currency following the OpenCoin protocol (of which opencent is one).
 [^comp]: This is to minimize damage in case the mint keys get compromised.
 [^tokenize]: It might be that also some existing coins might be needed to be swapped to get a good coin selection. See [Renew](#requestrenew-message).
