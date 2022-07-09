@@ -1,5 +1,5 @@
 @startuml
-skinparam backgroundColor transparent
+' skinparam backgroundColor transparent
 
 actor Alice as alice
 participant "\nIssuer\n" as  issuer
