@@ -443,16 +443,15 @@ coin
 
 ## Messages
 
-### CDDSerial Messages
 
-#### RequestCDDSerial Message
+### RequestCDDSerial Message
 
-##### Fields
+#### Fields
 
 - **message_reference**:
 - **type**:
 
-##### Example
+#### Example
 ```json
 {
   "message_reference": 1,
@@ -461,7 +460,7 @@ coin
 ```
 [Source](artifacts/request_cddc_serial.json)
 
-#### ResponseCDDSerial Message
+### ResponseCDDSerial Message
 
 - **cdd_serial**:
 - **message_reference**:
@@ -469,9 +468,9 @@ coin
 - **status_description**:
 - **type**:
 
-##### Fields
+#### Fields
 
-##### Example
+#### Example
 ```json
 {
   "cdd_serial": 1,
@@ -483,17 +482,16 @@ coin
 ```
 [Source](artifacts/response_cddc_serial.json)
 
-### CDDC Messages
 
-#### RequestCDDC Message
+### RequestCDDC Message
 
 - **cdd_serial**:
 - **message_reference**:
 - **type**:
 
-##### Fields
+#### Fields
 
-##### Example
+#### Example
 ```json
 {
   "cdd_serial": 1,
@@ -503,9 +501,9 @@ coin
 ```
 [Source](artifacts/request_cddc.json)
 
-#### ResponseCDDC Message
+### ResponseCDDC Message
 
-##### Fields
+#### Fields
 
 - **cddc**:
 - **message_reference**:
@@ -513,7 +511,7 @@ coin
 - **status_description**:
 - **type**:
 
-##### Example
+#### Example
 ```json
 {
   "cddc": {
@@ -560,19 +558,16 @@ coin
 ```
 [Source](artifacts/response_cddc.json)
 
-
-### MKC Messages
-
-#### RequestMKCs Message
+### RequestMKCs Message
 
 - **denominations**:
 - **message_reference**:
 - **mint_key_ids**:
 - **type**:
 
-##### Fields
+#### Fields
 
-##### Example
+#### Example
 ```json
 {
   "denominations": [1, 2, 5],
@@ -583,7 +578,7 @@ coin
 ```
 [Source](artifacts/request_mkc.json)
 
-#### ResponseMKCs Message
+### ResponseMKCs Message
 
 - **keys**:
 - **message_reference**:
@@ -591,9 +586,9 @@ coin
 - **status_description**:
 - **type**:
 
-##### Fields
+#### Fields
 
-##### Example
+#### Example
 ```json
 {
   "keys": [
@@ -663,18 +658,16 @@ coin
 ```
 [Source](artifacts/response_mkc.json)
 
-### Mint Messages
+### RequestMint Message
 
-#### RequestMint Message
-
-##### Fields
+#### Fields
 
 - **blinds**:
 - **message_reference**:
 - **transaction_reference**:
 - **type**:
 
-##### Example
+#### Example
 ```json
 {
   "blinds": [
@@ -704,9 +697,9 @@ coin
 ```
 [Source](artifacts/request_mint.json)
 
-#### ResponseMint Message
+### ResponseMint Message
 
-##### Fields
+#### Fields
 
 - **blind_signatures**:
 - **message_reference**:
@@ -714,7 +707,7 @@ coin
 - **status_description**:
 - **type**:
 
-##### Example
+#### Example
 ```json
 {
   "blind_signatures": [
@@ -742,17 +735,15 @@ coin
 ```
 [Source](artifacts/response_mint_a.json)
 
-### CoinStack Messages
+### CoinStack Message
 
-#### CoinStack Message
-
-##### Fields
+#### Fields
 
 - **coins**:
 - **subject**:
 - **type**:
 
-##### Example
+#### Example
 ```json
 {
   "coins": [
@@ -802,7 +793,8 @@ coin
 ```
 [Source](artifacts/coinstack.json)
 
-### Renew Messages
+
+### RequestRenew Message
 
 Coins that are received need to be swapped for new ones, in order to protect the receiver against double spending. Otherwise, the sender could keep a copy of the coins and try to use the coins again. Before doing so we need to ask: what coin sizes should be chosen for the coins to be minted?
 
@@ -814,9 +806,8 @@ The easy way out is to aim for a selection of coins that allows us to pay *any* 
 
 So, we need to look at the combined sum of coins received and coins already in possession, and needs to find the right coin selection to be able to make all possible future coin transfers. We will then know which coins to keep, and what blinds to make and paying for the minting using *all* the just received coins and using *some* existing coins.
 
-#### RequestRenew Message
 
-##### Fields
+#### Fields
 
 - **blinds**:
 - **coins**:
@@ -824,7 +815,7 @@ So, we need to look at the combined sum of coins received and coins already in p
 - **transaction_reference**:
 - **type**:
 
-##### Example
+#### Example
 ```json
 {
   "blinds": [
@@ -901,18 +892,16 @@ So, we need to look at the combined sum of coins received and coins already in p
 ```
 [Source](artifacts/request_renew.json)
 
-### Resume Messages
+### ResponseDelay Message
 
-#### ResponseDelay Message
-
-##### Fields
+#### Fields
 
 - **message_reference**:
 - **status_code**:
 - **status_description**:
 - **type**:
 
-##### Example
+#### Example
 ```json
 {
   "message_reference": 5,
@@ -923,15 +912,15 @@ So, we need to look at the combined sum of coins received and coins already in p
 ```
 [Source](artifacts/response_delay.json)
 
-#### RequestResume Message
+### RequestResume Message
 
-##### Fields
+#### Fields
 
 - **message_reference**:
 - **transaction_reference**:
 - **type**:
 
-##### Example
+#### Example
 ```json
 {
   "message_reference": 6,
@@ -941,18 +930,15 @@ So, we need to look at the combined sum of coins received and coins already in p
 ```
 [Source](artifacts/request_resume.json)
 
+### RequestRedeem Message
 
-### Redeem Messages
-
-#### RequestRedeem Message
-
-##### Fields
+#### Fields
 
 - **coins**:
 - **message_reference**:
 - **type**:
 
-##### Example
+#### Example
 ```json
 {
   "coins": [
@@ -989,16 +975,16 @@ So, we need to look at the combined sum of coins received and coins already in p
 ```
 [Source](artifacts/request_redeem.json)
 
-#### ResponseRedeem Message
+### ResponseRedeem Message
 
-##### Fields
+#### Fields
 
 - **message_reference**:
 - **status_code**:
 - **status_description**:
 - **type**:
 
-##### Example
+#### Example
 ```json
 {
   "message_reference": 7,
@@ -1118,7 +1104,7 @@ ResponseRedeem
 [^diag]: To keep the diagram simple we have left out Charlene who was mentioned above in "[How does it work?](#how-does-it-work)". Bob does everything she does.
 [^cent]: "opencent" refers to the specific example currency. The generic term "opencoin" refers to any currency following the OpenCoin protocol (of which opencent is one).
 [^comp]: This is to minimize damage in case the mint keys get compromised.
-[^tokenize]: It might be that also some existing coins might be needed to be swapped to get a good coin selection. See [Renew](#renew-messages).
+[^tokenize]: It might be that also some existing coins might be needed to be swapped to get a good coin selection. See [Renew](#requestrenew-message).
 [^partial]: GNU Taler experiments with this approach: in essence coins don't have serials but keys, which can sign a partial amount to be spent. This requires more smartness to avoid double spending, introducing new problems to be solved.
 
 
