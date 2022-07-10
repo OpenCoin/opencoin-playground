@@ -4,26 +4,26 @@
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 2,
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-        "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+        "issuer_id": "9f78ce386230cf1dda6436565cafac08a94a100d9881636574ebe2453bb34331",
+        "mint_key_id": "6c1c4d415a232a249585932e5878a14862b58542449bbf8e1197aeac2cdf4118",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "efa42f53f82bae3b7a2cb5e9b9ee1549b0adab6f2aab5887a83dd31921ffd1fb",
+        "serial": "f3ee6c5b47be1e22853183bf85706d41647911dc2e27d055d5366891883a6243",
         "type": "payload"
       },
-      "signature": "2f67f48830dd28f4692a5208e87e238f12b9458fa732d3f6de9c8e96b9471a4e2c1f9fb514df75f3907ae5168118852c61c62f791ae3b41fd6eb08dafc9615e4",
+      "signature": "70728a9c6c78bd073399c290b6cc131a4d808714344e9c969146f6b6e2ec42fc0ecaf0b50ac28aad58a82b3d11f1b8c22db620c2e3611121c640abead36541e3",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 2,
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-        "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+        "issuer_id": "9f78ce386230cf1dda6436565cafac08a94a100d9881636574ebe2453bb34331",
+        "mint_key_id": "6c1c4d415a232a249585932e5878a14862b58542449bbf8e1197aeac2cdf4118",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "de8e5f5180fe3c029c9ad002e806246ce9d51a0d8f970f58ccae2e480be4bd31",
+        "serial": "c18ea781e9b4ffa74aff5491a052bd5e1efb66b9ba3210dea2a4b3d02571e8d5",
         "type": "payload"
       },
-      "signature": "3370d7e5ad2a2547ee3c5e2deae7d67230162db224553306804fa638a7cd54eaddf437625fd5a9930b6c1e936f7c70f8bc9df761f51600a3ac9a104f438ebf27",
+      "signature": "2cdc126b3eb8c9a80b14facee3e438f635eeda430dfe61f9120e578692fa5920277960c4470310baa74e3fda8741d1d3523c56eb1eb017f8e21927daee3274b8",
       "type": "coin"
     }
   ],

@@ -2,16 +2,16 @@
 
 *a protocol for privacy preserving electronic cash payments*
 
-Version: 0.4 - draft (July 2022)  
+Version: 0.4 - draft (July 2022)
 Copyright (2022) J. Baach, N. Toedtmann
 
 This version of the protocol build on previous work by the following authors:
 
-  Jörg Baach  
-  Nils Toedtmann  
-  J. K. Muennich  
-  M. Ryden  
-  J. Suhr
+Jörg Baach
+Nils Toedtmann
+J. K. Muennich
+M. Ryden
+J. Suhr
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
 
@@ -20,7 +20,6 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
 For more information go to **https://opencoin.org**
 
 <img alt="opencoin logo" src="opencoin.svg" style="height: 3em; margin-top:2em; margin-bottom:3em;">
-
 
 # Intro
 
@@ -61,7 +60,7 @@ One could say that bitcoin behaves more like gold, while OpenCoin behaves more l
 
 ### GNU Taler
 
-[GNU Taler](https://taler.net) is build around the same central idea as OpenCoin. It started later, and is more complete than OpenCoin. They differ in the way the take care of the [renewal step](#renew-messages) and coin splitting. They also make more assumptions regarding the clients (e.g. clients having key identifying them), they have clearer roles (e.g. consumer and merchant) and by all of this hope to get around the inherent problems of untraceable transfers, e.g. tax-ability.
+[GNU Taler](https://taler.net) is build around the same central idea as OpenCoin. It started later, and is more complete than OpenCoin. They differ in the way the take care of the [renewal step](#requestrenew-message) and coin splitting. They also make more assumptions regarding the clients (e.g. clients having key identifying them), they have clearer roles (e.g. consumer and merchant) and by all of this hope to get around the inherent problems of untraceable transfers, e.g. tax-ability.
 
 The trade-off seems to be that their system is harder is more complex and harder to understand. We also doubt that these complexities are necessary to reach the stated goals. We also doubt that the goals can really be reached, and also find that the system's documentation is quite hard to understand. This might be because they deliver implementations for all necessary software components, and are not really targeted at other implementations of they system.
 
@@ -183,7 +182,7 @@ This step is optional.
 
 If something takes a while at the issuer when signing the blinds, either while handling a [RequestMint](#requestmint-message) or [RequestRenew](#requestrenew-message) a [ResponseDelay](#responsedelay-message) can be sent back to indicate that the client should try again sometime later. This allows the network connection be closed in the meantime. Hopefully operations resume in a short time.
 
-Delays should be avoided on the issuer side. 
+Delays should be avoided on the issuer side.
 
 #### RequestResume
 
@@ -191,7 +190,7 @@ Bob will try a suitable amount of time later on to resume the transaction (the r
 
 #### validate coins
 
-Bob validates the [Coins](#coin), just as Alice did. 
+Bob validates the [Coins](#coin), just as Alice did.
 
 #### RequestRedeem
 
@@ -208,28 +207,426 @@ The issuer confirms that everything went ok using the [ResponseRedeem](#response
 - hashes
 - signatures
 
-## Building blocks
+## Field Reference
+
+### Field Types
+
+This lists all the fields used in the protocol. All:
+
+- String: A JSON string.
+- Integer: A JSON integer.
+- BigInt: A JSON string containing a large number represented as the hex representation of it.
+- DateTime: A JSON string containing the  ISO representation of a date.
+- List: A JSON list that can contain all the possible field types mentioned here.
+- URL: A JSON string containing the URL of a resource. Useful for round-robin, but sets a preference.
+  The lower the higher the priority.
+- WeightedURLList: A list of 2 element tuples \[Int, URL\]. 
+- Schema / Object: A JSON object that conforms to the given schema.
+
+All fields are mandatory, but can be empty in case of strings. 
+
+### Fields
+
+
+
+- **additional_info**:  A field where the issuer can store additional information about the currency.
+  
+  Type: String  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **blind_signature**:  The signature on the blinded hash of a payload.
+  
+  Type: BigInt  
+  Used in: [ResponseMint Message](#responsemint-message)
+  
+  
+  
+- **blind_signatures**:  A list of BlindSignatures.
+  
+  Type: List of [BlindSignatures](#blindsignature)  
+  Used in: [ResponseMint Message](#responsemint-message)
+  
+  
+  
+- **blinded_payload_hash**:  The blinded hash of a payload.
+  
+  Type: BigInt  
+  Used in: [Blind](#blind)
+  
+  
+  
+- **blinds**:  A List of Blinds
+  
+  Type: List of [Blinds](#Blind)  
+  Used in: [RequestMint Message](#requestmint-message), [RequestRenew Message](#requestrenew-message)
+  
+  
+  
+- **cdd**:  Contains the Currency Description Document (CDD)
+  
+  Type: [CDD](#cdd)  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **cdd_expiry_date**:  When does the CDD expire?
+  
+  The cdd should not be used or validated after this date.
+  
+  Type: String  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **cdd_location**:  Hint to download the CDD if not available anyway. 
+  
+  Useful for clients to “bootstrap” a yet unknown currency.
+  
+  Type: URL  
+  Used in: [CDDC](#cddc), [Payload](#payload)
+  
+  
+  
+- **cdd_serial**:  The version of the CDD.
+  
+  Should be increased by 1 on a new version.
+  
+  Type: Int  
+  Used in: [CDDC](#cddc), [MKC](#mkc), [RequestCDDC Message](#requestcddc-message), [ResponseCDDSerial Message](#responsecddserial-message)
+  
+  
+  
+- **cdd_signing_date**:  When was the CDD signed?
+  
+  Type: DateTime  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **cddc**:  A full Currency Description Document Certificate.
+  
+  Type: [CDDC](#cddc)  
+  Used in: [ResponseCDDC Message](#responsecddc-message)
+  
+  
+  
+- **coins**:  A list of coins.
+  
+  Type: List of [Coins](#coin)  
+  Used in: [CoinStack Message](#coinstack-message), [RequestRedeem Message](#requestredeem-message), [RequestRenew Message](#requestrenew-message)
+  
+  
+  
+- **coins_expiry_date**:  Coins expire after this date. 
+  
+  Do not use coins after this date. the coins before this date.
+  
+  Type: DateTime  
+  Used in: [MKC](#mkc)
+  
+  
+  
+- **currency_divisor**: Used to express the value in units of 'currency name'.
+  
+  Example: a divisor of 100 can be used express cent values for EUR or USD.
+  
+  Type: Int  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **currency_name**:  The name of the currency, e.g. Dollar.
+  
+   Use the name of the 'full' unit, and not its fraction, e.g. 'dollar' instead of 'cent',
+   and use the currency_divisor to express possible fractions.
+  
+  Type: String  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **denomination**:  The value of the coin(s).
+  
+  Type: Int  
+  Used in: [MKC](#mkc), [Payload](#payload)
+  
+  
+  
+- **denominations**:  The list of possible denominations.
+  
+  Should be chosen wisely and listed in increasing value. 
+  
+  Type: List of Int  
+  Used in: [CDDC](#cddc), [RequestMKCs Message](#requestmkcs-message)
+  
+  
+  
+- **id**:  Identifier, a somewhat redundant hash of the [PublicKey](#publickey)
+  
+  This is just a visual helper, and MUST not be relied on. Calculate the hash
+  of the key in the client.
+  
+  Type: BigInt  
+  Used in: [CDD](#cdd), [CDDC](#cddc), [MintKey](#mintkey), [MKC](#mkc)
+  
+  
+  
+- **info_service**: A list of locations where more information about the currency can be found.
+  
+  This refers to human-readable information.
+  
+  Type: WeightedURLList
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **issuer_cipher_suite**:  description
+  
+  Type: String  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **issuer_id**:  description
+  
+  Type: String  
+  Used in: [MKC](#mkc), [Payload](#payload)
+  
+  
+  
+- **issuer_public_master_key**:  description
+  
+  Type: String  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **keys**:  description
+  
+  Type: String  
+  Used in: [ResponseMKCs Message](#responsemkcs-message)
+  
+  
+  
+- **message_reference**:  description
+  
+  Type: String  
+  Used in: [RequestCDDSerial Message](#requestcddserial-message), [RequestCDDC Message](#requestcddc-message), [RequestMint Message](#requestmint-message), [RequestMKCs Message](#requestmkcs-message), [RequestRedeem Message](#requestredeem-message), [RequestRenew Message](#requestrenew-message), [RequestResume Message](#requestresume-message), [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message)
+  
+  
+  
+- **mint_key**:  description
+  
+  Type: String  
+  Used in: [MKC](#mkc)
+  
+  
+  
+- **mint_key_id**:  description
+  
+  Type: String  
+  Used in: [Blind](#blind), [Payload](#payload)
+  
+  
+  
+- **mint_key_ids**:  description
+  
+  Type: String  
+  Used in: [RequestMKCs Message](#requestmkcs-message)
+  
+  
+  
+- **mint_service**:  description
+  
+  Type: String  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **modulus**:  description
+  
+  Type: String  
+  Used in: [PublicKey](#publickey)
+  
+  
+  
+- **payload**:  description
+  
+  Type: String  
+  Used in: [Coin](#coin)
+  
+  
+  
+- **protocol_version**:  description
+  
+  Type: String  
+  Used in: [CDDC](#cddc), [Payload](#payload)
+  
+  
+  
+- **public_exponent**:  description
+  
+  Type: String  
+  Used in: [PublicKey](#publickey)
+  
+  
+  
+- **public_mint_key**:  description
+  
+  Type: String  
+  Used in: [MKC](#mkc)
+  
+  
+  
+- **redeem_service**:  description
+  
+  Type: String  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **reference**:  description
+  
+  Type: String  
+  Used in: [ResponseMint Message](#responsemint-message), [Blind](#blind)
+  
+  
+  
+- **renew_service**:  description
+  
+  Type: String  
+  Used in: [CDDC](#cddc)
+  
+  
+  
+- **serial**:  description
+  
+  Type: String  
+  Used in: [Payload](#payload)
+  
+  
+  
+- **sign_coins_not_after**:  description
+  
+  Type: String  
+  Used in: [MKC](#mkc)
+  
+  
+  
+- **sign_coins_not_before**:  description
+  
+  Type: String  
+  Used in: [MKC](#mkc)
+  
+  
+  
+- **signature**:  description
+  
+  Type: String  
+  Used in: [CDDC](#cddc), [Coin](#coin), [MKC](#mkc)
+  
+  
+  
+- **status_code**:  description
+  
+  Type: String  
+  Used in: [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message)
+  
+  
+  
+- **status_description**:  description
+  
+  Type: String  
+  Used in: [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message)
+  
+  
+  
+- **subject**:  description
+  
+  Type: String  
+  Used in: [CoinStack Message](#coinstack-message)
+  
+  
+  
+- **transaction_reference**:  description
+  
+  Type: String  
+  Used in: [RequestMint Message](#requestmint-message), [RequestRenew Message](#requestrenew-message), [RequestResume Message](#requestresume-message)
+  
+  
+  
+- **type**:  description
+  
+  Type: String  
+  Used in: [ResponseMint Message](#responsemint-message), [Blind](#blind), [CDDC](#cddc), [CDDC](#cddc), [Coin](#coin), [CoinStack Message](#coinstack-message), [MKC](#mkc), [MKC](#mkc), [Payload](#payload), [RequestCDDSerial Message](#requestcddserial-message), [RequestCDDC Message](#requestcddc-message), [RequestMint Message](#requestmint-message), [RequestMKCs Message](#requestmkcs-message), [RequestRedeem Message](#requestredeem-message), [RequestRenew Message](#requestrenew-message), [RequestResume Message](#requestresume-message), [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message), [PublicKey](#publickey)
+  
+  
+  
+## Schemata
 
 Elements of messages, but never used standalone
 
-### RSA Public Key
+### CDD
 
 #### Fields
 
-- **modulus**:
-- **public_exponent**:
+- **additional_info**:
+- **cdd_expiry_date**:
+- **cdd_location**:
+- **cdd_serial**:
+- **cdd_signing_date**:
+- **currency_divisor**:
+- **currency_name**:
+- **denominations**:
+- **id**:
+- **info_service**:
+- **redeem_service**:
+- **issuer_cipher_suite**:
+- **issuer_public_master_key**:
+- **protocol_version**:
+- **renew_service**:
 - **type**:
+- **mint_service**:
 
 #### Example
 
 ```json
 {
-  "modulus": "8004826974ed9eecc9261c6a695cd3f1bd33710ef3ba1ca8fbb1425d20f305020e7c80904d6d6e8a4358bf926f920e6167c2c780d9f34db6abe06a51c8ff2571",
-  "public_exponent": 65537,
-  "type": "rsa public key"
+  "additional_info": "",
+  "cdd_expiry_date": "2023-07-08T20:09:52.501723",
+  "cdd_location": "https://opencent.org",
+  "cdd_serial": 1,
+  "cdd_signing_date": "2022-07-08T20:09:52.501723",
+  "currency_divisor": 100,
+  "currency_name": "OpenCent",
+  "denominations": [1, 2, 5],
+  "id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+  "info_service": [
+        [10, "https://opencent.org"]
+      ],
+  "redeem_service": [
+        [10, "https://opencent.org"]
+      ],
+  "issuer_cipher_suite": "RSA-SHA512-CHAUM86",
+  "issuer_public_master_key": {
+    "modulus": "8004826974ed9eecc9261c6a695cd3f1bd33710ef3ba1ca8fbb1425d20f305020e7c80904d6d6e8a4358bf926f920e6167c2c780d9f34db6abe06a51c8ff2571",
+    "public_exponent": 65537,
+    "type": "rsa public key"
+  },
+  "protocol_version": "https://opencoin.org/1.0",
+  "renew_service": [
+        [10, "https://opencent.org"]
+      ],
+  "type": "cdd",
+  "mint_service": [
+        [10, "https://opencent.org"],
+    [20, "https://opencent.com/validate"]
+  ]
 }
 ```
-[Source](artifacts/issuer_public_master_key.json)
+[Source](docs/artifacts/cdd.json)
 
 
 ### CDDC
@@ -237,23 +634,6 @@ Elements of messages, but never used standalone
 #### Fields
 
 - **cdd**:
-  - **additional_info**:
-  - **cdd_expiry_date**:
-  - **cdd_location**:
-  - **cdd_serial**:
-  - **cdd_signing_date**:
-  - **currency_divisor**:
-  - **currency_name**:
-  - **denominations**:
-  - **id**:
-  - **info_service**:
-  - **invalidation_service**:
-  - **issuer_cipher_suite**:
-  - **issuer_public_master_key**:
-  - **protocol_version**:
-  - **renewal_service**:
-  - **type**:
-  - **validation_service**:
 - **signature**:
 - **type**:
 
@@ -274,7 +654,7 @@ Elements of messages, but never used standalone
     "info_service": [
         [10, "https://opencent.org"]
       ],
-    "invalidation_service": [
+    "redeem_service": [
         [10, "https://opencent.org"]
       ],
     "issuer_cipher_suite": "RSA-SHA512-CHAUM86",
@@ -284,11 +664,11 @@ Elements of messages, but never used standalone
       "type": "rsa public key"
     },
     "protocol_version": "https://opencoin.org/1.0",
-    "renewal_service": [
+    "renew_service": [
         [10, "https://opencent.org"]
       ],
     "type": "cdd",
-    "validation_service": [
+    "mint_service": [
         [10, "https://opencent.org"],
       [20, "https://opencent.com/validate"]
     ]
@@ -297,7 +677,65 @@ Elements of messages, but never used standalone
   "type": "cdd certificate"
 }
 ```
-[Source](artifacts/cddc.json)
+[Source](docs/artifacts/cddc.json)
+
+
+### PublicKey
+
+#### Fields
+
+- **modulus**:
+- **public_exponent**:
+- **type**:
+
+#### Example
+
+```json
+{
+  "modulus": "8004826974ed9eecc9261c6a695cd3f1bd33710ef3ba1ca8fbb1425d20f305020e7c80904d6d6e8a4358bf926f920e6167c2c780d9f34db6abe06a51c8ff2571",
+  "public_exponent": 65537,
+  "type": "rsa public key"
+}
+```
+[Source](docs/artifacts/issuer_public_master_key.json)
+
+See [MKC](#mkc)
+
+### MintKey
+
+#### Fields
+
+- **cdd_serial**:
+- **coins_expiry_date**:
+- **denomination**:
+- **id**:
+- **issuer_id**:
+- **public_mint_key**:
+- **sign_coins_not_after**:
+- **sign_coins_not_before**:
+- **type**:
+
+#### Example
+
+```json
+{
+  "cdd_serial": 1,
+  "coins_expiry_date": "2023-10-18T21:16:36.768709",
+  "denomination": 1,
+  "id": "8a33fcb2f71570e96e5d4c7d2dc2e8ced4d15cde9559c0f1429249d0d6d1c321",
+  "issuer_id": "2b751c58feedf6ac349e5437d557aaf78bd9040abff4def10f7bc2abe6703bd8",
+  "public_mint_key": {
+    "modulus": "abd105d65e807d4160e44161b1c51e519fa16cdf91629e0c0e179f1f2c54b2593ba59add56ef8f04d302196658358dc049887182f5331c39d7d4d028e01f4851",
+    "public_exponent": 65537,
+    "type": "rsa public key"
+  },
+  "sign_coins_not_after": "2023-07-10T21:16:36.768709",
+  "sign_coins_not_before": "2022-07-10T21:16:36.768709",
+  "type": "mint key"
+}
+```
+[Source](docs/artifacts/mintkey_1.json)
+
 
 ### MKC
 
@@ -306,15 +744,6 @@ A *Mint Key Certificate*.
 #### Fields
 
 - **mint_key**:
-  - **cdd_serial**:
-  - **coins_expiry_date**:
-  - **denomination**:
-  - **id**:
-  - **issuer_id**:
-  - **public_mint_key**:
-  - **sign_coins_not_after**:
-  - **sign_coins_not_before**:
-  - **type**:
 - **signature**:
 - **type**:
 
@@ -341,7 +770,7 @@ A *Mint Key Certificate*.
   "type": "mint key certificate"
 }
 ```
-[Source](artifacts/mkc_1.json)
+[Source](docs/artifacts/mkc_1.json)
 
 ### Payload
 
@@ -356,6 +785,7 @@ A *Mint Key Certificate*.
 - **type**:
 
 ##### Example
+
 ```json
 {
   "cdd_location": "https://opencent.org",
@@ -367,7 +797,7 @@ A *Mint Key Certificate*.
   "type": "payload"
 }
 ```
-[Source](artifacts/payload_a0.json)
+[Source](docs/artifacts/payload_a0.json)
 
 ### Blind
 
@@ -388,10 +818,9 @@ A *Mint Key Certificate*.
   "type": "blinded payload hash"
 }
 ```
-[Source](artifacts/blind_a0.json)
+[Source](docs/artifacts/blind_a0.json)
 
-
-### Blind Signature
+### BlindSignature
 
 #### Fields
 
@@ -408,14 +837,14 @@ A *Mint Key Certificate*.
   "type": "blind signature"
 }
 ```
-[Source](artifacts/blind_signature_a0.json)
-
+[Source](docs/artifacts/blind_signature_a0.json)
 
 ### Coin
 
 #### Fields
 
 coin
+
 - **payload**:
 - **signature**:
 - **type**:
@@ -437,12 +866,7 @@ coin
   "type": "coin"
 }
 ```
-[Source](artifacts/coin_a0.json)
-
-
-
-## Messages
-
+[Source](docs/artifacts/coin_a0.json)
 
 ### RequestCDDSerial Message
 
@@ -452,13 +876,14 @@ coin
 - **type**:
 
 #### Example
+
 ```json
 {
   "message_reference": 1,
   "type": "request cdd serial"
 }
 ```
-[Source](artifacts/request_cddc_serial.json)
+[Source](docs/artifacts/request_cddc_serial.json)
 
 ### ResponseCDDSerial Message
 
@@ -471,6 +896,7 @@ coin
 #### Fields
 
 #### Example
+
 ```json
 {
   "cdd_serial": 1,
@@ -480,8 +906,7 @@ coin
   "type": "response cdd serial"
 }
 ```
-[Source](artifacts/response_cddc_serial.json)
-
+[Source](docs/artifacts/response_cddc_serial.json)
 
 ### RequestCDDC Message
 
@@ -492,6 +917,7 @@ coin
 #### Fields
 
 #### Example
+
 ```json
 {
   "cdd_serial": 1,
@@ -499,7 +925,7 @@ coin
   "type": "request cddc"
 }
 ```
-[Source](artifacts/request_cddc.json)
+[Source](docs/artifacts/request_cddc.json)
 
 ### ResponseCDDC Message
 
@@ -512,6 +938,7 @@ coin
 - **type**:
 
 #### Example
+
 ```json
 {
   "cddc": {
@@ -528,7 +955,7 @@ coin
       "info_service": [
         [10, "https://opencent.org"]
       ],
-      "invalidation_service": [
+      "redeem_service": [
         [10, "https://opencent.org"]
       ],
       "issuer_cipher_suite": "RSA-SHA512-CHAUM86",
@@ -538,11 +965,11 @@ coin
         "type": "rsa public key"
       },
       "protocol_version": "https://opencoin.org/1.0",
-      "renewal_service": [
+      "renew_service": [
         [10, "https://opencent.org"]
       ],
       "type": "cdd",
-      "validation_service": [
+      "mint_service": [
         [10, "https://opencent.org"],
         [20, "https://opencent.com/validate"]
       ]
@@ -556,7 +983,7 @@ coin
   "type": "response cddc"
 }
 ```
-[Source](artifacts/response_cddc.json)
+[Source](docs/artifacts/response_cddc.json)
 
 ### RequestMKCs Message
 
@@ -568,6 +995,7 @@ coin
 #### Fields
 
 #### Example
+
 ```json
 {
   "denominations": [1, 2, 5],
@@ -576,7 +1004,7 @@ coin
   "type": "request mint key certificates"
 }
 ```
-[Source](artifacts/request_mkc.json)
+[Source](docs/artifacts/request_mkc.json)
 
 ### ResponseMKCs Message
 
@@ -589,6 +1017,7 @@ coin
 #### Fields
 
 #### Example
+
 ```json
 {
   "keys": [
@@ -656,7 +1085,7 @@ coin
   "type": "response mint key certificates"
 }
 ```
-[Source](artifacts/response_mkc.json)
+[Source](docs/artifacts/response_mkc.json)
 
 ### RequestMint Message
 
@@ -668,6 +1097,7 @@ coin
 - **type**:
 
 #### Example
+
 ```json
 {
   "blinds": [
@@ -695,7 +1125,7 @@ coin
   "type": "request mint"
 }
 ```
-[Source](artifacts/request_mint.json)
+[Source](docs/artifacts/request_mint.json)
 
 ### ResponseMint Message
 
@@ -708,6 +1138,7 @@ coin
 - **type**:
 
 #### Example
+
 ```json
 {
   "blind_signatures": [
@@ -733,7 +1164,7 @@ coin
   "type": "response mint"
 }
 ```
-[Source](artifacts/response_mint_a.json)
+[Source](docs/artifacts/response_mint_a.json)
 
 ### CoinStack Message
 
@@ -744,6 +1175,7 @@ coin
 - **type**:
 
 #### Example
+
 ```json
 {
   "coins": [
@@ -791,8 +1223,7 @@ coin
   "type": "coinstack"
 }
 ```
-[Source](artifacts/coinstack.json)
-
+[Source](docs/artifacts/coinstack.json)
 
 ### RequestRenew Message
 
@@ -802,10 +1233,9 @@ What if we have not the right coin selection for an amount to pay?  Imagine that
 
 One solution would be to require the recipient to give change. This would make the protocol more complicated, and would just shift the problem to the recipient. Another approach is to allow partial spending coins, but this again makes the protocol more complicated.[^partial]
 
-The easy way out is to aim for a selection of coins that allows us to pay *any* amount below or equal to the sum of all coins. E.g. if we own the value of 6 opencent it would be advisable to have coin selection 2,2,1,1 in order to pay all possible amounts. This also prevents *amount tracing*, where an awkward price (13.37) asks for an awkward coin exchange at the issuer beforehand. 
+The easy way out is to aim for a selection of coins that allows us to pay *any* amount below or equal to the sum of all coins. E.g. if we own the value of 6 opencent it would be advisable to have coin selection 2,2,1,1 in order to pay all possible amounts. This also prevents *amount tracing*, where an awkward price (13.37) asks for an awkward coin exchange at the issuer beforehand.
 
 So, we need to look at the combined sum of coins received and coins already in possession, and needs to find the right coin selection to be able to make all possible future coin transfers. We will then know which coins to keep, and what blinds to make and paying for the minting using *all* the just received coins and using *some* existing coins.
-
 
 #### Fields
 
@@ -816,6 +1246,7 @@ So, we need to look at the combined sum of coins received and coins already in p
 - **type**:
 
 #### Example
+
 ```json
 {
   "blinds": [
@@ -890,7 +1321,7 @@ So, we need to look at the combined sum of coins received and coins already in p
   "type": "request renew"
 }
 ```
-[Source](artifacts/request_renew.json)
+[Source](docs/artifacts/request_renew.json)
 
 ### ResponseDelay Message
 
@@ -902,6 +1333,7 @@ So, we need to look at the combined sum of coins received and coins already in p
 - **type**:
 
 #### Example
+
 ```json
 {
   "message_reference": 5,
@@ -910,7 +1342,7 @@ So, we need to look at the combined sum of coins received and coins already in p
   "type": "response delay"
 }
 ```
-[Source](artifacts/response_delay.json)
+[Source](docs/artifacts/response_delay.json)
 
 ### RequestResume Message
 
@@ -921,6 +1353,7 @@ So, we need to look at the combined sum of coins received and coins already in p
 - **type**:
 
 #### Example
+
 ```json
 {
   "message_reference": 6,
@@ -928,7 +1361,7 @@ So, we need to look at the combined sum of coins received and coins already in p
   "type": "request resume"
 }
 ```
-[Source](artifacts/request_resume.json)
+[Source](docs/artifacts/request_resume.json)
 
 ### RequestRedeem Message
 
@@ -939,6 +1372,7 @@ So, we need to look at the combined sum of coins received and coins already in p
 - **type**:
 
 #### Example
+
 ```json
 {
   "coins": [
@@ -973,7 +1407,7 @@ So, we need to look at the combined sum of coins received and coins already in p
   "type": "request redeem"
 }
 ```
-[Source](artifacts/request_redeem.json)
+[Source](docs/artifacts/request_redeem.json)
 
 ### ResponseRedeem Message
 
@@ -985,6 +1419,7 @@ So, we need to look at the combined sum of coins received and coins already in p
 - **type**:
 
 #### Example
+
 ```json
 {
   "message_reference": 7,
@@ -993,15 +1428,11 @@ So, we need to look at the combined sum of coins received and coins already in p
   "type": "response redeem"
 }
 ```
-[Source](artifacts/response_redeem.json)
-
-
+[Source](docs/artifacts/response_redeem.json)
 
 # Appendix
 
 ## FAQ
-
-
 
 ## Scope
 
@@ -1060,24 +1491,23 @@ validate coins
 RequestRedeem
 ResponseRedeem
 
-
-
 ### Header
 
-##### Fields
+#### Fields
 
-##### Example
+#### Example
+
 ```json
 
 ```
 [Source]()
-
 
 ### Request
 
 ##### Fields
 
 ##### Example
+
 ```json
 
 ```
@@ -1088,27 +1518,26 @@ ResponseRedeem
 ##### Fields
 
 ##### Example
+
 ```json
 
 ```
 [Source]()
-
-  
-
 
 <div style="height:5em"></div>
 
 [^chaum82]: David Chaum, “Blind signatures for untraceable payments”, Advances in Cryptology - Crypto ‘82, Springer-Verlag (1983), 199-203.
 
 [^law]: Please check with your lawyer if this is a good idea.
+
 [^diag]: To keep the diagram simple we have left out Charlene who was mentioned above in "[How does it work?](#how-does-it-work)". Bob does everything she does.
+
 [^2nd]: It is easier to follow along with the above diagram open in a second window (or printout).
+
 [^cent]: "opencent" refers to the specific example currency. The generic term "opencoin" refers to any currency following the OpenCoin protocol (of which opencent is one).
+
 [^comp]: This is to minimize damage in case the mint keys get compromised.
+
 [^tokenize]: It might be that also some existing coins might be needed to be swapped to get a good coin selection. See [Renew](#requestrenew-message).
+
 [^partial]: GNU Taler experiments with this approach: in essence coins don't have serials but keys, which can sign a partial amount to be spent. This requires more smartness to avoid double spending, introducing new problems to be solved.
-
-
-
-
-

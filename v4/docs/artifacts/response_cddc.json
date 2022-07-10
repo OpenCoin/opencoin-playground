@@ -2,37 +2,37 @@
   "cddc": {
     "cdd": {
       "additional_info": "",
-      "cdd_expiry_date": "2023-07-08T20:09:52.501723",
+      "cdd_expiry_date": "2023-07-10T21:57:44.394037",
       "cdd_location": "https://opencent.org",
       "cdd_serial": 1,
-      "cdd_signing_date": "2022-07-08T20:09:52.501723",
+      "cdd_signing_date": "2022-07-10T21:57:44.394037",
       "currency_divisor": 100,
       "currency_name": "OpenCent",
       "denominations": [1, 2, 5],
-      "id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+      "id": "9f78ce386230cf1dda6436565cafac08a94a100d9881636574ebe2453bb34331",
       "info_service": [
-        [10, "https://opencent.org"]
-      ],
-      "invalidation_service": [
         [10, "https://opencent.org"]
       ],
       "issuer_cipher_suite": "RSA-SHA512-CHAUM86",
       "issuer_public_master_key": {
-        "modulus": "8004826974ed9eecc9261c6a695cd3f1bd33710ef3ba1ca8fbb1425d20f305020e7c80904d6d6e8a4358bf926f920e6167c2c780d9f34db6abe06a51c8ff2571",
+        "modulus": "aad99dcd99411a5dcbecc2e89f180f4e291c05fab2f614e32d7f0f9e52e64afdef8a46398ffe206b21d76f0d4e63ac2e881292cfc6d4deef9be0f010e684bb27",
         "public_exponent": 65537,
         "type": "rsa public key"
       },
-      "protocol_version": "https://opencoin.org/1.0",
-      "renewal_service": [
-        [10, "https://opencent.org"]
-      ],
-      "type": "cdd",
-      "validation_service": [
+      "mint_service": [
         [10, "https://opencent.org"],
         [20, "https://opencent.com/validate"]
-      ]
+      ],
+      "protocol_version": "https://opencoin.org/1.0",
+      "redeem_service": [
+        [10, "https://opencent.org"]
+      ],
+      "renew_service": [
+        [10, "https://opencent.org"]
+      ],
+      "type": "cdd"
     },
-    "signature": "2bfa4a4c85a49f7c0493bef54cef40892cb23a613b3268d21689493f5a7825e93b22baa8cfc59f8dbf79d5916348e586eb046f16a16cda7182e7e85d9746e7ff",
+    "signature": "334b1e39cb93bea92dae1551a5d5395015a9b8d02011f852ec1b9e6995ebd785de57804823d0b8878a253a027f92730c1336ad3903d8ec681694bfee7d4d8c04",
     "type": "cdd certificate"
   },
   "message_reference": 2,

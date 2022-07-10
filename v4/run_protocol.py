@@ -145,10 +145,10 @@ cdd = create(containers.CDD,
              currency_name="OpenCent",
              currency_divisor=100,
              info_service=[[10, "https://opencent.org"]],
-             validation_service=[[10, "https://opencent.org"],
+             mint_service=[[10, "https://opencent.org"],
                                  [20, "https://opencent.com/validate"]],
-             renewal_service=[[10, "https://opencent.org"]],
-             invalidation_service=[[10, "https://opencent.org"]],
+             renew_service=[[10, "https://opencent.org"]],
+             redeem_service=[[10, "https://opencent.org"]],
              denominations=[1, 2, 5],
              additional_info="")
 cdd.set_id("issuer_public_master_key")
@@ -185,6 +185,7 @@ for d in cdd.data.denominations:
     mk.set_id('public_mint_key')
     mkc = containers.MKC(document_data=mk)
     mkc.sign(issuer_secret)
+    write(mk,f'mintkey_{d}.json')
 
     mint_key_certificates[d] = mkc
 

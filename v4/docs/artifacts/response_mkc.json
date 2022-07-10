@@ -3,58 +3,58 @@
     {
       "mint_key": {
         "cdd_serial": 1,
-        "coins_expiry_date": "2023-10-16T20:09:52.501723",
+        "coins_expiry_date": "2023-10-18T21:57:44.394037",
         "denomination": 1,
-        "id": "bac419d0d8c235e31dae3d5419944e904169c12c3799087f4f9684176fd76d05",
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+        "id": "1e71494d64f4ede9edec734ff1f39adad3d32248f3ad000cfc01e4dfe1560256",
+        "issuer_id": "9f78ce386230cf1dda6436565cafac08a94a100d9881636574ebe2453bb34331",
         "public_mint_key": {
-          "modulus": "cdabcaff7484d35f43a7d9e2f51eabe23783c351be84e4ed39f955a012357ebdf56e71e1ac0c15994317b23f45345acdd03bc02af9cd1dd72143ce33b26b4d27",
+          "modulus": "8732728e3a13d5d1686f5c33a722652caa53e4c8b62713b69515fcae4e52a94219c91e5f0ffdd1c86ae861a7c906916e901acb97934fae45d34a66d75ec5f251",
           "public_exponent": 65537,
           "type": "rsa public key"
         },
-        "sign_coins_not_after": "2023-07-08T20:09:52.501723",
-        "sign_coins_not_before": "2022-07-08T20:09:52.501723",
+        "sign_coins_not_after": "2023-07-10T21:57:44.394037",
+        "sign_coins_not_before": "2022-07-10T21:57:44.394037",
         "type": "mint key"
       },
-      "signature": "71b1c58d449634ca3cf719f82ba324573d7c32c7a18c6f25e7432d3efcc9fb4d661e5a9087f3ed5184d2e5987784cb50ae8bb354479401869cc13ac2db8ae790",
+      "signature": "5a1280a1c0399a4c4baaf73517e7836734e5f57296f52397520427169531298b64fbc7b29685541ad83b03c861c72b8471526128b97b3a1cb6854c928bdfcfd6",
       "type": "mint key certificate"
     },
     {
       "mint_key": {
         "cdd_serial": 1,
-        "coins_expiry_date": "2023-10-16T20:09:52.501723",
+        "coins_expiry_date": "2023-10-18T21:57:44.394037",
         "denomination": 2,
-        "id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+        "id": "6c1c4d415a232a249585932e5878a14862b58542449bbf8e1197aeac2cdf4118",
+        "issuer_id": "9f78ce386230cf1dda6436565cafac08a94a100d9881636574ebe2453bb34331",
         "public_mint_key": {
-          "modulus": "815def3cad88224295806821379fb11abd18a87b205aee79db4d65181e4a09a385526ca72e968e672b94135f931a45ebdeeae29e4740372ffbd25b97cfa81c6d",
+          "modulus": "80594b9a14458ccd0d83790687302a5815069c7b981f25ab82bc701f36c5663ca5ac0d3cda6e07a642ba6b77d9924ac5258955d014d6cbaec37265813d52c98f",
           "public_exponent": 65537,
           "type": "rsa public key"
         },
-        "sign_coins_not_after": "2023-07-08T20:09:52.501723",
-        "sign_coins_not_before": "2022-07-08T20:09:52.501723",
+        "sign_coins_not_after": "2023-07-10T21:57:44.394037",
+        "sign_coins_not_before": "2022-07-10T21:57:44.394037",
         "type": "mint key"
       },
-      "signature": "40bbaa15442c029d49e869364a4731abb04dc601505b84a8da804b22841dda07dd0f3fdc77febe58705bc73a31cd8b9c9d791b17f1502ca6745c2d0a110f8c0b",
+      "signature": "6f1108455683cff760390f05dd05848881abcf8e074484f18818c5b350e2df3a36b4a7bc3f2d28d781206e0a9a21b419128d8ef6073b0f505a84493b25222171",
       "type": "mint key certificate"
     },
     {
       "mint_key": {
         "cdd_serial": 1,
-        "coins_expiry_date": "2023-10-16T20:09:52.501723",
+        "coins_expiry_date": "2023-10-18T21:57:44.394037",
         "denomination": 5,
-        "id": "6c6da7d032dff8b2489dca9398d1fa2d9ff11ed8bfd3e4144deb1ceaa7eb8818",
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+        "id": "72b71c1b1fd21bb1248cbffe621216268b77fd1fad329c9728e9a10cc36bcfc",
+        "issuer_id": "9f78ce386230cf1dda6436565cafac08a94a100d9881636574ebe2453bb34331",
         "public_mint_key": {
-          "modulus": "9264f36d49bfb333856bad3a3769b7334be69830bdffaffe3cf792ce8e179b9dcebbe68c708fe88394ed3b14baadde2d58bde1ad6d09fc7e9e011c40cb3875f1",
+          "modulus": "80351929429a0c7d513d63880cabf0e87bf7677b9d494010cc29e70f54dcf983c5012aa5f701abb50dc1b2444bf5a3eca48e4839fa8a71c5a44530cd22761373",
           "public_exponent": 65537,
           "type": "rsa public key"
         },
-        "sign_coins_not_after": "2023-07-08T20:09:52.501723",
-        "sign_coins_not_before": "2022-07-08T20:09:52.501723",
+        "sign_coins_not_after": "2023-07-10T21:57:44.394037",
+        "sign_coins_not_before": "2022-07-10T21:57:44.394037",
         "type": "mint key"
       },
-      "signature": "3a489dced0e11d79598cea3107b5acfe07060e378ad0df679f7aeaef12f9cd75fb1fc9f58be83d032c0503a00f46bd282ab870976a20a119d07025051f101899",
+      "signature": "7fafcae23ff24eccaf6ab50c5b98666d0ab58651531daa74ebd4970984ab4e678216905b3e07dddc1812339184c4f42492ac7abc9a39d06cddb9d4862eb79205",
       "type": "mint key certificate"
     }
   ],

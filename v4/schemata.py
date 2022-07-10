@@ -42,13 +42,13 @@ class CDD(Schema):
     denominations = fields.List(fields.Integer(), required=True)
     id = BigInt(required=True)
     info_service = weighted_url_list()
-    invalidation_service = weighted_url_list()
     issuer_cipher_suite = fields.String(required=True)
     issuer_public_master_key = fields.Nested(PublicKey(), required=True)
+    mint_service = weighted_url_list()
     protocol_version = fields.String(required=True)
-    renewal_service = weighted_url_list()
+    redeem_service = weighted_url_list()
+    renew_service = weighted_url_list()
     type = TypeField("cdd")
-    validation_service = weighted_url_list()
 
 
 class CDDC(Schema):
@@ -191,23 +191,12 @@ class RequestResume(Request):
 # 'register' all our schemata
 __all__ = []
 type2schema = {}
+
 for name, obj in inspect.getmembers(sys.modules[__name__]):
-    if inspect.isclass(obj) and issubclass(obj, Schema) and obj.__module__ == '__main__':
+    if inspect.isclass(obj) and issubclass(obj, Schema) and obj.__module__ in ['__main__','schemata']:
         __all__.append(obj.__name__)
-        if typ:= obj._declared_fields.get('type'):
+        if typ := obj._declared_fields.get('type'):
             typname = typ.validate.comparable
-            type2schema[typname]=obj
+            type2schema[typname] = obj
 
-if __name__ == '__main__':
-    import json
 
-    all_field_names = set()
-    for name, schema in type2schema.items():
-        fieldnames = sorted(schema._declared_fields.keys())
-        print(name)
-        for fieldname in fieldnames:
-            all_field_names.add(fieldname)
-            print(f'- **{fieldname}**:')
-        print()
-        print()
-    print(all_field_names)
