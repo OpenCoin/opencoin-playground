@@ -1,4 +1,4 @@
-# The OpenCoin protocol
+# OpenCoin protocol
 
 ## Assumptions
 
@@ -8,12 +8,22 @@ When requesting the issuer to mint or redeem coins some form of **authentication
 
 ## Overview
 
-![Sequence](sequence.svg "Sequence of OpenCoin")
+:::{figure-md} sequence-diagram
+:class: figure
+
+<img src="sequence.svg" alt="OpenCoin sequence" class="bg-primary"  width="100%">
+
+OpenCoin sequence diagram
+:::
+
 
 ## Description
 
-This is a description of the actual steps, more details follow in the chapters in [Schemata](schemata).[^2nd]
+This is a description of the actual steps, more details follow in the chapters in [Schemata](schemata).
 
+```{hint}
+We find it easier to follow along with the above diagram open in a second window (or printout).
+```
 ### Participants
 
 **Issuer** can mint, refresh and redeem coins. This entity will probably an account handling system (a.k.a. bank) behind it for doing actual real-world payments. The issuer is trusted to handle coins and payments correctly, but is *not trusted* regarding privacy - the target of OpenCoin is to protect the privacy of the transfers.
@@ -131,8 +141,6 @@ The issuer confirms that everything went ok using the [ResponseRedeem](schemata.
 
 
 [^diag]: To keep the diagram simple we have left out Charlene who was mentioned above in "[How does it work?](intro.md#how-does-it-work)". Bob does everything she does.
-
-[^2nd]: It is easier to follow along with the above diagram open in a second window (or printout).
 
 [^cent]: "opencent" refers to the specific example currency. The generic term "opencoin" refers to any currency following the OpenCoin protocol (of which opencent is one).
 

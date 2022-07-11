@@ -6,7 +6,13 @@ The focus of the project is the protocol. This means we standardize the way we e
 
 ## How does it work?
 
-![overview](overview.svg)
+:::{figure-md} overview-diagram
+:class: figure
+
+<img src="overview.svg" alt="Overview diagram" class="bg-primary" width="300px">
+
+Simplified overview of the OpenCoin flow.
+:::
 
 This is a high level (but strongly simplified) image describing the basic system. We have three participants: Alice and Bob are normal users, while the Issuer is something like a bank, capable of minting coins. It also acts as an exchange for 'real-world' currency. At this high level it works as follows:
 

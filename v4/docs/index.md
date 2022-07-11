@@ -19,7 +19,6 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
 
 For more information go to **https://opencoin.org**
 
-<img alt="opencoin logo" src="opencoin.svg" style="height: 3em; margin-top:2em; margin-bottom:3em;">
 
 
 ```{toctree}
