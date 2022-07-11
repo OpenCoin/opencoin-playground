@@ -3,19 +3,19 @@ import re
 import schemata
 
 docs_directory = 'docs'
-filename = os.path.join(docs_directory,'OpenCoin.md')
+filename = os.path.join(docs_directory,'schemata.md')
 
 contents = open(filename).read()
 
 def replacement(match):
-    artifact_path = os.path.join(match.group(2))
+    artifact_path = os.path.join(docs_directory, match.group(2))
     print(artifact_path)
     if not os.path.isfile(artifact_path):
         return match.group(0)
 
     code = open(artifact_path).read()
     print('read', artifact_path)
-    return f'```json\n{code}\n```\n[Source]({artifact_path})'
+    return f'```json\n{code}\n```\n[Source]({match[2]})'
 
 new_contents = re.sub(r'```json\s+(.*?)```\s+\[Source\]\((.*?)\)', replacement, contents, flags=re.S)
 

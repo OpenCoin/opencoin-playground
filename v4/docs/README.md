@@ -1,1 +1,0 @@
-OpenCoin.md
