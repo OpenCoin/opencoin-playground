@@ -8,7 +8,7 @@ filename = os.path.join(docs_directory,'OpenCoin.md')
 contents = open(filename).read()
 
 def replacement(match):
-    artifact_path = os.path.join(docs_directory,match.group(2))
+    artifact_path = os.path.join(match.group(2))
     print(artifact_path)
     if not os.path.isfile(artifact_path):
         return match.group(0)

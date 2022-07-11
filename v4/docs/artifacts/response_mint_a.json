@@ -1,22 +1,22 @@
 {
   "blind_signatures": [
     {
-      "blind_signature": "1b2593b9c72813b8a4da7fd8e2028d4aa8190437224dc536117a65f5969e48d75609355d685c67a307160a3f9285e3aed74dd5a86355631f1f75bdc694c5090",
+      "blind_signature": "470f61eefcf2fa82afd216a618df615d9a8a4d26047b448d94f61c6dd2514cb93032e17b842e63747723ed9bc729934012597207f269be208e437709455f10f9",
       "reference": "a0",
       "type": "blind signature"
     },
     {
-      "blind_signature": "64af6aa7772fa6b2b0685f313a4f8b2f1b73daa0d50aa626e7b43a6f8def102cba200ca00df78b702fbb12e92d2c82c9a75c6e86546426fc22bdd4bfeb838218",
+      "blind_signature": "4e04c0ab289c65364e382ddb3b6a5ba4b4efc7ab2761d6f32c8bc3802c26d9704a1e6a4191a788ecbc4985f1e9a45ddc904447733d50a4f65597cba85cd2252b",
       "reference": "a1",
       "type": "blind signature"
     },
     {
-      "blind_signature": "2569eb3bbe3c62669fa94c7abb8fb0549c5e24deada88f6cd4138437593bc2081e1cee4d866d773d8931b78fb0a935106ffd5f30990e5a5adee282681b1d8e13",
+      "blind_signature": "8cebe20e9464e4afe22d8db136a6a7dcf75ed868a1d3683b4a888bdd0e98cfa84a0edc00963317667850b9ce06df8048f617a58bda8bd340c935ba309e8ce5bd",
       "reference": "a2",
       "type": "blind signature"
     }
   ],
-  "message_reference": 4,
+  "message_reference": 100003,
   "status_code": 200,
   "status_description": "ok",
   "type": "response mint"

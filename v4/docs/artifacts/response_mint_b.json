@@ -1,27 +1,27 @@
 {
   "blind_signatures": [
     {
-      "blind_signature": "3c1f00894221f93288a8986ae22e094eeabe64f4334a5dab5e8e75d4a6dbd72fb4e866b78155b131a77099fe6cb884ead32f52df2166198b6932871b6f8026d1",
+      "blind_signature": "3b9d656c550fe812d492f771153a20e82a2f0ae3008b9af0759724736a8ab4136b9c1f9129cf28d625d327d6f0bcdd9ac5c8e9bde379c23126a492f5ade9d0a4",
       "reference": "b0",
       "type": "blind signature"
     },
     {
-      "blind_signature": "1cc83794f45a2251f56d884d58459de73028d9f8fa628bb0677b4c6426153cf3d0562dea56266335febf99cf3b40f599445a700c62e611734aad47e0bbb4da27",
+      "blind_signature": "7bb9e66dac50ddf3957574dea19f093b0743c22dd9798cdcf0d42cdd653356318de38143f06144fa17d9e9712424419dc0b5b319f80880bd5fda665d32eec70f",
       "reference": "b1",
       "type": "blind signature"
     },
     {
-      "blind_signature": "12ed0f37fedb1e0002f9ab2105bcf8bc404dd93e2224f5785ee4ae2d2a3b3472c1651ad33b4c031551562b7abf2515bc7b4881e0b616c93d9b1efce85d3fc3f9",
+      "blind_signature": "3c0d598e530461218028746a9c31ff0b0301bdbb43b8c658830e3dd7ee9c93a9c021c269fab722e52b69ded4a5e9a6ff3df4d892b93d4e11b943f8ad00dbe454",
       "reference": "b2",
       "type": "blind signature"
     },
     {
-      "blind_signature": "2221d5c20d35d8e7b6581264a5aefb59463ae8b743c6c4bb8846a86430d0e0660c4e8e821f207f8dec93fa1e05e769173d8b23a5076542e866a6fcdff2f59ebb",
+      "blind_signature": "1305cbc5a1c8a4aa7880d0e300979e33d0660d625f02dfd872a9b5917756d1f06c2a705b39ee81ac1d1404969c6003b2310d5b35a4f7d60138d82a3decb179fc",
       "reference": "b3",
       "type": "blind signature"
     }
   ],
-  "message_reference": 5,
+  "message_reference": 100004,
   "status_code": 200,
   "status_description": "ok",
   "type": "response mint"

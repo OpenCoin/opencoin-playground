@@ -2,12 +2,12 @@
   "payload": {
     "cdd_location": "https://opencent.org",
     "denomination": 1,
-    "issuer_id": "9f78ce386230cf1dda6436565cafac08a94a100d9881636574ebe2453bb34331",
-    "mint_key_id": "1e71494d64f4ede9edec734ff1f39adad3d32248f3ad000cfc01e4dfe1560256",
+    "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+    "mint_key_id": "e3e053d4fa03ba6b857051bbd3b9f7c7b0c05e42f6260712139450e18b2c94bc",
     "protocol_version": "https://opencoin.org/1.0",
-    "serial": "b5a5b71c94797b5cbf5219230e1931585f55bda2089b5445082ff8bcf454f4d5",
+    "serial": "947c8ab50b05b92e7949362b1e714b833ac2748ab9df43d7a3b7a9c33a5a46eb",
     "type": "payload"
   },
-  "signature": "30360a7af9d42f133c75de974f2430ab1b80a8e1315d0fa61bf782b3c5b951a348b58146436ef39309f220cac01666cabddc171a8e327ba3f0066aa07b23282f",
+  "signature": "50be266f4644cd09e7dc222b64b1e002f1760290f13ff7ddbd52fcdf3d8b3c1ef8b981e68b655f5be128526aba718775ab947f322c074031a3380cdb5dd1feb",
   "type": "coin"
 }

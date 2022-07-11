@@ -198,5 +198,7 @@ for name, obj in inspect.getmembers(sys.modules[__name__]):
         if typ := obj._declared_fields.get('type'):
             typname = typ.validate.comparable
             type2schema[typname] = obj
+if __name__ == '__main__':
 
+    print('\n'.join([f'  {typename}' for typename in type2schema]))
 

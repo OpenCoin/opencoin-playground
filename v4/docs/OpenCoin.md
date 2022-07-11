@@ -218,352 +218,398 @@ This lists all the fields used in the protocol. All:
 - BigInt: A JSON string containing a large number represented as the hex representation of it.
 - DateTime: A JSON string containing the  ISO representation of a date.
 - List: A JSON list that can contain all the possible field types mentioned here.
-- URL: A JSON string containing the URL of a resource. Useful for round-robin, but sets a preference.
-  The lower the higher the priority.
-- WeightedURLList: A list of 2 element tuples \[Int, URL\]. 
+- URL: A JSON string containing the URL of a resource.
+- WeightedURLList: A list of 2 element tuples \[Int, URL\].  Useful for round-robin, but also 
+  reflects a preference. The lower the higher the priority.
 - Schema / Object: A JSON object that conforms to the given schema.
 
 All fields are mandatory, but can be empty in case of strings. 
 
 ### Fields
 
+**additional_info**:  A field where the issuer can store additional information about the currency.
+
+Type: String  
+Used in: [CDDC](#cddc)
 
 
-- **additional_info**:  A field where the issuer can store additional information about the currency.
-  
-  Type: String  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **blind_signature**:  The signature on the blinded hash of a payload.
-  
-  Type: BigInt  
-  Used in: [ResponseMint Message](#responsemint-message)
-  
-  
-  
-- **blind_signatures**:  A list of BlindSignatures.
-  
-  Type: List of [BlindSignatures](#blindsignature)  
-  Used in: [ResponseMint Message](#responsemint-message)
-  
-  
-  
-- **blinded_payload_hash**:  The blinded hash of a payload.
-  
-  Type: BigInt  
-  Used in: [Blind](#blind)
-  
-  
-  
-- **blinds**:  A List of Blinds
-  
-  Type: List of [Blinds](#Blind)  
-  Used in: [RequestMint Message](#requestmint-message), [RequestRenew Message](#requestrenew-message)
-  
-  
-  
-- **cdd**:  Contains the Currency Description Document (CDD)
-  
-  Type: [CDD](#cdd)  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **cdd_expiry_date**:  When does the CDD expire?
-  
-  The cdd should not be used or validated after this date.
-  
-  Type: String  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **cdd_location**:  Hint to download the CDD if not available anyway. 
-  
-  Useful for clients to “bootstrap” a yet unknown currency.
-  
-  Type: URL  
-  Used in: [CDDC](#cddc), [Payload](#payload)
-  
-  
-  
-- **cdd_serial**:  The version of the CDD.
-  
-  Should be increased by 1 on a new version.
-  
-  Type: Int  
-  Used in: [CDDC](#cddc), [MKC](#mkc), [RequestCDDC Message](#requestcddc-message), [ResponseCDDSerial Message](#responsecddserial-message)
-  
-  
-  
-- **cdd_signing_date**:  When was the CDD signed?
-  
-  Type: DateTime  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **cddc**:  A full Currency Description Document Certificate.
-  
-  Type: [CDDC](#cddc)  
-  Used in: [ResponseCDDC Message](#responsecddc-message)
-  
-  
-  
-- **coins**:  A list of coins.
-  
-  Type: List of [Coins](#coin)  
-  Used in: [CoinStack Message](#coinstack-message), [RequestRedeem Message](#requestredeem-message), [RequestRenew Message](#requestrenew-message)
-  
-  
-  
-- **coins_expiry_date**:  Coins expire after this date. 
-  
-  Do not use coins after this date. the coins before this date.
-  
-  Type: DateTime  
-  Used in: [MKC](#mkc)
-  
-  
-  
-- **currency_divisor**: Used to express the value in units of 'currency name'.
-  
-  Example: a divisor of 100 can be used express cent values for EUR or USD.
-  
-  Type: Int  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **currency_name**:  The name of the currency, e.g. Dollar.
-  
-   Use the name of the 'full' unit, and not its fraction, e.g. 'dollar' instead of 'cent',
-   and use the currency_divisor to express possible fractions.
-  
-  Type: String  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **denomination**:  The value of the coin(s).
-  
-  Type: Int  
-  Used in: [MKC](#mkc), [Payload](#payload)
-  
-  
-  
-- **denominations**:  The list of possible denominations.
-  
-  Should be chosen wisely and listed in increasing value. 
-  
-  Type: List of Int  
-  Used in: [CDDC](#cddc), [RequestMKCs Message](#requestmkcs-message)
-  
-  
-  
-- **id**:  Identifier, a somewhat redundant hash of the [PublicKey](#publickey)
-  
-  This is just a visual helper, and MUST not be relied on. Calculate the hash
-  of the key in the client.
-  
-  Type: BigInt  
-  Used in: [CDD](#cdd), [CDDC](#cddc), [MintKey](#mintkey), [MKC](#mkc)
-  
-  
-  
-- **info_service**: A list of locations where more information about the currency can be found.
-  
-  This refers to human-readable information.
-  
-  Type: WeightedURLList
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **issuer_cipher_suite**:  description
-  
-  Type: String  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **issuer_id**:  description
-  
-  Type: String  
-  Used in: [MKC](#mkc), [Payload](#payload)
-  
-  
-  
-- **issuer_public_master_key**:  description
-  
-  Type: String  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **keys**:  description
-  
-  Type: String  
-  Used in: [ResponseMKCs Message](#responsemkcs-message)
-  
-  
-  
-- **message_reference**:  description
-  
-  Type: String  
-  Used in: [RequestCDDSerial Message](#requestcddserial-message), [RequestCDDC Message](#requestcddc-message), [RequestMint Message](#requestmint-message), [RequestMKCs Message](#requestmkcs-message), [RequestRedeem Message](#requestredeem-message), [RequestRenew Message](#requestrenew-message), [RequestResume Message](#requestresume-message), [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message)
-  
-  
-  
-- **mint_key**:  description
-  
-  Type: String  
-  Used in: [MKC](#mkc)
-  
-  
-  
-- **mint_key_id**:  description
-  
-  Type: String  
-  Used in: [Blind](#blind), [Payload](#payload)
-  
-  
-  
-- **mint_key_ids**:  description
-  
-  Type: String  
-  Used in: [RequestMKCs Message](#requestmkcs-message)
-  
-  
-  
-- **mint_service**:  description
-  
-  Type: String  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **modulus**:  description
-  
-  Type: String  
-  Used in: [PublicKey](#publickey)
-  
-  
-  
-- **payload**:  description
-  
-  Type: String  
-  Used in: [Coin](#coin)
-  
-  
-  
-- **protocol_version**:  description
-  
-  Type: String  
-  Used in: [CDDC](#cddc), [Payload](#payload)
-  
-  
-  
-- **public_exponent**:  description
-  
-  Type: String  
-  Used in: [PublicKey](#publickey)
-  
-  
-  
-- **public_mint_key**:  description
-  
-  Type: String  
-  Used in: [MKC](#mkc)
-  
-  
-  
-- **redeem_service**:  description
-  
-  Type: String  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **reference**:  description
-  
-  Type: String  
-  Used in: [ResponseMint Message](#responsemint-message), [Blind](#blind)
-  
-  
-  
-- **renew_service**:  description
-  
-  Type: String  
-  Used in: [CDDC](#cddc)
-  
-  
-  
-- **serial**:  description
-  
-  Type: String  
-  Used in: [Payload](#payload)
-  
-  
-  
-- **sign_coins_not_after**:  description
-  
-  Type: String  
-  Used in: [MKC](#mkc)
-  
-  
-  
-- **sign_coins_not_before**:  description
-  
-  Type: String  
-  Used in: [MKC](#mkc)
-  
-  
-  
-- **signature**:  description
-  
-  Type: String  
-  Used in: [CDDC](#cddc), [Coin](#coin), [MKC](#mkc)
-  
-  
-  
-- **status_code**:  description
-  
-  Type: String  
-  Used in: [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message)
-  
-  
-  
-- **status_description**:  description
-  
-  Type: String  
-  Used in: [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message)
-  
-  
-  
-- **subject**:  description
-  
-  Type: String  
-  Used in: [CoinStack Message](#coinstack-message)
-  
-  
-  
-- **transaction_reference**:  description
-  
-  Type: String  
-  Used in: [RequestMint Message](#requestmint-message), [RequestRenew Message](#requestrenew-message), [RequestResume Message](#requestresume-message)
-  
-  
-  
-- **type**:  description
-  
-  Type: String  
-  Used in: [ResponseMint Message](#responsemint-message), [Blind](#blind), [CDDC](#cddc), [CDDC](#cddc), [Coin](#coin), [CoinStack Message](#coinstack-message), [MKC](#mkc), [MKC](#mkc), [Payload](#payload), [RequestCDDSerial Message](#requestcddserial-message), [RequestCDDC Message](#requestcddc-message), [RequestMint Message](#requestmint-message), [RequestMKCs Message](#requestmkcs-message), [RequestRedeem Message](#requestredeem-message), [RequestRenew Message](#requestrenew-message), [RequestResume Message](#requestresume-message), [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message), [PublicKey](#publickey)
-  
-  
-  
+
+**blind_signature**:  The signature on the blinded hash of a payload.
+
+Type: BigInt  
+Used in: [ResponseMint Message](#responsemint-message)
+
+
+
+**blind_signatures**:  A list of BlindSignatures.
+
+Type: List of [BlindSignatures](#blindsignature)  
+Used in: [ResponseMint Message](#responsemint-message)
+
+
+
+**blinded_payload_hash**:  The blinded hash of a payload.
+
+Type: BigInt  
+Used in: [Blind](#blind)
+
+
+
+**blinds**:  A List of Blinds
+
+Type: List of [Blinds](#Blind)  
+Used in: [RequestMint Message](#requestmint-message), [RequestRenew Message](#requestrenew-message)
+
+
+
+**cdd**:  Contains the Currency Description Document (CDD)
+
+Type: [CDD](#cdd)  
+Used in: [CDDC](#cddc)
+
+
+
+**cdd_expiry_date**:  When does the CDD expire?
+
+The cdd should not be used or validated after this date.
+
+Type: String  
+Used in: [CDDC](#cddc)
+
+
+
+**cdd_location**:  Hint to download the CDD if not available anyway. 
+
+Useful for clients to “bootstrap” a yet unknown currency.
+
+Type: URL  
+Used in: [CDDC](#cddc), [Payload](#payload)
+
+
+
+**cdd_serial**:  The version of the CDD.
+
+Should be increased by 1 on a new version.
+
+Type: Int  
+Used in: [CDDC](#cddc), [MKC](#mkc), [RequestCDDC Message](#requestcddc-message), [ResponseCDDSerial Message](#responsecddserial-message)
+
+
+
+**cdd_signing_date**:  When was the CDD signed?
+
+Type: DateTime  
+Used in: [CDDC](#cddc)
+
+
+
+**cddc**:  A full Currency Description Document Certificate.
+
+Type: [CDDC](#cddc)  
+Used in: [ResponseCDDC Message](#responsecddc-message)
+
+
+
+**coins**:  A list of coins.
+
+Type: List of [Coins](#coin)  
+Used in: [CoinStack Message](#coinstack-message), [RequestRedeem Message](#requestredeem-message), [RequestRenew Message](#requestrenew-message)
+
+
+
+**coins_expiry_date**:  Coins expire after this date. 
+
+Do not use coins after this date. the coins before this date.
+
+Type: DateTime  
+Used in: [MKC](#mkc)
+
+
+
+**currency_divisor**: Used to express the value in units of 'currency name'.
+
+Example: a divisor of 100 can be used express cent values for EUR or USD.
+
+Type: Int  
+Used in: [CDDC](#cddc)
+
+
+
+**currency_name**:  The name of the currency, e.g. Dollar.
+
+Use the name of the 'full' unit, and not its fraction, e.g. 'dollar' instead of 'cent',
+and use the currency_divisor to express possible fractions.
+
+Type: String  
+Used in: [CDDC](#cddc)
+
+
+
+**denomination**:  The value of the coin(s).
+
+Type: Int  
+Used in: [MKC](#mkc), [Payload](#payload)
+
+
+
+**denominations**:  The list of possible denominations.
+
+Should be chosen wisely and listed in increasing value. 
+
+Type: List of Int  
+Used in: [CDDC](#cddc), [RequestMKCs Message](#requestmkcs-message)
+
+
+
+**id**:  Identifier, a somewhat redundant hash of the [PublicKey](#publickey)
+
+This is just a visual helper, and MUST not be relied on. Calculate the hash
+of the key in the client.
+
+Type: BigInt  
+Used in: [CDD](#cdd), [CDDC](#cddc), [MintKey](#mintkey), [MKC](#mkc)
+
+
+
+**info_service**: A list of locations where more information about the currency can be found.
+
+This refers to human-readable information.
+
+Type: WeightedURLList
+Used in: [CDDC](#cddc)
+
+
+
+**issuer_cipher_suite**:  Identifier of the cipher suite that is used.
+
+The format is: HASH-SIGN-BLINDING, e.g. SHA512-RSA-CHAUM83
+
+Type: String  
+Used in: [CDDC](#cddc)
+
+
+
+**issuer_id**:  Id (hash) of the issuer public master key in the CDDC
+
+Type: BigInt  
+Used in: [MKC](#mkc), [Payload](#payload)
+
+
+
+**issuer_public_master_key**:  The hash of the issuer's public key
+
+The only valid identifier of a currency is the master key. 
+
+Type: [PublicKey](#publickey)  
+Used in: [CDDC](#cddc)
+
+
+
+**keys**:  A list of Mint Key Certificates
+
+Type: List of [MKCs](#mkc)  
+Used in: [ResponseMKCs Message](#responsemkcs-message)
+
+
+
+**message_reference**:  Client internal message reference
+
+Set by the client, echoed by the issuer.
+
+Type: Integer  
+Used in: [RequestCDDSerial Message](#requestcddserial-message), [RequestCDDC Message](#requestcddc-message), [RequestMint Message](#requestmint-message), [RequestMKCs Message](#requestmkcs-message), [RequestRedeem Message](#requestredeem-message), [RequestRenew Message](#requestrenew-message), [RequestResume Message](#requestresume-message), [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message)
+
+
+
+**mint_key**:  The mint key that was signed in the certificate
+
+Type: [MintKey](#mintkey)  
+Used in: [MKC](#mkc)
+
+
+
+**mint_key_id**:  Identifier of the mint key used.
+
+Type: BigInt  
+Used in: [Blind](#blind), [Payload](#payload)
+
+
+
+**mint_key_ids**:  What mint keys should be returned?
+
+If left emtpy, no filter is applied.
+
+Type: List of BigInt  
+Used in: [RequestMKCs Message](#requestmkcs-message)
+
+
+
+**mint_service**:  A list of locations where [Blinds](#blind) can be minted into [Coins](#coin)
+
+Type: WeightedURLList  
+Used in: [CDDC](#cddc)
+
+
+
+**modulus**:  The modulus of the public key
+
+Type: BigInt  
+Used in: [PublicKey](#publickey)
+
+
+
+**payload**:  The payload of the coin. 
+
+Type: [Payload](#payload)  
+Used in: [Coin](#coin)
+
+
+
+**protocol_version**:  The protocol version that was used.
+
+Type: Url  
+Used in: [CDDC](#cddc), [Payload](#payload)
+
+
+
+**public_exponent**:  The exponent of the public key.
+
+Type: BigInt  
+Used in: [PublicKey](#publickey)
+
+
+
+**public_mint_key**:  The public key of the mint key.
+
+Type: [PublicKey](#publickey)  
+Used in: [MintKey](#mintkey)
+
+
+
+**redeem_service**:  A list of locations where [Coins](#coin) can be redeemed.
+
+Type: WeightedURLList   
+Used in: [CDDC](#cddc)
+
+
+
+**reference**:  An identifier that connects [Blind](#blind), [BlindSignature](#blindsignature) and blinding secrets.
+
+Set by the client, echoed by the server.
+
+Type: String  
+Used in: [ResponseMint Message](#responsemint-message), [Blind](#blind)
+
+
+
+**renew_service**:  A list of locations where [Coins](#coin) can be renewed.
+
+Type: WeightedURLList  
+Used in: [CDDC](#cddc)
+
+
+
+**serial**:  The serial of the [Coin](#coin). 
+
+This random value is generated by clients. It is used to identify coins and prevent double spending. 
+Once the coin is spent, the serial will be stored by the issuer. Because of its sufficient long 
+length it is supposed to be unique for each coin. A high entropy (crypto grade quality) is important.
+
+Type: BigInt  
+Used in: [Payload](#payload)
+
+
+
+**sign_coins_not_after**:  Use [MintKey](#mintkey) only before this date.
+
+Type: DateTime  
+Used in: [MKC](#mkc)
+
+
+
+**sign_coins_not_before**:  Use [MintKey](#mintkey) only after this date.
+
+Type: String  
+Used in: [MKC](#mkc)
+
+
+
+**signature**: A signature within a certificate.
+
+Type: String  
+Used in: [CDDC](#cddc), [Coin](#coin), [MKC](#mkc)
+
+
+
+**status_code**:  The issuer can return a status code, like in HTTP
+2XX SUCCESS
+3XX DELAY / TEMPORARY ERROR
+4XX PERMANENT ERROR
+
+Type: Integer  
+Used in: [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message)
+
+
+
+**status_description**:  Description that the issuer passes along with the status_code.
+
+Type: String  
+Used in: [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message)
+
+
+
+**subject**:  A message that can be passed along with the coin stack.
+
+Can be left empty. Used informally to indicate a reason for payment etc.
+
+Type: String  
+Used in: [CoinStack Message](#coinstack-message)
+
+
+
+**transaction_reference**:  A random identifier that allows the client to resume a delayed mint/renew process. 
+
+This should be a good random number.
+
+Type: BigInt  
+Used in: [RequestMint Message](#requestmint-message), [RequestRenew Message](#requestrenew-message), [RequestResume Message](#requestresume-message)
+
+
+
+**type**:  String identifying the type of message.
+
+This is the id that is used for parsing the message.
+One of:
+
+- blinded payload hash
+- blind signature
+- cdd
+- cdd certificate
+- coin
+- coinstack
+- mint key certificate
+- mint key
+- payload
+- rsa public key
+- request cddc
+- request cdd serial
+- request mint key certificates
+- request mint
+- request redeem
+- request renew
+- request resume
+- response cddc
+- response cdd serial
+- response delay
+- response mint key certificates
+- response mint
+- response redeem
+
+Type: String  
+Used in: [ResponseMint Message](#responsemint-message), [Blind](#blind), [CDDC](#cddc), [CDDC](#cddc), [Coin](#coin), [CoinStack Message](#coinstack-message), [MKC](#mkc), [MKC](#mkc), [Payload](#payload), [RequestCDDSerial Message](#requestcddserial-message), [RequestCDDC Message](#requestcddc-message), [RequestMint Message](#requestmint-message), [RequestMKCs Message](#requestmkcs-message), [RequestRedeem Message](#requestredeem-message), [RequestRenew Message](#requestrenew-message), [RequestResume Message](#requestresume-message), [ResponseCDDSerial Message](#responsecddserial-message), [ResponseCDDC Message](#responsecddc-message), [ResponseDelay Message](#responsedelay-message), [ResponseMint Message](#responsemint-message), [ResponseMKCs Message](#responsemkcs-message), [ResponseRedeem Message](#responseredeem-message), [PublicKey](#publickey)
+
+
+
 ## Schemata
 
 Elements of messages, but never used standalone
@@ -595,35 +641,35 @@ Elements of messages, but never used standalone
 ```json
 {
   "additional_info": "",
-  "cdd_expiry_date": "2023-07-08T20:09:52.501723",
+  "cdd_expiry_date": "2023-07-11T08:39:38.421080",
   "cdd_location": "https://opencent.org",
   "cdd_serial": 1,
-  "cdd_signing_date": "2022-07-08T20:09:52.501723",
+  "cdd_signing_date": "2022-07-11T08:39:38.421080",
   "currency_divisor": 100,
   "currency_name": "OpenCent",
   "denominations": [1, 2, 5],
-  "id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+  "id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
   "info_service": [
-        [10, "https://opencent.org"]
-      ],
-  "redeem_service": [
         [10, "https://opencent.org"]
       ],
   "issuer_cipher_suite": "RSA-SHA512-CHAUM86",
   "issuer_public_master_key": {
-    "modulus": "8004826974ed9eecc9261c6a695cd3f1bd33710ef3ba1ca8fbb1425d20f305020e7c80904d6d6e8a4358bf926f920e6167c2c780d9f34db6abe06a51c8ff2571",
+    "modulus": "a45b9342b15deff8a5ba1a0dce50c06a0d34ac8ab251d0cf62ff6db825a714b57fcb8b243862ae539c3e997ebefc31c9983a6300ea08b81a4f613447f9123829",
     "public_exponent": 65537,
     "type": "rsa public key"
   },
-  "protocol_version": "https://opencoin.org/1.0",
-  "renew_service": [
-        [10, "https://opencent.org"]
-      ],
-  "type": "cdd",
   "mint_service": [
         [10, "https://opencent.org"],
     [20, "https://opencent.com/validate"]
-  ]
+      ],
+  "protocol_version": "https://opencoin.org/1.0",
+  "redeem_service": [
+        [10, "https://opencent.org"]
+      ],
+  "renew_service": [
+        [10, "https://opencent.org"]
+      ],
+  "type": "cdd"
 }
 ```
 [Source](docs/artifacts/cdd.json)
@@ -643,37 +689,37 @@ Elements of messages, but never used standalone
 {
   "cdd": {
     "additional_info": "",
-    "cdd_expiry_date": "2023-07-08T20:09:52.501723",
+    "cdd_expiry_date": "2023-07-11T08:39:38.421080",
     "cdd_location": "https://opencent.org",
     "cdd_serial": 1,
-    "cdd_signing_date": "2022-07-08T20:09:52.501723",
+    "cdd_signing_date": "2022-07-11T08:39:38.421080",
     "currency_divisor": 100,
     "currency_name": "OpenCent",
     "denominations": [1, 2, 5],
-    "id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+    "id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
     "info_service": [
-        [10, "https://opencent.org"]
-      ],
-    "redeem_service": [
         [10, "https://opencent.org"]
       ],
     "issuer_cipher_suite": "RSA-SHA512-CHAUM86",
     "issuer_public_master_key": {
-      "modulus": "8004826974ed9eecc9261c6a695cd3f1bd33710ef3ba1ca8fbb1425d20f305020e7c80904d6d6e8a4358bf926f920e6167c2c780d9f34db6abe06a51c8ff2571",
+      "modulus": "a45b9342b15deff8a5ba1a0dce50c06a0d34ac8ab251d0cf62ff6db825a714b57fcb8b243862ae539c3e997ebefc31c9983a6300ea08b81a4f613447f9123829",
       "public_exponent": 65537,
       "type": "rsa public key"
     },
-    "protocol_version": "https://opencoin.org/1.0",
-    "renew_service": [
-        [10, "https://opencent.org"]
-      ],
-    "type": "cdd",
     "mint_service": [
         [10, "https://opencent.org"],
       [20, "https://opencent.com/validate"]
-    ]
+      ],
+    "protocol_version": "https://opencoin.org/1.0",
+    "redeem_service": [
+        [10, "https://opencent.org"]
+      ],
+    "renew_service": [
+        [10, "https://opencent.org"]
+      ],
+    "type": "cdd"
   },
-  "signature": "2bfa4a4c85a49f7c0493bef54cef40892cb23a613b3268d21689493f5a7825e93b22baa8cfc59f8dbf79d5916348e586eb046f16a16cda7182e7e85d9746e7ff",
+  "signature": "1e38b379d5259d7d09094a458955b3892d36aa98bd40ff6625ffd15d145da2d7f3997360ceb9d9d86a004e362249f01dd7c35779ae79987121430402f8d43c5d",
   "type": "cdd certificate"
 }
 ```
@@ -692,7 +738,7 @@ Elements of messages, but never used standalone
 
 ```json
 {
-  "modulus": "8004826974ed9eecc9261c6a695cd3f1bd33710ef3ba1ca8fbb1425d20f305020e7c80904d6d6e8a4358bf926f920e6167c2c780d9f34db6abe06a51c8ff2571",
+  "modulus": "a45b9342b15deff8a5ba1a0dce50c06a0d34ac8ab251d0cf62ff6db825a714b57fcb8b243862ae539c3e997ebefc31c9983a6300ea08b81a4f613447f9123829",
   "public_exponent": 65537,
   "type": "rsa public key"
 }
@@ -720,17 +766,17 @@ See [MKC](#mkc)
 ```json
 {
   "cdd_serial": 1,
-  "coins_expiry_date": "2023-10-18T21:16:36.768709",
+  "coins_expiry_date": "2023-10-19T08:39:38.421080",
   "denomination": 1,
-  "id": "8a33fcb2f71570e96e5d4c7d2dc2e8ced4d15cde9559c0f1429249d0d6d1c321",
-  "issuer_id": "2b751c58feedf6ac349e5437d557aaf78bd9040abff4def10f7bc2abe6703bd8",
+  "id": "e3e053d4fa03ba6b857051bbd3b9f7c7b0c05e42f6260712139450e18b2c94bc",
+  "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
   "public_mint_key": {
-    "modulus": "abd105d65e807d4160e44161b1c51e519fa16cdf91629e0c0e179f1f2c54b2593ba59add56ef8f04d302196658358dc049887182f5331c39d7d4d028e01f4851",
+    "modulus": "9cf7454307e7cb5a7cee5bf46eeb0e214daeed0fd9ad35192434af31195fc32b190ec32c2270517a59856397242601b365ca57bf3b64dd66e3c61f7d253e2dbf",
     "public_exponent": 65537,
     "type": "rsa public key"
   },
-  "sign_coins_not_after": "2023-07-10T21:16:36.768709",
-  "sign_coins_not_before": "2022-07-10T21:16:36.768709",
+  "sign_coins_not_after": "2023-07-11T08:39:38.421080",
+  "sign_coins_not_before": "2022-07-11T08:39:38.421080",
   "type": "mint key"
 }
 ```
@@ -753,20 +799,20 @@ A *Mint Key Certificate*.
 {
   "mint_key": {
     "cdd_serial": 1,
-    "coins_expiry_date": "2023-10-16T20:09:52.501723",
+    "coins_expiry_date": "2023-10-19T08:39:38.421080",
     "denomination": 1,
-    "id": "bac419d0d8c235e31dae3d5419944e904169c12c3799087f4f9684176fd76d05",
-    "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+    "id": "e3e053d4fa03ba6b857051bbd3b9f7c7b0c05e42f6260712139450e18b2c94bc",
+    "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
     "public_mint_key": {
-      "modulus": "cdabcaff7484d35f43a7d9e2f51eabe23783c351be84e4ed39f955a012357ebdf56e71e1ac0c15994317b23f45345acdd03bc02af9cd1dd72143ce33b26b4d27",
+      "modulus": "9cf7454307e7cb5a7cee5bf46eeb0e214daeed0fd9ad35192434af31195fc32b190ec32c2270517a59856397242601b365ca57bf3b64dd66e3c61f7d253e2dbf",
       "public_exponent": 65537,
       "type": "rsa public key"
     },
-    "sign_coins_not_after": "2023-07-08T20:09:52.501723",
-    "sign_coins_not_before": "2022-07-08T20:09:52.501723",
+    "sign_coins_not_after": "2023-07-11T08:39:38.421080",
+    "sign_coins_not_before": "2022-07-11T08:39:38.421080",
     "type": "mint key"
   },
-  "signature": "71b1c58d449634ca3cf719f82ba324573d7c32c7a18c6f25e7432d3efcc9fb4d661e5a9087f3ed5184d2e5987784cb50ae8bb354479401869cc13ac2db8ae790",
+  "signature": "4c33d555c14e0728ac0e5676fcc4e1665abb7db1f4ec9bd0173bd52dea0801ab81c63742bd82b243a4464aa119178a9af8c23504fabc77ef9268167c2443e231",
   "type": "mint key certificate"
 }
 ```
@@ -774,7 +820,7 @@ A *Mint Key Certificate*.
 
 ### Payload
 
-##### Fields
+#### Fields
 
 - **cdd_location**:
 - **denomination**:
@@ -784,16 +830,16 @@ A *Mint Key Certificate*.
 - **serial**:
 - **type**:
 
-##### Example
+#### Example
 
 ```json
 {
   "cdd_location": "https://opencent.org",
   "denomination": 1,
-  "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-  "mint_key_id": "bac419d0d8c235e31dae3d5419944e904169c12c3799087f4f9684176fd76d05",
+  "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+  "mint_key_id": "e3e053d4fa03ba6b857051bbd3b9f7c7b0c05e42f6260712139450e18b2c94bc",
   "protocol_version": "https://opencoin.org/1.0",
-  "serial": "93608b9fe7375a19df2ee880639ceb63cab925e111c1adcf564d96738be9cb75",
+  "serial": "947c8ab50b05b92e7949362b1e714b833ac2748ab9df43d7a3b7a9c33a5a46eb",
   "type": "payload"
 }
 ```
@@ -812,8 +858,8 @@ A *Mint Key Certificate*.
 
 ```json
 {
-  "blinded_payload_hash": "c6db722a94f7c500878c13cb9025d6003e6611db066ea71dc1c34b2005933b6431314ae12719394679c7623a69f637dad6ecce300c36988da9d6df3e8c384815",
-  "mint_key_id": "bac419d0d8c235e31dae3d5419944e904169c12c3799087f4f9684176fd76d05",
+  "blinded_payload_hash": "9920380bd19718b319833af6166b5a22d9c1265084e4a2ab08740e2e9ccdbbabce575c14ead9d97783b0095d97023471ff018cc7d334fbdc8a13a3281a2cc3fc",
+  "mint_key_id": "e3e053d4fa03ba6b857051bbd3b9f7c7b0c05e42f6260712139450e18b2c94bc",
   "reference": "a0",
   "type": "blinded payload hash"
 }
@@ -832,7 +878,7 @@ A *Mint Key Certificate*.
 
 ```json
 {
-  "blind_signature": "68f1e187086ad2d6333cc6b798397dda2390db6abd3ea603557afa54ac65600f5048232a34922bbcb4c7584f4dd4004500b45d79ef43f33673defab6dc109186",
+  "blind_signature": "470f61eefcf2fa82afd216a618df615d9a8a4d26047b448d94f61c6dd2514cb93032e17b842e63747723ed9bc729934012597207f269be208e437709455f10f9",
   "reference": "a0",
   "type": "blind signature"
 }
@@ -842,8 +888,6 @@ A *Mint Key Certificate*.
 ### Coin
 
 #### Fields
-
-coin
 
 - **payload**:
 - **signature**:
@@ -856,13 +900,13 @@ coin
   "payload": {
     "cdd_location": "https://opencent.org",
     "denomination": 1,
-    "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-    "mint_key_id": "bac419d0d8c235e31dae3d5419944e904169c12c3799087f4f9684176fd76d05",
+    "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+    "mint_key_id": "e3e053d4fa03ba6b857051bbd3b9f7c7b0c05e42f6260712139450e18b2c94bc",
     "protocol_version": "https://opencoin.org/1.0",
-    "serial": "93608b9fe7375a19df2ee880639ceb63cab925e111c1adcf564d96738be9cb75",
+    "serial": "947c8ab50b05b92e7949362b1e714b833ac2748ab9df43d7a3b7a9c33a5a46eb",
     "type": "payload"
   },
-  "signature": "1932c7352ba97a24cbdddade9747d93b22db145defbdd0441606772695f0ddb439dea17a9ce09f8ea0ef590bea57293d40fef463372060b6eb4a50c4ab7194d0",
+  "signature": "50be266f4644cd09e7dc222b64b1e002f1760290f13ff7ddbd52fcdf3d8b3c1ef8b981e68b655f5be128526aba718775ab947f322c074031a3380cdb5dd1feb",
   "type": "coin"
 }
 ```
@@ -879,7 +923,7 @@ coin
 
 ```json
 {
-  "message_reference": 1,
+  "message_reference": 100000,
   "type": "request cdd serial"
 }
 ```
@@ -900,7 +944,7 @@ coin
 ```json
 {
   "cdd_serial": 1,
-  "message_reference": 1,
+  "message_reference": 100000,
   "status_code": 200,
   "status_description": "ok",
   "type": "response cdd serial"
@@ -921,7 +965,7 @@ coin
 ```json
 {
   "cdd_serial": 1,
-  "message_reference": 2,
+  "message_reference": 100001,
   "type": "request cddc"
 }
 ```
@@ -944,40 +988,40 @@ coin
   "cddc": {
     "cdd": {
       "additional_info": "",
-      "cdd_expiry_date": "2023-07-08T20:09:52.501723",
+      "cdd_expiry_date": "2023-07-11T08:39:38.421080",
       "cdd_location": "https://opencent.org",
       "cdd_serial": 1,
-      "cdd_signing_date": "2022-07-08T20:09:52.501723",
+      "cdd_signing_date": "2022-07-11T08:39:38.421080",
       "currency_divisor": 100,
       "currency_name": "OpenCent",
       "denominations": [1, 2, 5],
-      "id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+      "id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
       "info_service": [
-        [10, "https://opencent.org"]
-      ],
-      "redeem_service": [
         [10, "https://opencent.org"]
       ],
       "issuer_cipher_suite": "RSA-SHA512-CHAUM86",
       "issuer_public_master_key": {
-        "modulus": "8004826974ed9eecc9261c6a695cd3f1bd33710ef3ba1ca8fbb1425d20f305020e7c80904d6d6e8a4358bf926f920e6167c2c780d9f34db6abe06a51c8ff2571",
+        "modulus": "a45b9342b15deff8a5ba1a0dce50c06a0d34ac8ab251d0cf62ff6db825a714b57fcb8b243862ae539c3e997ebefc31c9983a6300ea08b81a4f613447f9123829",
         "public_exponent": 65537,
         "type": "rsa public key"
       },
-      "protocol_version": "https://opencoin.org/1.0",
-      "renew_service": [
-        [10, "https://opencent.org"]
-      ],
-      "type": "cdd",
       "mint_service": [
         [10, "https://opencent.org"],
         [20, "https://opencent.com/validate"]
-      ]
+      ],
+      "protocol_version": "https://opencoin.org/1.0",
+      "redeem_service": [
+        [10, "https://opencent.org"]
+      ],
+      "renew_service": [
+        [10, "https://opencent.org"]
+      ],
+      "type": "cdd"
     },
-    "signature": "2bfa4a4c85a49f7c0493bef54cef40892cb23a613b3268d21689493f5a7825e93b22baa8cfc59f8dbf79d5916348e586eb046f16a16cda7182e7e85d9746e7ff",
+    "signature": "1e38b379d5259d7d09094a458955b3892d36aa98bd40ff6625ffd15d145da2d7f3997360ceb9d9d86a004e362249f01dd7c35779ae79987121430402f8d43c5d",
     "type": "cdd certificate"
   },
-  "message_reference": 2,
+  "message_reference": 100001,
   "status_code": 200,
   "status_description": "ok",
   "type": "response cddc"
@@ -999,7 +1043,7 @@ coin
 ```json
 {
   "denominations": [1, 2, 5],
-  "message_reference": 3,
+  "message_reference": 100002,
   "mint_key_ids": [],
   "type": "request mint key certificates"
 }
@@ -1024,62 +1068,62 @@ coin
     {
       "mint_key": {
         "cdd_serial": 1,
-        "coins_expiry_date": "2023-10-16T20:09:52.501723",
+        "coins_expiry_date": "2023-10-19T08:39:38.421080",
         "denomination": 1,
-        "id": "bac419d0d8c235e31dae3d5419944e904169c12c3799087f4f9684176fd76d05",
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+        "id": "e3e053d4fa03ba6b857051bbd3b9f7c7b0c05e42f6260712139450e18b2c94bc",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
         "public_mint_key": {
-          "modulus": "cdabcaff7484d35f43a7d9e2f51eabe23783c351be84e4ed39f955a012357ebdf56e71e1ac0c15994317b23f45345acdd03bc02af9cd1dd72143ce33b26b4d27",
+          "modulus": "9cf7454307e7cb5a7cee5bf46eeb0e214daeed0fd9ad35192434af31195fc32b190ec32c2270517a59856397242601b365ca57bf3b64dd66e3c61f7d253e2dbf",
           "public_exponent": 65537,
           "type": "rsa public key"
         },
-        "sign_coins_not_after": "2023-07-08T20:09:52.501723",
-        "sign_coins_not_before": "2022-07-08T20:09:52.501723",
+        "sign_coins_not_after": "2023-07-11T08:39:38.421080",
+        "sign_coins_not_before": "2022-07-11T08:39:38.421080",
         "type": "mint key"
       },
-      "signature": "71b1c58d449634ca3cf719f82ba324573d7c32c7a18c6f25e7432d3efcc9fb4d661e5a9087f3ed5184d2e5987784cb50ae8bb354479401869cc13ac2db8ae790",
+      "signature": "4c33d555c14e0728ac0e5676fcc4e1665abb7db1f4ec9bd0173bd52dea0801ab81c63742bd82b243a4464aa119178a9af8c23504fabc77ef9268167c2443e231",
       "type": "mint key certificate"
     },
     {
       "mint_key": {
         "cdd_serial": 1,
-        "coins_expiry_date": "2023-10-16T20:09:52.501723",
+        "coins_expiry_date": "2023-10-19T08:39:38.421080",
         "denomination": 2,
-        "id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+        "id": "3f3a34c8df9abaee2030bb7aee86bfdb896f85affc9a01fec984deb06c077c62",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
         "public_mint_key": {
-          "modulus": "815def3cad88224295806821379fb11abd18a87b205aee79db4d65181e4a09a385526ca72e968e672b94135f931a45ebdeeae29e4740372ffbd25b97cfa81c6d",
+          "modulus": "9d218bbeaf2a8a2074e208082f8f02f91b8afd20909e023a347a97a3c0b56059013148ae9f81c3aa242c3822682e572dab24a74bd344a651ef7f06fc1493bc91",
           "public_exponent": 65537,
           "type": "rsa public key"
         },
-        "sign_coins_not_after": "2023-07-08T20:09:52.501723",
-        "sign_coins_not_before": "2022-07-08T20:09:52.501723",
+        "sign_coins_not_after": "2023-07-11T08:39:38.421080",
+        "sign_coins_not_before": "2022-07-11T08:39:38.421080",
         "type": "mint key"
       },
-      "signature": "40bbaa15442c029d49e869364a4731abb04dc601505b84a8da804b22841dda07dd0f3fdc77febe58705bc73a31cd8b9c9d791b17f1502ca6745c2d0a110f8c0b",
+      "signature": "1ad4952f625078188de83c4f76ef7a47a696056a4f7acefe24f2309867775fcce3fbbf87f76944a1a8a7bc4277c532720c5fd13c4cbf65eb23d222401b4b99c9",
       "type": "mint key certificate"
     },
     {
       "mint_key": {
         "cdd_serial": 1,
-        "coins_expiry_date": "2023-10-16T20:09:52.501723",
+        "coins_expiry_date": "2023-10-19T08:39:38.421080",
         "denomination": 5,
-        "id": "6c6da7d032dff8b2489dca9398d1fa2d9ff11ed8bfd3e4144deb1ceaa7eb8818",
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
+        "id": "2aaa99a9ffbd0377b46d757bbf82d4f65b4f05a170a2da23743066849c403776",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
         "public_mint_key": {
-          "modulus": "9264f36d49bfb333856bad3a3769b7334be69830bdffaffe3cf792ce8e179b9dcebbe68c708fe88394ed3b14baadde2d58bde1ad6d09fc7e9e011c40cb3875f1",
+          "modulus": "acd3ad0b8e8bf5c27f9b9c00d3057e0be8617837f1a33427dd3eaffe00f9f785d5632268d919ac5623d55f173b47eb975cb103dad8886b771f13f0b804405f81",
           "public_exponent": 65537,
           "type": "rsa public key"
         },
-        "sign_coins_not_after": "2023-07-08T20:09:52.501723",
-        "sign_coins_not_before": "2022-07-08T20:09:52.501723",
+        "sign_coins_not_after": "2023-07-11T08:39:38.421080",
+        "sign_coins_not_before": "2022-07-11T08:39:38.421080",
         "type": "mint key"
       },
-      "signature": "3a489dced0e11d79598cea3107b5acfe07060e378ad0df679f7aeaef12f9cd75fb1fc9f58be83d032c0503a00f46bd282ab870976a20a119d07025051f101899",
+      "signature": "153660ad076ded345b99701cf62ca50473ec7f80e76193cf4a5cf476175e9ca3d366859590d1dbd56e31447bb319b98f5c368d181478e011c135eacb66b99b03",
       "type": "mint key certificate"
     }
   ],
-  "message_reference": 3,
+  "message_reference": 100002,
   "status_code": 200,
   "status_description": "ok",
   "type": "response mint key certificates"
@@ -1102,26 +1146,26 @@ coin
 {
   "blinds": [
     {
-      "blinded_payload_hash": "c6db722a94f7c500878c13cb9025d6003e6611db066ea71dc1c34b2005933b6431314ae12719394679c7623a69f637dad6ecce300c36988da9d6df3e8c384815",
-      "mint_key_id": "bac419d0d8c235e31dae3d5419944e904169c12c3799087f4f9684176fd76d05",
+      "blinded_payload_hash": "9920380bd19718b319833af6166b5a22d9c1265084e4a2ab08740e2e9ccdbbabce575c14ead9d97783b0095d97023471ff018cc7d334fbdc8a13a3281a2cc3fc",
+      "mint_key_id": "e3e053d4fa03ba6b857051bbd3b9f7c7b0c05e42f6260712139450e18b2c94bc",
       "reference": "a0",
       "type": "blinded payload hash"
     },
     {
-      "blinded_payload_hash": "39a10d283dd0443389f2c5cf4a83f281770079b0816a1b2e1a1fac2c53e3644b89306921d5ebc2de2d96077f9125d375ffe280d3c3468a606db3f7b7f2bd6421",
-      "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+      "blinded_payload_hash": "20e5236334720449c4bd930900e607804711b6cff41fefbeea8ed7f79a6093a29b27a74541bbc6b1967984f88347c24f34b4e2463ca0250deb78f3f982b21a70",
+      "mint_key_id": "3f3a34c8df9abaee2030bb7aee86bfdb896f85affc9a01fec984deb06c077c62",
       "reference": "a1",
       "type": "blinded payload hash"
     },
     {
-      "blinded_payload_hash": "182def4dd07bfd73c403486b40c66b43e9df253b182115d108173f30d84041015776adee8f76623ba40e3be0bb3aeb1daecb30ad2714ff2a7bfb7e3924128ddf",
-      "mint_key_id": "6c6da7d032dff8b2489dca9398d1fa2d9ff11ed8bfd3e4144deb1ceaa7eb8818",
+      "blinded_payload_hash": "46a495a7a62536885c244c4fb79eaa1ae0b6d9ba2a66157a0558727502abd6a57861a387f52a3e040799dd8dcc758083b00cfc312ace4fc4eebbc787bf742448",
+      "mint_key_id": "2aaa99a9ffbd0377b46d757bbf82d4f65b4f05a170a2da23743066849c403776",
       "reference": "a2",
       "type": "blinded payload hash"
     }
   ],
-  "message_reference": 4,
-  "transaction_reference": "f8b995ff44baa7df7c848ae67de72cfc55d241a7d393aa3392c6c3f0bd269551",
+  "message_reference": 100003,
+  "transaction_reference": "f2b96ff94fe2becca5ff385cb6989de4f6f06eefdc64a909906e56d11a5460ad",
   "type": "request mint"
 }
 ```
@@ -1143,22 +1187,22 @@ coin
 {
   "blind_signatures": [
     {
-      "blind_signature": "68f1e187086ad2d6333cc6b798397dda2390db6abd3ea603557afa54ac65600f5048232a34922bbcb4c7584f4dd4004500b45d79ef43f33673defab6dc109186",
+      "blind_signature": "470f61eefcf2fa82afd216a618df615d9a8a4d26047b448d94f61c6dd2514cb93032e17b842e63747723ed9bc729934012597207f269be208e437709455f10f9",
       "reference": "a0",
       "type": "blind signature"
     },
     {
-      "blind_signature": "4338c5154ce6a878d31aca476bf1d79d633df976a534f8fbefb24930c75c9bd25e87c1d0a2bda1ada7915ec7717a2aaba27dd7fd5ea58db900c4c5cf1c33cad5",
+      "blind_signature": "4e04c0ab289c65364e382ddb3b6a5ba4b4efc7ab2761d6f32c8bc3802c26d9704a1e6a4191a788ecbc4985f1e9a45ddc904447733d50a4f65597cba85cd2252b",
       "reference": "a1",
       "type": "blind signature"
     },
     {
-      "blind_signature": "7bf88ddc25e9c0c65813c25d694cb444777c54b385b06b59e3d783e9abe9be71ccebe820295cb2c0968619d7ab83daf4f3ba180b787a8612c2c76913d0774125",
+      "blind_signature": "8cebe20e9464e4afe22d8db136a6a7dcf75ed868a1d3683b4a888bdd0e98cfa84a0edc00963317667850b9ce06df8048f617a58bda8bd340c935ba309e8ce5bd",
       "reference": "a2",
       "type": "blind signature"
     }
   ],
-  "message_reference": 4,
+  "message_reference": 100003,
   "status_code": 200,
   "status_description": "ok",
   "type": "response mint"
@@ -1183,39 +1227,39 @@ coin
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 1,
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-        "mint_key_id": "bac419d0d8c235e31dae3d5419944e904169c12c3799087f4f9684176fd76d05",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+        "mint_key_id": "e3e053d4fa03ba6b857051bbd3b9f7c7b0c05e42f6260712139450e18b2c94bc",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "93608b9fe7375a19df2ee880639ceb63cab925e111c1adcf564d96738be9cb75",
+        "serial": "947c8ab50b05b92e7949362b1e714b833ac2748ab9df43d7a3b7a9c33a5a46eb",
         "type": "payload"
       },
-      "signature": "1932c7352ba97a24cbdddade9747d93b22db145defbdd0441606772695f0ddb439dea17a9ce09f8ea0ef590bea57293d40fef463372060b6eb4a50c4ab7194d0",
+      "signature": "50be266f4644cd09e7dc222b64b1e002f1760290f13ff7ddbd52fcdf3d8b3c1ef8b981e68b655f5be128526aba718775ab947f322c074031a3380cdb5dd1feb",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 2,
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-        "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+        "mint_key_id": "3f3a34c8df9abaee2030bb7aee86bfdb896f85affc9a01fec984deb06c077c62",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "ffe8691a219a543bc1f51f3dd697a5e17fe9e5a6dfbf0537a515766d19f216a5",
+        "serial": "e2c1c0093af6535f3d801e811d904b2891ef35a65d0e87955397db3db993ca59",
         "type": "payload"
       },
-      "signature": "202a2724f3007a43e6f082f381acb91fcfc908c6a3170c30d1e95e9d13dea03f9042d6cd0ff73a85ad8df0b82ede07d1427dd0fc9c999cdf96656734e6999e00",
+      "signature": "66c2befe37d30744691fec39a9056c530f439a4879c9a388018409ece20446b342bc7889f40efad4674d778b9f130b13a39bea03a214c80c4703bf0ba4993294",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 5,
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-        "mint_key_id": "6c6da7d032dff8b2489dca9398d1fa2d9ff11ed8bfd3e4144deb1ceaa7eb8818",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+        "mint_key_id": "2aaa99a9ffbd0377b46d757bbf82d4f65b4f05a170a2da23743066849c403776",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "9912a994b8a2372c23ed0c13f8f3f4bef1b3b05b4123ab40d5cc73858dbedc9b",
+        "serial": "c58356123496667ac18786f09123be1bf9116596ad30ceb676c34c8c439f1377",
         "type": "payload"
       },
-      "signature": "6cc66cb2109120199c997608fab249d06b8b9ca0f1cb52289931d6ddf3ed7350b337922bac196abf2dbfcaa6618d590fe175be31f83fc3264fbdb14e4b29e550",
+      "signature": "6ae0dcc4af9e47e4e4478b7f2ec172645fa744fa7dcf55a4544ab01eadd601188099e6c27dc441231b73913a95f33e64915f5a4d43c1e21f5fd6f27a61a5304e",
       "type": "coin"
     }
   ],
@@ -1251,26 +1295,26 @@ So, we need to look at the combined sum of coins received and coins already in p
 {
   "blinds": [
     {
-      "blinded_payload_hash": "56436a49564ee8153bbaae034be9fbe6e314067f7b6de70c47219b36dd5103403614ef5fc93d7eb0879ce5c8ccf1017a9d6f74e0c3a1c06d4b62a206565e4ef7",
-      "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+      "blinded_payload_hash": "2186fc8b344ad4339214d8d3784fccd75e39d6f39e9c85457f95c663a091147fe5afb03097566ca976bd2ca0a7c0690679cdfdd33906112773b46f6d8a7aa4db",
+      "mint_key_id": "3f3a34c8df9abaee2030bb7aee86bfdb896f85affc9a01fec984deb06c077c62",
       "reference": "b0",
       "type": "blinded payload hash"
     },
     {
-      "blinded_payload_hash": "6f1e2f96c277b0529f8bf097b8b57d6a5e950db7e2f64d70b847fcb09cb84596bf1dceccf14078bfb59acf26bd71e6f85e4a588d859980796051dff937be58e9",
-      "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+      "blinded_payload_hash": "468410cb8c4b386a89c2bc2daa263132c704c99eeb4bfa26e37310800dd809f7659b9d1c38ec624858cf52324adc121cab3444344657f117e2e49ee274c229ff",
+      "mint_key_id": "3f3a34c8df9abaee2030bb7aee86bfdb896f85affc9a01fec984deb06c077c62",
       "reference": "b1",
       "type": "blinded payload hash"
     },
     {
-      "blinded_payload_hash": "f8fad20dda2dc1ed0da2727d6f81c94e5011ccbc1bcdd2e89905fdc69d78310ac510c5e52d5f7675b8a4259905fc8fef703bab6d73c907e31b5657ea9090d81",
-      "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+      "blinded_payload_hash": "ab7d98df621495a7d4c190bf1aecc6693a2ae7c3d5ded687fa8643f815f7029a46f8cc1581cc73d1566e9345a5559ee7c52b25c44c438ede424d17660b3abf3",
+      "mint_key_id": "3f3a34c8df9abaee2030bb7aee86bfdb896f85affc9a01fec984deb06c077c62",
       "reference": "b2",
       "type": "blinded payload hash"
     },
     {
-      "blinded_payload_hash": "7a7a001b8b79667eb79388b1e6e69e9618f2613f561b01282d625d4c20b3e09845d9b0ef2f5298d2ff6b6280061cbdf16b71170ad2051a128f7360baa817940e",
-      "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+      "blinded_payload_hash": "9917a14a00dc164c65aad8ad9041c15d6525c7b2d6ce5e1374b67392f354ab8b1f633482dc9da6570b874313b501c5e7cf0051654e7d619d6008539f2f8704cf",
+      "mint_key_id": "3f3a34c8df9abaee2030bb7aee86bfdb896f85affc9a01fec984deb06c077c62",
       "reference": "b3",
       "type": "blinded payload hash"
     }
@@ -1280,44 +1324,44 @@ So, we need to look at the combined sum of coins received and coins already in p
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 1,
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-        "mint_key_id": "bac419d0d8c235e31dae3d5419944e904169c12c3799087f4f9684176fd76d05",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+        "mint_key_id": "e3e053d4fa03ba6b857051bbd3b9f7c7b0c05e42f6260712139450e18b2c94bc",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "93608b9fe7375a19df2ee880639ceb63cab925e111c1adcf564d96738be9cb75",
+        "serial": "947c8ab50b05b92e7949362b1e714b833ac2748ab9df43d7a3b7a9c33a5a46eb",
         "type": "payload"
       },
-      "signature": "1932c7352ba97a24cbdddade9747d93b22db145defbdd0441606772695f0ddb439dea17a9ce09f8ea0ef590bea57293d40fef463372060b6eb4a50c4ab7194d0",
+      "signature": "50be266f4644cd09e7dc222b64b1e002f1760290f13ff7ddbd52fcdf3d8b3c1ef8b981e68b655f5be128526aba718775ab947f322c074031a3380cdb5dd1feb",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 2,
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-        "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+        "mint_key_id": "3f3a34c8df9abaee2030bb7aee86bfdb896f85affc9a01fec984deb06c077c62",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "ffe8691a219a543bc1f51f3dd697a5e17fe9e5a6dfbf0537a515766d19f216a5",
+        "serial": "e2c1c0093af6535f3d801e811d904b2891ef35a65d0e87955397db3db993ca59",
         "type": "payload"
       },
-      "signature": "202a2724f3007a43e6f082f381acb91fcfc908c6a3170c30d1e95e9d13dea03f9042d6cd0ff73a85ad8df0b82ede07d1427dd0fc9c999cdf96656734e6999e00",
+      "signature": "66c2befe37d30744691fec39a9056c530f439a4879c9a388018409ece20446b342bc7889f40efad4674d778b9f130b13a39bea03a214c80c4703bf0ba4993294",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 5,
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-        "mint_key_id": "6c6da7d032dff8b2489dca9398d1fa2d9ff11ed8bfd3e4144deb1ceaa7eb8818",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+        "mint_key_id": "2aaa99a9ffbd0377b46d757bbf82d4f65b4f05a170a2da23743066849c403776",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "9912a994b8a2372c23ed0c13f8f3f4bef1b3b05b4123ab40d5cc73858dbedc9b",
+        "serial": "c58356123496667ac18786f09123be1bf9116596ad30ceb676c34c8c439f1377",
         "type": "payload"
       },
-      "signature": "6cc66cb2109120199c997608fab249d06b8b9ca0f1cb52289931d6ddf3ed7350b337922bac196abf2dbfcaa6618d590fe175be31f83fc3264fbdb14e4b29e550",
+      "signature": "6ae0dcc4af9e47e4e4478b7f2ec172645fa744fa7dcf55a4544ab01eadd601188099e6c27dc441231b73913a95f33e64915f5a4d43c1e21f5fd6f27a61a5304e",
       "type": "coin"
     }
   ],
-  "message_reference": 5,
-  "transaction_reference": "e4f0b9b0d835ade72ee71d7d5f5bd6fd",
+  "message_reference": 100004,
+  "transaction_reference": "a88b8ba5519ed859d7bfa076d4c12937",
   "type": "request renew"
 }
 ```
@@ -1336,7 +1380,7 @@ So, we need to look at the combined sum of coins received and coins already in p
 
 ```json
 {
-  "message_reference": 5,
+  "message_reference": 100004,
   "status_code": 300,
   "status_description": "ok",
   "type": "response delay"
@@ -1356,8 +1400,8 @@ So, we need to look at the combined sum of coins received and coins already in p
 
 ```json
 {
-  "message_reference": 6,
-  "transaction_reference": "e4f0b9b0d835ade72ee71d7d5f5bd6fd",
+  "message_reference": 100005,
+  "transaction_reference": "a88b8ba5519ed859d7bfa076d4c12937",
   "type": "request resume"
 }
 ```
@@ -1380,30 +1424,30 @@ So, we need to look at the combined sum of coins received and coins already in p
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 2,
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-        "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+        "mint_key_id": "3f3a34c8df9abaee2030bb7aee86bfdb896f85affc9a01fec984deb06c077c62",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "efa42f53f82bae3b7a2cb5e9b9ee1549b0adab6f2aab5887a83dd31921ffd1fb",
+        "serial": "f8411ca510e367d831937739342158cbf09db8d34817f0dabddb80622ac784d7",
         "type": "payload"
       },
-      "signature": "2f67f48830dd28f4692a5208e87e238f12b9458fa732d3f6de9c8e96b9471a4e2c1f9fb514df75f3907ae5168118852c61c62f791ae3b41fd6eb08dafc9615e4",
+      "signature": "5d4c7ca9e97426aeb59f2fe22220e164f1b37f0931920494a359fdbc30d90064c843a04e0d16dda3dc1d83814b8bac934873a0c5317fc04b51cf3a912967d8b8",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 2,
-        "issuer_id": "85c24031572f2e0a04a41a29eb74990f4651c7f0b4afc0b53cfa03bed30822e1",
-        "mint_key_id": "3f19f49247122834f1f46fa1602be004f7b1b159da04935e5957c6f509ccfea7",
+        "issuer_id": "96fb652e249ddb9045f04fe64ba9663893ed46cf2bc117eb2674cbe09312762e",
+        "mint_key_id": "3f3a34c8df9abaee2030bb7aee86bfdb896f85affc9a01fec984deb06c077c62",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "de8e5f5180fe3c029c9ad002e806246ce9d51a0d8f970f58ccae2e480be4bd31",
+        "serial": "cca2647b1fd803e5fe5f0131489d450a1b5980ffa739da18b3b143ca8bd6fc79",
         "type": "payload"
       },
-      "signature": "3370d7e5ad2a2547ee3c5e2deae7d67230162db224553306804fa638a7cd54eaddf437625fd5a9930b6c1e936f7c70f8bc9df761f51600a3ac9a104f438ebf27",
+      "signature": "5bb381233bd3a0c9437ce7009b81263784fddf594a9843f611a752355025fdaf04368b51be50f311de9fb288b6ae927b50aa2885f64ca54bfba629d08c19c5c4",
       "type": "coin"
     }
   ],
-  "message_reference": 7,
+  "message_reference": 100006,
   "type": "request redeem"
 }
 ```
@@ -1422,7 +1466,7 @@ So, we need to look at the combined sum of coins received and coins already in p
 
 ```json
 {
-  "message_reference": 7,
+  "message_reference": 100006,
   "status_code": 200,
   "status_description": "ok",
   "type": "response redeem"
@@ -1504,9 +1548,9 @@ ResponseRedeem
 
 ### Request
 
-##### Fields
+#### Fields
 
-##### Example
+#### Example
 
 ```json
 
@@ -1515,9 +1559,9 @@ ResponseRedeem
 
 ### Response
 
-##### Fields
+#### Fields
 
-##### Example
+#### Example
 
 ```json
 

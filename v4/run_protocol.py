@@ -1,5 +1,6 @@
 import datetime
 import os
+from itertools import count
 from pprint import pprint
 
 import containers
@@ -96,7 +97,7 @@ def validate_coin(wallet_holder, coin):
     mk_pub = mkc.public_key
     return oc_crypto.decrypt(coin.signature, mk_pub) == containers.Payload(data=coin.payload).hash()
 
-message_id = iter(range(1,10000))
+message_id = count(start=100000)
 
 artifacts_dir = 'docs/artifacts'
 
