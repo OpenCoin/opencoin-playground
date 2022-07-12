@@ -20,7 +20,13 @@ We scope the protocol, and it's description in the following way:
 
 **Only the core** - lots of developments have happened since [we started](results.md#results-and-history). Take the example of messengers like Signal, Telegram or WhatsApp. The have opened new ways to transport messages, and they take care of identifying the communication partner. This especially means that message transport and authentication stays out of scope.
 
-## JSON Schemata
+## Python schemata
+
+We have the schemata in python, using the marshmallow library:
+
+  &nbsp; &nbsp; [Openoin Python schemata](../schemata.py)
+
+## JSON schemata
 
 We have a version of the OpenCoin schemata translated to JSON Schema:
   
