@@ -1,8 +1,12 @@
 # Schemata
 
-Elements of messages, but never used standalone
-
 ## CDD
+
+The Currency Description Document holds all information about a currency that is following the OpenCoin protocol. 
+
+It contains the master key, the denominations, the services, the name of the currency and more. 
+
+Always part of a [CDDC](#cddc)
 
 ### Fields
 
@@ -33,6 +37,8 @@ Elements of messages, but never used standalone
 
 ## CDDC
 
+The certificate for the [CDD](#cdd), signed with the secret master key. This is the "trust anchor". 
+
 ### Fields
 
 - **[cdd](fields.md#cdd)**: Contains the Currency Description Document (CDD)  *([CDD](schemata.md#cdd))*
@@ -48,6 +54,11 @@ Elements of messages, but never used standalone
 
 ## PublicKey
 
+Schema to hold public keys. We have decided for our own format because we want to keep things simple. Using a 
+predefined format would probably lead to use bigger libraries when implementing the protocol.
+
+Always part of a [CDD](#cdd) or [MKC](#mkc).
+
 ### Fields
 
 - **[modulus](fields.md#modulus)**: The modulus of the public key  *(BigInt)*
@@ -60,9 +71,16 @@ Elements of messages, but never used standalone
 :language: json
 ```
 
-See [MKC](#mkc)
-
 ## MintKey
+
+This describes a key that is used to sign/mint coins for a single denomination. As the key doesn't 
+see the content it is signing (it is blinded, after all), we need to bind the key to the meaning of
+its signature: "this signature is worth *n* units of value". 
+
+The key will be used for a period of time, after which it is going to be swapped for a new one. The 
+coins will be valid a bit longer then the signing time of the key.
+
+Always part of a [MKC](#mkc)
 
 ### Fields
 
@@ -70,7 +88,7 @@ See [MKC](#mkc)
 - **[coins_expiry_date](fields.md#coins_expiry_date)**: Coins expire after this date.  *(DateTime)*
 - **[denomination](fields.md#denomination)**: The value of the coin(s).  *(Int)*
 - **[id](fields.md#id)**: Identifier, a somewhat redundant hash of the [PublicKey](schemata.md#publickey)  *(BigInt)*
-- **[issuer_id](fields.md#issuer_id)**: Id (hash) of the issuer public master key in the CDDC  *(BigInt)*
+- **[issuer_id](fields.md#issuer_id)**: The identifier (hash) of the issuer public master key in the CDDC  *(BigInt)*
 - **[public_mint_key](fields.md#public_mint_key)**: The public key of the mint key.  *([PublicKey](schemata.md#publickey))*
 - **[sign_coins_not_after](fields.md#sign_coins_not_after)**: Use [MintKey](schemata.md#mintkey) only before this date.  *(DateTime)*
 - **[sign_coins_not_before](fields.md#sign_coins_not_before)**: Use [MintKey](schemata.md#mintkey) only after this date.  *(String)*
@@ -85,7 +103,8 @@ See [MKC](#mkc)
 
 ## MKC
 
-A *Mint Key Certificate*.
+A *Mint Key Certificate* for the [MKC](#mkc). Signed with the secret master key in the [CDD](#cdd).  
+
 
 ### Fields
 
@@ -101,11 +120,13 @@ A *Mint Key Certificate*.
 
 ## Payload
 
+These are the "innards" of [Coin](#coin). The mint key id is a helper so that the corresponding key for the signature of the coin can be found faster. The same is true for the denomination - an implementation should take the coins value from the [MintKey](#mintkey), because the values in the can't be trusted.
+
 ### Fields
 
 - **[cdd_location](fields.md#cdd_location)**: Hint to download the CDD if not available anyway.  *(URL)*
 - **[denomination](fields.md#denomination)**: The value of the coin(s).  *(Int)*
-- **[issuer_id](fields.md#issuer_id)**: Id (hash) of the issuer public master key in the CDDC  *(BigInt)*
+- **[issuer_id](fields.md#issuer_id)**: The identifier (hash) of the issuer public master key in the CDDC  *(BigInt)*
 - **[mint_key_id](fields.md#mint_key_id)**: Identifier of the mint key used.  *(BigInt)*
 - **[protocol_version](fields.md#protocol_version)**: The protocol version that was used.  *(Url)*
 - **[serial](fields.md#serial)**: The serial of the [Coin](schemata.md#coin).  *(BigInt)*
@@ -118,6 +139,9 @@ A *Mint Key Certificate*.
 ```
 
 ## Blind
+
+Contains the blinded hash for a [Payload](#payload), and says which mint key to use. The reference is needed
+to connect signatures to blinds later on (we don't want to rely on list orders). 
 
 ### Fields
 
@@ -134,6 +158,8 @@ A *Mint Key Certificate*.
 
 ## BlindSignature
 
+The signature for a blind. The blind is specified with the reference. 
+
 ### Fields
 
 - **[blind_signature](fields.md#blind_signature)**: The signature on the blinded hash of a payload.  *(BigInt)*
@@ -147,6 +173,8 @@ A *Mint Key Certificate*.
 ```
 
 ## Coin
+
+The certificate for a payload. The signature is the unblinded [BlindSignature](#blindsignature). 
 
 ### Fields
 
@@ -162,6 +190,8 @@ A *Mint Key Certificate*.
 
 ## RequestCDDSerial Message
 
+This message asks for the cdd_serial of the current [CDDC](#cddc).
+
 ### Fields
 
 - **[message_reference](fields.md#message_reference)**: Client internal message reference  *(Integer)*
@@ -175,13 +205,15 @@ A *Mint Key Certificate*.
 
 ## ResponseCDDSerial Message
 
+Returns the current cdd_serial. 
+
+### Fields
+
 - **[cdd_serial](fields.md#cdd_serial)**: The version of the CDD.  *(Int)*
 - **[message_reference](fields.md#message_reference)**: Client internal message reference  *(Integer)*
 - **[status_code](fields.md#status_code)**: The issuer can return a status code, like in HTTP  *(Integer)*
 - **[status_description](fields.md#status_description)**: Description that the issuer passes along with the status_code.  *(String)*
 - **[type](fields.md#type)**: String identifying the type of message.  *(String)*
-
-### Fields
 
 ### Example
 
@@ -191,11 +223,13 @@ A *Mint Key Certificate*.
 
 ## RequestCDDC Message
 
+This requests the [CDDC](#cddc) specified by the cdd_serial. If cdd_serial is set to 0, the most current CDDC is returned.
+
+### Fields
+
 - **[cdd_serial](fields.md#cdd_serial)**: The version of the CDD.  *(Int)*
 - **[message_reference](fields.md#message_reference)**: Client internal message reference  *(Integer)*
 - **[type](fields.md#type)**: String identifying the type of message.  *(String)*
-
-### Fields
 
 ### Example
 
@@ -204,6 +238,8 @@ A *Mint Key Certificate*.
 ```
 
 ## ResponseCDDC Message
+
+This response carries the [CDDC](#cddc).
 
 ### Fields
 
@@ -221,12 +257,14 @@ A *Mint Key Certificate*.
 
 ## RequestMKCs Message
 
+This requests one or more [MKCs](#mkc). The fields *denominations* and *mint_key_ids* specify which MKCs should be delivered. Denominations refer to the most current key(s) for the given denominations. If both fields are empty, all most current MKCs are delivered - we assume that is the normal use case.
+
+### Fields
+
 - **[denominations](fields.md#denominations)**: The list of possible denominations.  *(List of Int)*
 - **[message_reference](fields.md#message_reference)**: Client internal message reference  *(Integer)*
 - **[mint_key_ids](fields.md#mint_key_ids)**: What mint keys should be returned?  *(List of BigInt)*
 - **[type](fields.md#type)**: String identifying the type of message.  *(String)*
-
-### Fields
 
 ### Example
 
@@ -236,13 +274,15 @@ A *Mint Key Certificate*.
 
 ## ResponseMKCs Message
 
+This delivers the [MKCs] as specified in the [RequestMKCs](#requestmkcs-message).
+
+### Fields
+
 - **[keys](fields.md#keys)**: A list of Mint Key Certificates  *(List of [MKCs](schemata.md#mkc))*
 - **[message_reference](fields.md#message_reference)**: Client internal message reference  *(Integer)*
 - **[status_code](fields.md#status_code)**: The issuer can return a status code, like in HTTP  *(Integer)*
 - **[status_description](fields.md#status_description)**: Description that the issuer passes along with the status_code.  *(String)*
 - **[type](fields.md#type)**: String identifying the type of message.  *(String)*
-
-### Fields
 
 ### Example
 
@@ -251,6 +291,10 @@ A *Mint Key Certificate*.
 ```
 
 ## RequestMint Message
+
+Request blinds to be signed. The [Blinds](#blind) hold the information which mint keys are to be used.
+
+The client asking for this action should be authenticated, and the issuer should check if the client meets the requirements of the request, a.k.a. has enough funds to pay for the minting process.
 
 ### Fields
 
@@ -267,6 +311,8 @@ A *Mint Key Certificate*.
 
 ## ResponseMint Message
 
+This delivers the [BlindSignatures](#blindsignature). The client is to unblind the blind signatures to derive the signature for the [Coins](#coin).
+
 ### Fields
 
 - **[blind_signatures](fields.md#blind_signatures)**: A list of BlindSignatures.  *(List of [BlindSignatures](schemata.md#blindsignature))*
@@ -282,6 +328,8 @@ A *Mint Key Certificate*.
 ```
 
 ## CoinStack Message
+
+This holds a set of coins. It is not a message in the strict sense, but a container. Transferring the CoinStack in a manner that is untraceable by the issuer is key to protecting the privacy. How this is achieved is outside the protocol, and left as an exercise to the implementer :-)
 
 ### Fields
 
@@ -323,6 +371,8 @@ So, we need to look at the combined sum of coins received and coins already in p
 
 ## ResponseDelay Message
 
+This message is used by the issuer to signal a delay in minting or renewing coins. It is best of course to be fast and reliable enough to never use this message.
+
 ### Fields
 
 - **[message_reference](fields.md#message_reference)**: Client internal message reference  *(Integer)*
@@ -338,6 +388,8 @@ So, we need to look at the combined sum of coins received and coins already in p
 
 ## RequestResume Message
 
+This message request that an action that was delayed before with a [ResponseDelay](#responsedelay-message) is to be resumed. Either a [ResponseMint](#responsemint-message) is returned, or another ResponseDelay if the client is unlucky. 
+
 ### Fields
 
 - **[message_reference](fields.md#message_reference)**: Client internal message reference  *(Integer)*
@@ -352,6 +404,10 @@ So, we need to look at the combined sum of coins received and coins already in p
 
 ## RequestRedeem Message
 
+This message aks for coins to be redeemed, e.g. exchanged for real-world money. 
+
+The client needs to be authenticated for this request (outside this protocol), so that the issuer knows who to credit the value of the coins to.
+
 ### Fields
 
 - **[coins](fields.md#coins)**: A list of coins.  *(List of [Coins](schemata.md#coin))*
@@ -365,6 +421,8 @@ So, we need to look at the combined sum of coins received and coins already in p
 ```
 
 ## ResponseRedeem Message
+
+This just answers to a [RequestRedeem](#requestredeem-message), and doesn't hold other meaningful information.
 
 ### Fields
 

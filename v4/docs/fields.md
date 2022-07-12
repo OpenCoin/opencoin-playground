@@ -11,7 +11,7 @@ This lists all the fields used in the protocol. All:
 - List: A JSON list that can contain all the possible field types mentioned here.
 - URL: A JSON string containing the URL of a resource.
 - WeightedURLList: A list of 2 element tuples \[Int, URL\].  Useful for round-robin, but also 
-  reflects a preference. The lower the higher the priority.
+  reflects a preference. The lower, the higher the priority.
 - Schema / Object: A JSON object that conforms to the given schema.
 
 All fields are mandatory, but can be empty in case of strings. 
@@ -201,7 +201,7 @@ Used in: [CDDC](schemata.md#cddc)
 
 
 ### issuer_id
-Id (hash) of the issuer public master key in the CDDC
+The identifier (hash) of the issuer public master key in the CDDC
 
 Type: BigInt  
 Used in: [MKC](schemata.md#mkc), [Payload](schemata.md#payload)
