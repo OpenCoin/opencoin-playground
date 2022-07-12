@@ -56,7 +56,27 @@ html_theme = 'sphinx_book_theme'
 html_static_path = ['_static']
 
 myst_enable_extensions = [
+    "amsmath",
     "colon_fence",
+    "deflist",
+    "dollarmath",
+    "fieldlist",
+    "html_admonition",
+    "html_image",
+    "linkify",
+    "replacements",
+    "smartquotes",
+    "strikethrough",
+    "substitution",
+    "tasklist",
 ]
 myst_heading_anchors = 6
 html_logo = "opencoin.svg"
+
+html_theme_options = {
+  "use_sidenotes": True,
+    'use_download_button': False,
+    'use_fullscreen_button': False
+}
+
+html_title = "OpenCoin v0.4<br>-draft-"

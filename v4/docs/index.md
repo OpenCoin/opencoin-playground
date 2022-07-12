@@ -3,15 +3,10 @@
 *a protocol for privacy preserving electronic cash payments*
 
 Version: 0.4 - draft (July 2022)
+
 Copyright (2022) J. Baach, N. Toedtmann
 
-This version of the protocol build on previous work by the following authors:
-
-Jörg Baach
-Nils Toedtmann
-J. K. Muennich
-M. Ryden
-J. Suhr
+This version of the protocol build on previous work by the OpenCoin Collective.
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
 
@@ -25,7 +20,7 @@ For more information go to **https://opencoin.org**
 :maxdepth: 2
 :caption: "Contents:"
 
-intro
+overview
 OpenCoin
 crypto
 Fields <fields>

@@ -369,3 +369,6 @@ response_redeeming = create(containers.ResponseRedeem,
                              message_reference = request_redeeming.message_reference
                              )
 write(response_redeeming, 'response_redeem')
+
+import schemata, json
+write(json.dumps(schemata.all_json_schema_dict(), indent=2), 'all_schemata.json')

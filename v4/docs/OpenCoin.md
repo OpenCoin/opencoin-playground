@@ -6,7 +6,9 @@ The exchange of messages MUST happen over a **secure channel**. For HTTPS this m
 
 When requesting the issuer to mint or redeem coins some form of **authentication & authorization** is most likely required - the issuer needs to secure payment for the coins, or make a payment somewhere for redeemed coins. Because auth* might already be provided by the transport layer, we don't include it in the OpenCoin protocol.
 
-## Overview
+## Sequence diagram
+
+The following diagram shows the flow of messages (and actions):
 
 :::{figure-md} sequence-diagram
 :class: figure
@@ -17,13 +19,16 @@ OpenCoin sequence diagram
 :::
 
 
-## Description
+## Protocol description
 
-This is a description of the actual steps, more details follow in the chapters in [Schemata](schemata).
 
-```{hint}
-We find it easier to follow along with the above diagram open in a second window (or printout).
-```
+
+This is a description of the actual steps. Additional info for individual steps can also be found 
+in the respective sections in  [Schemata](schemata). [^side]
+
+[^side]: We find it easier to follow along with the above diagram open in a second window (or printout).
+
+
 ### Participants
 
 **Issuer** can mint, refresh and redeem coins. This entity will probably an account handling system (a.k.a. bank) behind it for doing actual real-world payments. The issuer is trusted to handle coins and payments correctly, but is *not trusted* regarding privacy - the target of OpenCoin is to protect the privacy of the transfers.
@@ -68,7 +73,7 @@ For each denomination in the currency separate minting keys are generated, and a
 
 #### prepare blinds
 
-This step prepares a coin. In essence this is a [Payload](schemata.md#payload) with a serial number, which is later on signed by the issuer using a denomination specific mint key. The "envelope" [mentioned above](intro.md#how-does-it-work) really means that the serial is blinded using a separate random secret **blinding factor** for each serial number. This factor is needed later on to "open up the envelope", reversing the blinding operation. Hence, the client has to store the blinding factor for later on. As the blinding factor is individual for each serial number, a reference number is created to reference serial, blinding factor and [Blind](schemata.md#blind).
+This step prepares a coin. In essence this is a [Payload](schemata.md#payload) with a serial number, which is later on signed by the issuer using a denomination specific mint key. The "envelope" [mentioned above](overview.md#how-does-it-work) really means that the serial is blinded using a separate random secret **blinding factor** for each serial number. This factor is needed later on to "open up the envelope", reversing the blinding operation. Hence, the client has to store the blinding factor for later on. As the blinding factor is individual for each serial number, a reference number is created to reference serial, blinding factor and [Blind](schemata.md#blind).
 
 The blinds contain the reference, the blind to be signed, and the mint key id for the denomination or value of the coin.
 
@@ -140,10 +145,10 @@ The issuer confirms that everything went ok using the [ResponseRedeem](schemata.
 
 
 
-[^diag]: To keep the diagram simple we have left out Charlene who was mentioned above in "[How does it work?](intro.md#how-does-it-work)". Bob does everything she does.
+[^diag]: To keep the diagram simple we have left out Charlene who was mentioned above in "[How does it work?](overview.md#how-does-it-work)". Bob does everything she does.
 
 [^cent]: "opencent" refers to the specific example currency. The generic term "opencoin" refers to any currency following the OpenCoin protocol (of which opencent is one).
 
 [^comp]: This is to minimize damage in case the mint keys get compromised.
 
-[^tokenize]: It might be that also some existing coins might be needed to be swapped to get a good coin selection. See [Renew](schemata.md#requestrenew-message).
+[^tokenize]: It might be that also some existing coins might be needed to be swapped to get a good coin selection. See [RequestRenew Message](schemata.md#requestrenew-message).
