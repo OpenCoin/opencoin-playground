@@ -1,4 +1,5 @@
 import inspect
+import json
 import sys
 from pprint import pprint
 
@@ -198,7 +199,28 @@ for name, obj in inspect.getmembers(sys.modules[__name__]):
         if typ := obj._declared_fields.get('type'):
             typname = typ.validate.comparable
             type2schema[typname] = obj
+
+def all_json_schema_dict():
+    def tuple_mapping(self):
+        return {'type':'array',
+                'prefixItems': [{'type':'number'},
+                                {'type':'string'}]}
+
+    fields.Tuple._jsonschema_type_mapping = tuple_mapping
+
+    all = {'$schema': "http://json-schema.org/draft-07/schema#",
+           'definitions': {}}
+    for typename, schema in type2schema.items():
+        j = JSONSchema()
+        s = schema()
+        js = j.dump(s)
+        all['definitions'].update(js['definitions'])
+    return all
+
+
 if __name__ == '__main__':
 
-    print('\n'.join([f'  {typename}' for typename in type2schema]))
+    print(json.dumps(all_json_schema_dict(), indent=2))
+
+    # print('\n'.join([f'  {typename}' for typename in type2schema]))
 

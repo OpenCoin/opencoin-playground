@@ -1,0 +1,917 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Blind": {
+      "properties": {
+        "blinded_payload_hash": {
+          "title": "blinded_payload_hash",
+          "type": "integer"
+        },
+        "mint_key_id": {
+          "title": "mint_key_id",
+          "type": "integer"
+        },
+        "reference": {
+          "title": "reference",
+          "type": "string"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "blinded payload hash",
+          "enum": [
+            "blinded payload hash"
+          ]
+        }
+      },
+      "required": [
+        "blinded_payload_hash",
+        "mint_key_id",
+        "reference",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "BlindSignature": {
+      "properties": {
+        "blind_signature": {
+          "title": "blind_signature",
+          "type": "integer"
+        },
+        "reference": {
+          "title": "reference",
+          "type": "string"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "blind signature",
+          "enum": [
+            "blind signature"
+          ]
+        }
+      },
+      "required": [
+        "blind_signature",
+        "reference",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "PublicKey": {
+      "properties": {
+        "modulus": {
+          "title": "modulus",
+          "type": "integer"
+        },
+        "public_exponent": {
+          "title": "public_exponent",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "rsa public key",
+          "enum": [
+            "rsa public key"
+          ]
+        }
+      },
+      "required": [
+        "modulus",
+        "public_exponent",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "CDD": {
+      "properties": {
+        "additional_info": {
+          "title": "additional_info",
+          "type": "string"
+        },
+        "cdd_expiry_date": {
+          "title": "cdd_expiry_date",
+          "type": "string",
+          "format": "date-time"
+        },
+        "cdd_location": {
+          "title": "cdd_location",
+          "type": "string"
+        },
+        "cdd_serial": {
+          "title": "cdd_serial",
+          "type": "integer"
+        },
+        "cdd_signing_date": {
+          "title": "cdd_signing_date",
+          "type": "string",
+          "format": "date-time"
+        },
+        "currency_divisor": {
+          "title": "currency_divisor",
+          "type": "integer"
+        },
+        "currency_name": {
+          "title": "currency_name",
+          "type": "string"
+        },
+        "denominations": {
+          "title": "denominations",
+          "type": "array",
+          "items": {
+            "title": "denominations",
+            "type": "integer"
+          }
+        },
+        "id": {
+          "title": "id",
+          "type": "integer"
+        },
+        "info_service": {
+          "title": "info_service",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "issuer_cipher_suite": {
+          "title": "issuer_cipher_suite",
+          "type": "string"
+        },
+        "issuer_public_master_key": {
+          "type": "object",
+          "$ref": "#/definitions/PublicKey"
+        },
+        "mint_service": {
+          "title": "mint_service",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "protocol_version": {
+          "title": "protocol_version",
+          "type": "string"
+        },
+        "redeem_service": {
+          "title": "redeem_service",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "renew_service": {
+          "title": "renew_service",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "cdd",
+          "enum": [
+            "cdd"
+          ]
+        }
+      },
+      "required": [
+        "additional_info",
+        "cdd_expiry_date",
+        "cdd_location",
+        "cdd_serial",
+        "cdd_signing_date",
+        "currency_divisor",
+        "currency_name",
+        "denominations",
+        "id",
+        "info_service",
+        "issuer_cipher_suite",
+        "issuer_public_master_key",
+        "mint_service",
+        "protocol_version",
+        "redeem_service",
+        "renew_service",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "CDDC": {
+      "properties": {
+        "cdd": {
+          "type": "object",
+          "$ref": "#/definitions/CDD"
+        },
+        "signature": {
+          "title": "signature",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "cdd certificate",
+          "enum": [
+            "cdd certificate"
+          ]
+        }
+      },
+      "required": [
+        "cdd",
+        "signature",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Payload": {
+      "properties": {
+        "cdd_location": {
+          "title": "cdd_location",
+          "type": "string"
+        },
+        "denomination": {
+          "title": "denomination",
+          "type": "integer"
+        },
+        "issuer_id": {
+          "title": "issuer_id",
+          "type": "integer"
+        },
+        "mint_key_id": {
+          "title": "mint_key_id",
+          "type": "integer"
+        },
+        "protocol_version": {
+          "title": "protocol_version",
+          "type": "string"
+        },
+        "serial": {
+          "title": "serial",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "payload",
+          "enum": [
+            "payload"
+          ]
+        }
+      },
+      "required": [
+        "cdd_location",
+        "denomination",
+        "issuer_id",
+        "mint_key_id",
+        "protocol_version",
+        "serial",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Coin": {
+      "properties": {
+        "payload": {
+          "type": "object",
+          "$ref": "#/definitions/Payload"
+        },
+        "signature": {
+          "title": "signature",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "coin",
+          "enum": [
+            "coin"
+          ]
+        }
+      },
+      "required": [
+        "payload",
+        "signature",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "CoinStack": {
+      "properties": {
+        "coins": {
+          "title": "coins",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Coin"
+          }
+        },
+        "subject": {
+          "title": "subject",
+          "type": "string"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "coinstack",
+          "enum": [
+            "coinstack"
+          ]
+        }
+      },
+      "required": [
+        "coins",
+        "subject",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "MintKey": {
+      "properties": {
+        "cdd_serial": {
+          "title": "cdd_serial",
+          "type": "integer"
+        },
+        "coins_expiry_date": {
+          "title": "coins_expiry_date",
+          "type": "string",
+          "format": "date-time"
+        },
+        "denomination": {
+          "title": "denomination",
+          "type": "integer"
+        },
+        "id": {
+          "title": "id",
+          "type": "integer"
+        },
+        "issuer_id": {
+          "title": "issuer_id",
+          "type": "integer"
+        },
+        "public_mint_key": {
+          "type": "object",
+          "$ref": "#/definitions/PublicKey"
+        },
+        "sign_coins_not_after": {
+          "title": "sign_coins_not_after",
+          "type": "string",
+          "format": "date-time"
+        },
+        "sign_coins_not_before": {
+          "title": "sign_coins_not_before",
+          "type": "string",
+          "format": "date-time"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "mint key",
+          "enum": [
+            "mint key"
+          ]
+        }
+      },
+      "required": [
+        "cdd_serial",
+        "coins_expiry_date",
+        "denomination",
+        "id",
+        "issuer_id",
+        "public_mint_key",
+        "sign_coins_not_after",
+        "sign_coins_not_before",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "MKC": {
+      "properties": {
+        "mint_key": {
+          "type": "object",
+          "$ref": "#/definitions/MintKey"
+        },
+        "signature": {
+          "title": "signature",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "mint key certificate",
+          "enum": [
+            "mint key certificate"
+          ]
+        }
+      },
+      "required": [
+        "mint_key",
+        "signature",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "RequestCDDC": {
+      "properties": {
+        "cdd_serial": {
+          "title": "cdd_serial",
+          "type": "integer"
+        },
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "request cddc",
+          "enum": [
+            "request cddc"
+          ]
+        }
+      },
+      "required": [
+        "cdd_serial",
+        "message_reference",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "RequestCDDSerial": {
+      "properties": {
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "request cdd serial",
+          "enum": [
+            "request cdd serial"
+          ]
+        }
+      },
+      "required": [
+        "message_reference",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "RequestMKCs": {
+      "properties": {
+        "denominations": {
+          "title": "denominations",
+          "type": "array",
+          "items": {
+            "title": "denominations",
+            "type": "integer"
+          }
+        },
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "mint_key_ids": {
+          "title": "mint_key_ids",
+          "type": "array",
+          "items": {
+            "title": "mint_key_ids",
+            "type": "integer"
+          }
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "request mint key certificates",
+          "enum": [
+            "request mint key certificates"
+          ]
+        }
+      },
+      "required": [
+        "denominations",
+        "message_reference",
+        "mint_key_ids",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "RequestMint": {
+      "properties": {
+        "blinds": {
+          "title": "blinds",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Blind"
+          }
+        },
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "transaction_reference": {
+          "title": "transaction_reference",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "request mint",
+          "enum": [
+            "request mint"
+          ]
+        }
+      },
+      "required": [
+        "blinds",
+        "message_reference",
+        "transaction_reference",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "RequestRedeem": {
+      "properties": {
+        "coins": {
+          "title": "coins",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Coin"
+          }
+        },
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "request redeem",
+          "enum": [
+            "request redeem"
+          ]
+        }
+      },
+      "required": [
+        "coins",
+        "message_reference",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "RequestRenew": {
+      "properties": {
+        "blinds": {
+          "title": "blinds",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Blind"
+          }
+        },
+        "coins": {
+          "title": "coins",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Coin"
+          }
+        },
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "transaction_reference": {
+          "title": "transaction_reference",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "request renew",
+          "enum": [
+            "request renew"
+          ]
+        }
+      },
+      "required": [
+        "blinds",
+        "coins",
+        "message_reference",
+        "transaction_reference",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "RequestResume": {
+      "properties": {
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "transaction_reference": {
+          "title": "transaction_reference",
+          "type": "integer"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "request resume",
+          "enum": [
+            "request resume"
+          ]
+        }
+      },
+      "required": [
+        "message_reference",
+        "transaction_reference",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseCDDC": {
+      "properties": {
+        "cddc": {
+          "type": "object",
+          "$ref": "#/definitions/CDDC"
+        },
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "status_code": {
+          "title": "status_code",
+          "type": "integer",
+          "default": 200,
+          "requried": true
+        },
+        "status_description": {
+          "title": "status_description",
+          "type": "string",
+          "default": "ok"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "response cddc",
+          "enum": [
+            "response cddc"
+          ]
+        }
+      },
+      "required": [
+        "cddc",
+        "message_reference",
+        "status_description",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseCDDSerial": {
+      "properties": {
+        "cdd_serial": {
+          "title": "cdd_serial",
+          "type": "integer"
+        },
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "status_code": {
+          "title": "status_code",
+          "type": "integer",
+          "default": 200,
+          "requried": true
+        },
+        "status_description": {
+          "title": "status_description",
+          "type": "string",
+          "default": "ok"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "response cdd serial",
+          "enum": [
+            "response cdd serial"
+          ]
+        }
+      },
+      "required": [
+        "cdd_serial",
+        "message_reference",
+        "status_description",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseDelay": {
+      "properties": {
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "status_code": {
+          "title": "status_code",
+          "type": "integer",
+          "default": 300,
+          "requried": true
+        },
+        "status_description": {
+          "title": "status_description",
+          "type": "string",
+          "default": "ok"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "response delay",
+          "enum": [
+            "response delay"
+          ]
+        }
+      },
+      "required": [
+        "message_reference",
+        "status_description",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseMKCs": {
+      "properties": {
+        "keys": {
+          "title": "keys",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/MKC"
+          }
+        },
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "status_code": {
+          "title": "status_code",
+          "type": "integer",
+          "default": 200,
+          "requried": true
+        },
+        "status_description": {
+          "title": "status_description",
+          "type": "string",
+          "default": "ok"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "response mint key certificates",
+          "enum": [
+            "response mint key certificates"
+          ]
+        }
+      },
+      "required": [
+        "keys",
+        "message_reference",
+        "status_description",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseMint": {
+      "properties": {
+        "blind_signatures": {
+          "title": "blind_signatures",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/BlindSignature"
+          }
+        },
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "status_code": {
+          "title": "status_code",
+          "type": "integer",
+          "default": 200,
+          "requried": true
+        },
+        "status_description": {
+          "title": "status_description",
+          "type": "string",
+          "default": "ok"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "response mint",
+          "enum": [
+            "response mint"
+          ]
+        }
+      },
+      "required": [
+        "blind_signatures",
+        "message_reference",
+        "status_description",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseRedeem": {
+      "properties": {
+        "message_reference": {
+          "title": "message_reference",
+          "type": "integer"
+        },
+        "status_code": {
+          "title": "status_code",
+          "type": "integer",
+          "default": 200,
+          "requried": true
+        },
+        "status_description": {
+          "title": "status_description",
+          "type": "string",
+          "default": "ok"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "default": "response redeem",
+          "enum": [
+            "response redeem"
+          ]
+        }
+      },
+      "required": [
+        "message_reference",
+        "status_description",
+        "type"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    }
+  }
+}

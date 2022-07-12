@@ -1,4 +1,3 @@
-
 # Appendix
 
 ## FAQ
@@ -22,6 +21,13 @@ Having said all of the above, we scope the protocol, and it's description in the
 - Crypto report
 - Legal report
 - Code bases (v1, sandbox, javascript implementation)
+
+## JSON Schemata
+
+We have a version of the OpenCoin schemata translated to JSON Schema:
+
+[OpenCoin JSON schemata](artifacts/all_schemata.json)
+
 
 ## Ideas
 
