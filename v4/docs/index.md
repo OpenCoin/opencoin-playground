@@ -11,7 +11,7 @@ right as you read this. See, another change has happened.
 We will remove this warning if it not longer necessary.
 ```
 
-Copyright (2022) J. Baach, N. Toedtmann
+Copyright (2022) J. Baach for the OpenCoin Collective.
 
 This version of the protocol build on previous work by the OpenCoin Collective.
 
