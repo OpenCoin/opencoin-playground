@@ -39,21 +39,14 @@ Bitcoin (or blockchain in the more general form) is basically the opposite of Op
 
 OpenCoin on the contrary makes the transfers invisible and untraceable, and has a central instance that is able to guarantee a value if you redeem the OpenCoin.
 
-One could say that bitcoin behaves more like gold, while OpenCoin behaves more like cash.
+So, bitcoin is something is not a real alternative, more the chainsmoking insane relative :-)
 
 ### GNU Taler
 
-[GNU Taler](https://taler.net) is build around the same central idea as OpenCoin. It started later, and is more complete than OpenCoin. They differ in the way the take care of the [renewal step](schemata.md#requestrenew-message) and coin splitting. They also make more assumptions regarding the clients (e.g. clients having key identifying them), they have clearer roles (e.g. consumer and merchant) and by all of this hope to get around the inherent problems of untraceable transfers, e.g. tax-ability.
+[GNU Taler](https://taler.net) is build around the same central idea as OpenCoin. It started later, and is more complete than OpenCoin. They differ in the way the take care of the [renewal step](schemata.md#requestrenew-message) and coin splitting. They also make more assumptions regarding the clients (e.g. clients having keys identifying them, which effectively requires the role-out of a whole PKI infrastructure), they have clearer roles (e.g. consumer and merchant) and by all of this hope to get around the inherent problems of untraceable transfers, e.g. tax-ability.
 
 The trade-off seems to be that their system is harder is more complex and harder to understand. We also doubt that these complexities are necessary to reach the stated goals. We also doubt that the goals can really be reached, and also find that the system's documentation is quite hard to understand. This might be because they deliver implementations for all necessary software components, and are not really targeted at other implementations of they system.
 
-Because of all this one could say that GNU Taler is less open to other developers.
-
-## Problems
-
-- Tax
-- Money laundering
-- Blackmail and other crime
 
 [^chaum82]: David Chaum, “Blind signatures for untraceable payments”, Advances in Cryptology - Crypto ‘82, Springer-Verlag (1983), 199-203.
 

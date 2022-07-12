@@ -26,7 +26,7 @@ Having said that, there are some small helper functions to help with the blindin
 
 `containers.py` uses `schemata.py`, and are the python classes that are used in the protocol. 
 
-[`docs/OpenCoin.md`](docs/OpenCoin.md) is the main documentation document at the moment.
+[`docs/OpenCoin.md`](docs/OpenCoin.md) is the main document at the moment.
 
 ## Conventions
 

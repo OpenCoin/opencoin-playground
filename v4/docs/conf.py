@@ -24,7 +24,6 @@ author = 'The OpenCoin Collective'
 # The full version, including alpha/beta/rc tags
 release = '0.4'
 
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -41,7 +40,6 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
-
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -74,9 +72,11 @@ myst_heading_anchors = 6
 html_logo = "opencoin.svg"
 
 html_theme_options = {
-  "use_sidenotes": True,
-    'use_download_button': False,
-    'use_fullscreen_button': False
+    "use_sidenotes":     True,
+    'use_download_button':   False,
+    'use_fullscreen_button': False,
+    "repository_url": "https://github.com/OpenCoin/opencoin-playground/tree/master/v4",
+    "use_repository_button": True,
 }
-
+html_favicon='favicon.ico'
 html_title = "OpenCoin v0.4<br>-draft-"

@@ -4,6 +4,13 @@
 
 Version: 0.4 - draft (July 2022)
 
+```{warning}
+This document really is a draft - it is constantly changing and being written on, 
+right as you read this. See, another change has happened.
+
+We will remove this warning if it not longer necessary.
+```
+
 Copyright (2022) J. Baach, N. Toedtmann
 
 This version of the protocol build on previous work by the OpenCoin Collective.
