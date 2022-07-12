@@ -29,9 +29,9 @@ For more information go to **https://opencoin.org**
 
 overview
 OpenCoin
-crypto
-Fields <fields>
-Schemata <schemata>
+schemata
+fields
+operations
 appendix
 ```
 

@@ -13,7 +13,7 @@ flowchart TD
 run_protocol.py--uses-->containers.py--uses-->schemata.py
 run_protocol.py--generates-->artifacts[docs/artifacts]
 run_protocol.py--uses-->oc_crypto.py--uses-->rsa
-artifacts --described in--> readme[docs/README.md]
+artifacts --described in--> readme[docs]
 ```
 
 `run_protocol.py` is the main file, that generates the examples in the `docs/artifacts` directory. These files have a suffix

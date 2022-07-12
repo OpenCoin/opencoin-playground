@@ -6,7 +6,6 @@
 faq
 results
 ideas
-building_blocks
 ```
 
 ## Scope of this documentation
