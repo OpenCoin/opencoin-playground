@@ -1,12 +1,6 @@
-# Results and history
+# History
 
-## Results
-
-- Crypto report
-- Legal report
-
-## History
-
+TBD
 
 - Project history
 - Project papers
