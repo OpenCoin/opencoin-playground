@@ -59,20 +59,17 @@ python scripts.
 :alt: add currency
 :width: 150px
 
-
 ```
 
 ```{image} images/ocwallet12.jpg
 :alt: info url
 :width: 150px
 
-
 ```
 
 ```{image} images/ocwallet19.jpg
 :alt: baachcoins
 :width: 150px
-
 
 ```
 

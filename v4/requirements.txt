@@ -5,3 +5,4 @@ rinohtype
 Pillow
 sphinx-book-theme
 linkify-it-py
+pytest

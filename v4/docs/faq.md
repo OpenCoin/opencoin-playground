@@ -20,7 +20,7 @@ We think that this risk is quite real. The question is however if tracing money 
 
 Our point is that yes, untraceable payments can be used for crimes, but so can other services as well, and it is up for society to decide how to handle it.
 
-## OpenCoin and tax?
+## What about taxation?
 
 One could ask if untraceable payments can be used to avoid taxation, or the other way around: should a mechanism be built into a transaction schema to enforce taxation [^taler]. 
 [^taler]: see the section on GNU Taler in the [overview](overview.md#gnu-taler).
@@ -29,9 +29,19 @@ If one wanted to help the tax office here, one could think about requiring autho
 
 We find however that in the "real world" taxation is enforced using a different mechanism: receipts. Warranty and the ability to deduct costs for tax purposes is bound to have proper receipts. So the recipient is forced py the payer to produce a receipt, and make the transaction official. This seems to work quite fine, and handles electronic payments as well as cash payments. We think that this is the right place to handle these issues.
 
+## Can I legally use OpenCoin for xyz?
 
-## Problems
+You have to talk with your lawyer to check the current situation for country and purpose. The old [legal report](reviews.md#legal-review) can be a starting point. 
 
-- Tax
-- Money laundering
-- Blackmail and other crime
+## Why do you use old approaches (RSA, unmodified chaumian blinding) instead of the hip new XYZ?
+
+We want to keep things simple, and want to avoid complexity. The protocol should be fairly easy
+to implement and review.[^grug]
+
+Given the current amount of computing power and bandwidth available, we find that the savings on speed and space
+that newer systems like elliptic curves don't set of the price in increased complexity. 
+
+The same holds true for the additions that could be made around blinding, partial spending coins etc. 
+
+
+[^grug]: See "The Grug Brained Developer": https://grugbrain.dev/

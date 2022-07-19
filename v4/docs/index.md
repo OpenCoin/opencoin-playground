@@ -16,7 +16,8 @@ We will remove this warning when it is not longer necessary.
 ```
 
 
-For more information go to **https://opencoin.org**
+For more information go to **https://opencoin.org**, or mail us 
+at [collective@opencoin.org](mailto:collective@opencoin.org)
 
 
 
