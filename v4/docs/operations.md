@@ -12,7 +12,11 @@ an awkward price.
 We have a [sample implementation](../coinsplitting.py) for this. It contains one line of old 
 [black magic](https://en.wikipedia.org/wiki/Magic_(programming)#Variants), but we have [tests](../test_coinsplitting.py) for it.
 
+Also see [](schemata.md#requestrenew-message).
+
 ## Cryptographic operations
+
+TBD
 
 - hashes
 - signatures

@@ -393,6 +393,8 @@ The easy way out is to aim for a selection of coins that allows us to pay *any* 
 
 So, we need to look at the combined sum of coins received and coins already in possession, and needs to find the right coin selection to be able to make all possible future coin transfers. We will then know which coins to keep, and what blinds to make and paying for the minting using *all* the just received coins and using *some* existing coins.
 
+Also see [](operations.md#tokenizing) for a sample implementation.
+
 ### Fields
 
 - **[blinds](fields.md#blinds)**: A List of Blinds  *(List of [Blinds](schemata.md#blind))*
