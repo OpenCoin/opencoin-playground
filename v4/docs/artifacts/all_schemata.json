@@ -24,13 +24,13 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "blinded_payload_hash",
         "mint_key_id",
         "reference",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "BlindSignature": {
@@ -52,12 +52,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "blind_signature",
         "reference",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "PublicKey": {
@@ -79,12 +79,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "modulus",
         "public_exponent",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "CDD": {
@@ -212,6 +212,7 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "additional_info",
         "cdd_expiry_date",
@@ -231,7 +232,6 @@
         "renew_service",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "CDDC": {
@@ -253,12 +253,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "cdd",
         "signature",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "Payload": {
@@ -296,6 +296,7 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "cdd_location",
         "denomination",
@@ -305,7 +306,6 @@
         "serial",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "Coin": {
@@ -327,12 +327,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "payload",
         "signature",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "CoinStack": {
@@ -358,12 +358,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "coins",
         "subject",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "MintKey": {
@@ -412,6 +412,7 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "cdd_serial",
         "coins_expiry_date",
@@ -423,7 +424,6 @@
         "sign_coins_not_before",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "MKC": {
@@ -445,12 +445,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "mint_key",
         "signature",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "RequestCDDC": {
@@ -472,12 +472,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "cdd_serial",
         "message_reference",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "RequestCDDSerial": {
@@ -495,11 +495,11 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "message_reference",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "RequestMKCs": {
@@ -533,13 +533,13 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "denominations",
         "message_reference",
         "mint_key_ids",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "RequestMint": {
@@ -569,13 +569,13 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "blinds",
         "message_reference",
         "transaction_reference",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "RequestRedeem": {
@@ -601,12 +601,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "coins",
         "message_reference",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "RequestRenew": {
@@ -644,6 +644,7 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "blinds",
         "coins",
@@ -651,7 +652,6 @@
         "transaction_reference",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "RequestResume": {
@@ -673,12 +673,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "message_reference",
         "transaction_reference",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "ResponseCDDC": {
@@ -711,13 +711,13 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "cddc",
         "message_reference",
         "status_description",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "ResponseCDDSerial": {
@@ -750,13 +750,13 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "cdd_serial",
         "message_reference",
         "status_description",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "ResponseDelay": {
@@ -785,12 +785,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "message_reference",
         "status_description",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "ResponseMKCs": {
@@ -827,13 +827,13 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "keys",
         "message_reference",
         "status_description",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "ResponseMint": {
@@ -870,13 +870,13 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "blind_signatures",
         "message_reference",
         "status_description",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     },
     "ResponseRedeem": {
@@ -905,12 +905,12 @@
           ]
         }
       },
+      "type": "object",
       "required": [
         "message_reference",
         "status_description",
         "type"
       ],
-      "type": "object",
       "additionalProperties": false
     }
   }

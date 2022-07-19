@@ -1,25 +1,25 @@
 {
   "blinds": [
     {
-      "blinded_payload_hash": "67a26d3a5bdde62256144e56c595cb7c69fb96956ec35a7a3f7a1948d1813af3992b78e7d547ed9ba5aab14494cb66877b6ea6b664be395610cdddb2c79f06ac",
-      "mint_key_id": "4850a4d91ce23c243c4d1ab2df61dd89921b1f3952ecc7fce60227a54ef2c899",
+      "blinded_payload_hash": "1e59fc9d27cf8042ba8bae7e5ff62afbbc53d88da805dee6cb77ce329a9559b3",
+      "mint_key_id": "cc45d9eaede89c34c83d1147b03cf6018439cbea",
       "reference": "a0",
       "type": "blinded payload hash"
     },
     {
-      "blinded_payload_hash": "1fbb12d41c304fdf1320e4224f80b6b2d364b49cfd2492d602b553915ba8382bb37e0ddb7eede8c1f6a08e78d95f7dfab2dc51812074cd44946675194e4a9207",
-      "mint_key_id": "293ef5fa3c123027ab04fef599abb72d730653cf8102c21b2864911f3fbc71ea",
+      "blinded_payload_hash": "e9494ed1ca6a17955c7ada3ba27cc894fc59e0457116df56ee5b9af1b83e5be7",
+      "mint_key_id": "9b4b84d9e33b90c94217e128abaea0629936f6f3",
       "reference": "a1",
       "type": "blinded payload hash"
     },
     {
-      "blinded_payload_hash": "5f48a71b3e944497c785f5b1c7189cbd8c9f482a70ace44259f2d731a99f8b1ae63452c3751b797c0d892256cf91c74f764d91f26e88d3408f5118346179430a",
-      "mint_key_id": "a7d8cdde7123f413e5604ac094732234189db322c693a9f06f65a4cc5b712f8d",
+      "blinded_payload_hash": "667ab3508980b89c19b2a2635f70d3664235c29ef100b77a1aae3a874ce68df",
+      "mint_key_id": "9e999aaff034e7f2a3113d764866fc5b13cb2f86",
       "reference": "a2",
       "type": "blinded payload hash"
     }
   ],
   "message_reference": 100003,
-  "transaction_reference": "de39c2665e5c044f34857404f0d791ce30d13d735434378a2afe5b2cf658e7df",
+  "transaction_reference": "7f7a6583820062ecae94e3864b53d283",
   "type": "request mint"
 }

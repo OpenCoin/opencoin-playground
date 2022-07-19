@@ -1,11 +1,22 @@
 import datetime
 import os
 from itertools import count
-from pprint import pprint
+
 
 import containers
 import oc_crypto
+from attr_dict import AttrDict
+import json
 
+import random
+random.seed(1)
+
+
+###################### SETUP #########################
+key_length = 256
+rand_length = 128
+hasher = 'sha1'
+######################################################
 
 class DummyIssuer:
 
@@ -49,7 +60,7 @@ class DummyWallet:
         self.mkc_by_denomination[mkc.mint_key.denomination] = mkc
 
     def prepare_blind(self, reference, denomination):
-        serial = oc_crypto.read_random_odd_int(256)
+        serial = oc_crypto.getrandbits(rand_length)
         mkc = self.mkc_by_denomination[denomination]
         payload = create(containers.Payload,
                          protocol_version=cdd.data.protocol_version,
@@ -113,6 +124,9 @@ def write(document, name):
 
     if isinstance(document, containers.Container):
         document = document.dumps(2)
+    elif type(document) in [dict,AttrDict]:
+        document = dict(document)
+        document = json.dumps(document, indent=2)
 
     with open(os.path.join(artifacts_dir, name), 'w') as f:
         f.write(document)
@@ -130,13 +144,20 @@ issuer = DummyIssuer()
 alice = DummyWallet()
 bob = DummyWallet()
 
-(issuer_public, issuer_secret) = oc_crypto.newkeys(512)
+cipher_suite = f'RSA{key_length}-{hasher.upper()}-CHAUM86'
+print(cipher_suite)
+
+(issuer_public, issuer_secret) = oc_crypto.newkeys(key_length)
+secret_issuer_key = dict(d=hex(issuer_secret.d)[2:], n=hex(issuer_secret.n)[2:])
+write(secret_issuer_key, f'issuer_secret.json')
+
+
 now = datetime.datetime.now()
 
 cdd = create(containers.CDD,
              protocol_version="https://opencoin.org/1.0",
              cdd_location="https://opencent.org",
-             issuer_cipher_suite="RSA-SHA512-CHAUM86",
+             issuer_cipher_suite=cipher_suite,
              issuer_public_master_key=dict(modulus=issuer_public.n,
                                            public_exponent=issuer_public.e,
                                            type="rsa public key"),
@@ -170,8 +191,10 @@ mint_keys = {}
 mint_keys_by_id = {}
 mint_key_certificates = {}
 for d in cdd.data.denominations:
-    (public, secret) = oc_crypto.newkeys(512)
+    (public, secret) = oc_crypto.newkeys(key_length)
     mint_keys[d] = (public, secret)
+    secret_mint_key = dict(d=hex(secret.d)[2:],n=hex(secret.n)[2:])
+    write(secret_mint_key,f'mintkey_{d}_secret.json')
 
     mk = create(containers.MintKey,
                 issuer_id=cdd.data.id,
@@ -253,7 +276,7 @@ for i, denomination in enumerate(cdd.denominations):
 
 request_minting = create(containers.RequestMint,
                          message_reference=next(message_id),
-                         transaction_reference=oc_crypto.read_random_odd_int(256),
+                         transaction_reference=oc_crypto.getrandbits(rand_length),
                          blinds=[blind.data for blind in alice.blinds.values()])
 write(request_minting, 'request_mint')
 
@@ -301,7 +324,7 @@ for i in range(4):
 
 request_renewal = create(containers.RequestRenew,
                          message_reference=next(message_id),
-                         transaction_reference=oc_crypto.read_random_odd_int(128),
+                         transaction_reference=oc_crypto.getrandbits(rand_length),
                          coins=coinstack.coins,
                          blinds=[blind.data for blind in bob.blinds.values()]
                          )

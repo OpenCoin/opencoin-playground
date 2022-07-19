@@ -31,17 +31,5 @@ We find however that in the "real world" taxation is enforced using a different 
 
 ## Can I legally use OpenCoin for xyz?
 
-You have to talk with your lawyer to check the current situation for country and purpose. The old [legal report](reviews.md#legal-review) can be a starting point. 
+You have to talk with your lawyer to check the current situation for country and purpose. The old [legal report](reviews.md#legal-review) can be a starting point.
 
-## Why do you use old approaches (RSA, unmodified chaumian blinding) instead of the hip new XYZ?
-
-We want to keep things simple, and want to avoid complexity. The protocol should be fairly easy
-to implement and review.[^grug]
-
-Given the current amount of computing power and bandwidth available, we find that the savings on speed and space
-that newer systems like elliptic curves don't set of the price in increased complexity. 
-
-The same holds true for the additions that could be made around blinding, partial spending coins etc. 
-
-
-[^grug]: See "The Grug Brained Developer": https://grugbrain.dev/

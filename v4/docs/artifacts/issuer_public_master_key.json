@@ -1,5 +1,5 @@
 {
-  "modulus": "e0be1f42355d8a5069b9fe012cad2fe6d0c30a2bcb11210f49c3d9c302f321cfba2f3fa2e494a419d459a950650a265964a711963e18a15fdaffb7423f1aeb6b",
-  "public_exponent": 65537,
+  "modulus": "b9954241c4cbf976ff52ae263aebe7b54d0b5bd7c0e56b54e3e577bcd2023935",
+  "public_exponent": 19,
   "type": "rsa public key"
 }

@@ -1,5 +1,14 @@
 # Schemata
 
+In here we present the actual schemata for the all the messages that we send and receive in the OpenCoin
+protocol. Each schema contains a description, a list of its fields and an example. The field names are
+linked to the [fields page](fields.md), where you can more detailed information about the fields.
+
+```{note}
+The examples are produced by the [run_protocol](../run_protocol.py) script. You can get similar values
+if you set `random.seed(1)` at the beginning of the file
+```
+
 ## CDD
 
 The Currency Description Document holds all information about a currency that is following the OpenCoin protocol. 
@@ -34,6 +43,17 @@ Always part of a [CDDC](#cddc)
 :language: json
 ```
 
+#### Secret key
+
+To make this documentation completely reproducible, here is the data for the secret issuer key:
+
+```{literalinclude} artifacts/issuer_secret.json
+:language: json
+```
+
+```{warning}
+Don't ever publish your secret keys!
+```
 
 ## CDDC
 
@@ -80,6 +100,12 @@ its signature: "this signature is worth *n* units of value".
 The key will be used for a period of time, after which it is going to be swapped for a new one. The 
 coins will be valid a bit longer then the signing time of the key.
 
+```{warning}
+
+**Never** use the mint key for encryption, **only** for signing!
+
+```
+
 Always part of a [MKC](#mkc)
 
 ### Fields
@@ -98,6 +124,18 @@ Always part of a [MKC](#mkc)
 
 ```{literalinclude} artifacts/mintkey_1.json
 :language: json
+```
+
+#### Secret key
+
+To make this documentation completely reproducible, here is the data for the secret mint key for the value 1:
+
+```{literalinclude} artifacts/mintkey_1_secret.json
+:language: json
+```
+
+```{warning}
+Don't ever publish your secret keys!
 ```
 
 

@@ -1,26 +1,27 @@
 """RSA module
 
+WARNING: this is just a sample rsa implementation, and MUST not be used in production
+
 This is a module based on the works by Sybren Stuvel, Marloes de Boer and Ivo Tamboer,
 tlslite, helped by Nils Toedtmann, done wrong by Joerg Baach ;-)
-
-This file still needs serious audit before you can trust it for anything productive
 
 """
 
 # NOTE: Python's modulo can return negative numbers. We compensate for
 # this behaviour using the abs() function
 
+import array
 import math
-import sys
-import random  # For picking semi-random numbers
-import types
+import random  # For picking semi-random numbers, we want to
 from hashlib import sha256
+from attr_dict import AttrDict, to_attr_dict
+from random import getrandbits
 
 # Get os.urandom PRNG
-import os
 
 
-def getRandomBytes(howMany):
+
+def get_random_bytes(howMany):
     factor = 8 * 8  # bytesize time security factor
     bits = howMany * factor
     if bits % factor:
@@ -48,46 +49,15 @@ def gcd(a, b):
     return a
 
 
-def bytes2int(bytes):
-    """Converts a list of bytes or a string to an integer
+def bytes2int(bytes_):
+    if type(bytes_) == str:
+        bytes_ = bytes(bytes_, 'utf-8')
 
-    >>> (128*256 + 64)*256 + + 15
-    8405007
-    >>> l = [128, 64, 15]
-    >>> bytes2int(l)
-    8405007
-    """
-
-    # if not (type(bytes) is types.ListType or type(bytes) is types.StringType):
-    #    raise TypeError("You must pass a string or a list")
-
-    # Convert byte stream to integer
-    integer = 0
-    for byte in bytes:
-        integer *= 256
-        if type(byte) is str: byte = ord(byte)
-        integer += byte
-
-    return integer
+    return int.from_bytes(bytes_, 'big')
 
 
 def int2bytes(number):
-    """Converts a number to a string of bytes
-
-    >>> bytes2int(int2bytes(123456789))
-    123456789
-    """
-
-    if type(number) not in [int, float]:
-        raise TypeError("You must pass a long or an int")
-
-    string = ""
-
-    while number > 0:
-        string = f"{chr(number & 0xFF)}{string}"
-        number //= 256
-
-    return string
+    return number.to_bytes((number.bit_length() + 7) // 8, byteorder='big')
 
 
 def ceil(x):
@@ -110,55 +80,10 @@ def rsa_operation(message, ekey, n):
 
     return pow(message, ekey, n)
 
-
-def blinding_operation(m, secret, n):
-    return (m * secret) % n
-
-
-def encrypt(message, key):
-    """Encrypts a string 'message' with the public key 'key'"""
-    return rsa_operation(message, key['e'], key['n'])
-
-
-def sign(message, key):
-    """Signs a string 'message' with the private key 'key'"""
-    return rsa_operation(message, key['d'], key['n'])
-
-
-def decrypt(cypher, key):
-    """Decrypts a cypher with the private key 'key'"""
-    return rsa_operation(cypher, key['d'], key['n'])
-
-
-def verify(cypher, key):
-    """Verifies a cypher with the public key 'key'"""
-    return rsa_operation(cypher, key['e'], key['n'])
-
-
-def blind(message, secret, key):
-    return blinding_operation(message, secret, key['n'])
-
-
-def unblind(message, secret, key):
-    return blinding_operation(message, secret, key['n'])
-
-
-# import math
-
-def bits(integer):  # Gets number of bits in integer
-    result = 0
-    while integer:
-        integer >>= 1
-        result += 1
-    return result
-
-
 def invMod(a, b):
     c, d = a, b
     uc, ud = 1, 0
     while c != 0:
-        # This will break when python division changes, but we can't use //
-        # cause of Jython
         q = d // c
         c, d = d - (q * c), c
         uc, ud = ud - (q * uc), uc
@@ -167,16 +92,19 @@ def invMod(a, b):
     return 0
 
 
-def getUnblinder(n):
+def get_unblinder(pub):
     while 1:
-        r = getRandomNumber(0, n)
-        if gcd(r, n) == 1:  # relative prime
+        r = getRandomNumber(0, pub.n)
+        if gcd(r, pub.n) == 1:  # relative prime
             break
     return r
 
 
-def generate(bits):  # needed
-    # return (dummypub,dummypriv)
+def get_blinder(unblinder, pub):
+    return pow(invMod(unblinder, pub.n), pub.e, pub.n)
+
+def generate_keys(bits):  # needed
+    # return (dummypub, dummypriv)
     p = getRandomPrime(bits // 2, False)
     q = getRandomPrime(bits // 2, False)
     t = (p - 1) * (q - 1)
@@ -187,10 +115,7 @@ def generate(bits):  # needed
         e += 2
 
     d = invMod(e, t)
-    return {'e': e, 'n': n}, {'d': d, 'n': n}
-
-
-gen_pubpriv_keys = generate
+    return AttrDict({'e': e, 'n': n}), AttrDict({'d': d, 'n': n})
 
 
 def getRandomPrime(bits, display=False):
@@ -261,30 +186,28 @@ def isPrime(n, iterations=5, display=False):
 
 
 def lcm(a, b):
-    # This will break when python division changes, but we can't use // cause
-    # of Jython
     return (a * b) // gcd(a, b)
 
 
 def getRandomNumber(low, high):
     if low >= high:
         raise AssertionError()
-    howManyBits = numBits(high)
-    howManyBytes = numBytes(high)
-    lastBits = howManyBits % 8
+    how_many_bits = numBits(high)
+    how_many_bytes = numBytes(high)
+    last_bits = how_many_bits % 8
     while 1:
-        bytes_ = getRandomBytes(howManyBytes)
-        if lastBits:
-            bytes_[0] = bytes_[0] % (1 << lastBits)
+        bytes_ = get_random_bytes(how_many_bytes)
+        if last_bits:
+            bytes_[0] = bytes_[0] % (1 << last_bits)
         n = bytesToNumber(bytes_)
         if n >= low and n < high:
             return n
 
 
 def numberToBytes(n):
-    howManyBytes = numBytes(n)
-    bytes_ = createByteArrayZeros(howManyBytes)
-    for count in range(howManyBytes - 1, -1, -1):
+    how_many_bytes = numBytes(n)
+    bytes_ = createByteArrayZeros(how_many_bytes)
+    for count in range(how_many_bytes - 1, -1, -1):
         bytes_[count] = int(n % 256)
         n >>= 8
     return bytes_
@@ -294,9 +217,6 @@ def stringToBytes(s):
     bytes_ = createByteArrayZeros(0)
     bytes_.frombytes(s)
     return bytes_
-
-
-import array
 
 
 def createByteArraySequence(seq):
@@ -315,9 +235,6 @@ def bytesToNumber(bytes):
         total += multiplier * byte
         multiplier *= 256
     return total
-
-
-import math
 
 
 def numBits(n):
@@ -339,77 +256,60 @@ def numBytes(n):
     bits = numBits(n)
     return int(math.ceil(bits // 8.0))
 
-__all__ = ["gen_pubpriv_keys", "encrypt", "decrypt", "sign", "verify"]
+
+
+def encrypt(message, key):
+    """Encrypts a string 'message' with the public key 'key'"""
+    return rsa_operation(message, key.e, key.n)
+
+
+def sign(message, key):
+    """Signs a string 'message' with the private key 'key'"""
+    return rsa_operation(message, key.d, key.n)
+
+
+def decrypt(cypher, key):
+    """Decrypts a cypher with the private key 'key'"""
+    return rsa_operation(cypher, key.d, key.n)
+
+
+def verify(cypher, key):
+    """Verifies a cypher with the public key 'key'"""
+    return rsa_operation(cypher, key.e, key.n)
+
+def get_blinding_factors(pub):
+    bi = get_unblinder(pub)
+    bf = get_blinder(bi, pub)
+    return bf, bi
+
+def blinding_operation(m, secret, n):
+    return (m * secret) % n
+
+
+def blind(message, secret, key):
+    return blinding_operation(message, secret, key.n)
+
+
+def unblind(message, secret, key):
+    return blinding_operation(message, secret, key.n)
+
 
 if __name__ == "__main__":
-    import time
 
-    (pub, priv) = gen_pubpriv_keys(1024)
-    times = []
-    t = time.time()
+    (pub, priv) = generate_keys(256)
+    print(pub)
+
     # blinding
     # message = 'f'*65
-    message = bytes2int('c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2')
+    mymessage = bytes2int('hello world')
     # print 'cleartext ', message
-    unblinder = getUnblinder(pub['n'])
-    blinder = pow(invMod(unblinder, pub['n']), pub['e'], pub['n'])
-    times.append(time.time() - t)
-    t = time.time()
+    unblinder = get_unblinder(pub)
+    blinder = get_blinder(unblinder,pub)
 
-    blinded = blind(message, blinder, pub)
-    times.append(time.time() - t)
-    t = time.time()
+    blinded = blind(mymessage, blinder, pub)
 
-    signedblind = rsa_operation(blinded, priv['d'], priv['n'])
-    times.append(time.time() - t)
-    t = time.time()
+    signedblind = sign(blinded, priv)
 
-    unblinded = (signedblind * unblinder) % pub['n']
-    times.append(time.time() - t)
-    t = time.time()
+    unblinded = unblind(signedblind, unblinder, pub)
 
-    print('verifyied', message == verify(unblinded, pub))
-    times.append(time.time() - t)
-    print(sum(times) - times[2])
-
-    if 0:
-        # full
-        t = time.time()
-        message = bytes2int('serial ' * 5)
-        print('cleartext ', message)
-        cypher = encrypt(message, pub)
-        print('cyphertext: ', cypher)
-        print('decrypted', decrypt(cypher, priv))
-        decrypt(cypher, priv)
-        signed = sign(message, priv)
-        print('signed', signed)
-        print('verified', message == verify(signed, pub))
-        unblinder = getUnblinder(pub['n'])
-        blinder = pow(invMod(unblinder, pub['n']), pub['e'], pub['n'])
-        blinded = blind(message, blinder, pub)
-        print('blinded', blinded)
-        signedblind = sign(blinded, priv)
-        signedblind = rsa_operation(blinded, priv['d'], priv['n'])
-        print('signedblind', signedblind)
-        unblinded = unblind(signedblind, unblinder, pub)
-        unblinded = (signedblind * unblinder) % pub['n']
-        print('unblinded', unblinded)
-        print('verified', message == verify(unblinded, pub))
-        print(time.time() - t)
-
-        print('=' * 40)
-        # no blinding
-        t = time.time()
-        message = 'serial ' * 5
-        # print 'cleartext ', message
-        cypher = encrypt(message, pub)
-        # print 'cyphertext: ',cypher
-        # print 'decrypted', decrypt(cypher,priv)
-        decrypt(cypher, priv)
-        signed = sign(message, priv)
-        # print 'signed', signed
-        # print 'verified', message == verify(signed,pub)
-        print(time.time() - t)
-
-
-
+    print('verified', mymessage == verify(unblinded, pub))

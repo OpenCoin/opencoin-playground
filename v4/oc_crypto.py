@@ -1,44 +1,40 @@
-import rsa
-from rsa import randnum, common, prime, sign, PublicKey, PrivateKey
-from rsa.randnum import randint, read_random_odd_int
+from rsa_oc import get_blinding_factors, blind, unblind, sign, verify, generate_keys, getrandbits
 
 
-def _get_blind_factor(pub):
-    for _ in range(1000):
-        blind_r = randint(pub.n-1)
-        if rsa.prime.are_relatively_prime(pub.n, blind_r):
-            return blind_r
-    raise RuntimeError("unable to find blinding factor")
+class PublicKey:
 
-def get_blinding_factors(pub):
-    bf = _get_blind_factor(pub)
-    bi = rsa.common.inverse(bf, pub.n)
-    return bf, bi
+    def __init__(self, modulus, public_exponent):
+        self.n = modulus
+        self.e = public_exponent
+
 
 def blind_message(message, bf, pub):
-    return (message * pow(bf, pub.e, pub.n)) % pub.n
+    return blind(message, bf, pub)
 
-def unblind(blind_message, bi, pub):
-    return (bi * blind_message) % pub.n
 
 def sign_blind(blinded, priv):
-    return rsa.pkcs1.core.encrypt_int(blinded,priv.d, priv.n)
+    return sign(blinded, priv)
+
 
 def decrypt(message, pub):
-    return rsa.pkcs1.core.decrypt_int(message, pub.e, pub.n)
+    return verify(message, pub)
+
 
 def newkeys(bits):
-    return rsa.newkeys(512)
+    return generate_keys(bits)
+
+
+def sign_container(container, priv):
+    return sign(container.hash(), priv)
+
 
 if __name__ == '__main__':
+    pub, priv = newkeys(256)
 
-    pub, priv = newkeys(512)
+    serial = getrandbits(128)
 
-    serial = read_random_odd_int(256)
-
-    print('serial   ',serial)
+    print('serial   ', serial)
     print()
-
 
     bf, bi = get_blinding_factors(pub)
     print('bf       ', bf)
@@ -59,4 +55,3 @@ if __name__ == '__main__':
     print('decrypted', decrypted)
     print()
     print('matches  ', decrypted == serial)
-

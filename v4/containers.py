@@ -5,23 +5,7 @@ import re
 import oc_crypto
 import schemata
 
-
-class AttrDict(dict):
-    def __init__(self, *args, **kwargs):
-        super(AttrDict, self).__init__(*args, **kwargs)
-        self.__dict__ = self
-
-    def __getattr__(self, item):
-        if item not in self:
-            raise AttributeError(item)
-        return self[item]
-
-
-def to_attr_dict(dct):
-    out = AttrDict()
-    for k, v in sorted(dct.items()):
-        out[k] = to_attr_dict(v) if isinstance(v, dict) else v
-    return out
+from attr_dict import AttrDict, to_attr_dict
 
 
 class Container:
@@ -102,8 +86,8 @@ class Container:
     def __repr__(self):
         return str(self)
 
-    def hash(self):
-        return int.from_bytes((hashlib.sha256(self.dumps().encode()).digest()), 'big')
+    def hash(self, hasher='sha1'):
+        return int.from_bytes((getattr(hashlib,hasher)(self.dumps().encode()).digest()), 'big')
 
     def set_id(self, key_field):
         pk = PublicKey(self.data[key_field])
@@ -134,9 +118,9 @@ class SignedContainer(Container):
         return [k for k in self.schema.fields.keys() if k not in ['signature', 'type']][0]
 
     def sign(self, private_key):
-        document = self.document_class(self.data[self.document_field]).dumps().encode()
-        signature = oc_crypto.sign(document, private_key, 'SHA-256')
-        self.data.signature = int.from_bytes(signature, 'big')
+        document = self.document_class(self.data[self.document_field]).hash()
+        signature = oc_crypto.sign(document, private_key)
+        self.data.signature = signature
         return self.data.signature
 
 

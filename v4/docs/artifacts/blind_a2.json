@@ -1,6 +1,6 @@
 {
-  "blinded_payload_hash": "5f48a71b3e944497c785f5b1c7189cbd8c9f482a70ace44259f2d731a99f8b1ae63452c3751b797c0d892256cf91c74f764d91f26e88d3408f5118346179430a",
-  "mint_key_id": "a7d8cdde7123f413e5604ac094732234189db322c693a9f06f65a4cc5b712f8d",
+  "blinded_payload_hash": "667ab3508980b89c19b2a2635f70d3664235c29ef100b77a1aae3a874ce68df",
+  "mint_key_id": "9e999aaff034e7f2a3113d764866fc5b13cb2f86",
   "reference": "a2",
   "type": "blinded payload hash"
 }
