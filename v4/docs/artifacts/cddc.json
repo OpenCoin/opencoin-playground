@@ -1,10 +1,10 @@
 {
   "cdd": {
     "additional_info": "",
-    "cdd_expiry_date": "2023-07-19T16:52:49.133413",
+    "cdd_expiry_date": "2023-07-21T10:23:33.105189",
     "cdd_location": "https://opencent.org",
     "cdd_serial": 1,
-    "cdd_signing_date": "2022-07-19T16:52:49.133413",
+    "cdd_signing_date": "2022-07-21T10:23:33.105189",
     "currency_divisor": 100,
     "currency_name": "OpenCent",
     "denominations": [1, 2, 5],
@@ -12,7 +12,7 @@
     "info_service": [
         [10, "https://opencent.org"]
       ],
-    "issuer_cipher_suite": "RSA256-SHA1-CHAUM86",
+    "issuer_cipher_suite": "INSECURE-RSA256-SHA1-CHAUM86",
     "issuer_public_master_key": {
       "modulus": "b9954241c4cbf976ff52ae263aebe7b54d0b5bd7c0e56b54e3e577bcd2023935",
       "public_exponent": 19,
@@ -31,6 +31,6 @@
       ],
     "type": "cdd"
   },
-  "signature": "32487e35950b7649dc118cb230d0c972530b1463234ff39fb997d09eeb5b6567",
+  "signature": "aca082da3e2d2b0e9eeb58d688e0d1c9d9c2706e345f60b657eb959e63f614db",
   "type": "cdd certificate"
 }

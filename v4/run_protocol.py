@@ -9,13 +9,14 @@ from attr_dict import AttrDict
 import json
 
 import random
-random.seed(1)
-
 
 ###################### SETUP #########################
+cipher_name = 'INSECURE-RSA'
 key_length = 256
 rand_length = 128
 hasher = 'sha1'
+
+random.seed(1)
 ######################################################
 
 class DummyIssuer:
@@ -144,7 +145,7 @@ issuer = DummyIssuer()
 alice = DummyWallet()
 bob = DummyWallet()
 
-cipher_suite = f'RSA{key_length}-{hasher.upper()}-CHAUM86'
+cipher_suite = f'{cipher_name}{key_length}-{hasher.upper()}-CHAUM86'
 print(cipher_suite)
 
 (issuer_public, issuer_secret) = oc_crypto.newkeys(key_length)
