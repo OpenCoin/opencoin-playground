@@ -39,7 +39,7 @@ class Suite:
                            salt_length=padding.PSS.MAX_LENGTH)
 
     def name(self):
-        return f"RSA{self.key_length}-{self.hash_alg}-PSS-CHAUM82"
+        return f"RSA-{self.hash_alg}-PSS-CHAUM82"
 
 
     def restore_public_key(self, e, n):

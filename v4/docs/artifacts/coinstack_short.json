@@ -4,39 +4,39 @@
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 1,
-        "issuer_id": "563c6fa43256d3ad4abe55061a867f8d...",
-        "mint_key_id": "c8a718392745dc6681d54fa124424a8a...",
+        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
+        "mint_key_id": "b5913a64bfe4fd0cb7103059344edba2081c9cf3",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "cd613e30d8f16adf91b7584a2265b1f5...",
+        "serial": "cd613e30d8f16adf91b7584a2265b1f5",
         "type": "payload"
       },
-      "signature": "3b4dcc676c14fb4c1c506a0f43970f05...",
+      "signature": "623a4ee638cc441fbc8d2525350451597889ef6c7db76ecd...",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 2,
-        "issuer_id": "563c6fa43256d3ad4abe55061a867f8d...",
-        "mint_key_id": "1c375bee69b6a118fc7455d8fb0a7811...",
+        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
+        "mint_key_id": "d7de09afd036633fbb03f88fbe3759ce460f13f0",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "78e510617311d8a3c2ce6f447ed4d57b...",
+        "serial": "78e510617311d8a3c2ce6f447ed4d57b",
         "type": "payload"
       },
-      "signature": "39893289269c31499d5bdf549c4c0015...",
+      "signature": "38589b4421cb49ba27043e856061780e2f55d73f998277f2...",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 5,
-        "issuer_id": "563c6fa43256d3ad4abe55061a867f8d...",
-        "mint_key_id": "b60a40fe72c41b0df5e5898c136029eb...",
+        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
+        "mint_key_id": "85197b7524619fa189c83ef51b3c7edab8d6e30e",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "e4b06ce60741c7a87ce42c8218072e8c...",
+        "serial": "e4b06ce60741c7a87ce42c8218072e8c",
         "type": "payload"
       },
-      "signature": "5b7ff50f01a2d17b3cb65c7aebc283c4...",
+      "signature": "20196f7e9354a5d8c6a4bb687f34f090653216eb72b17f1f...",
       "type": "coin"
     }
   ],

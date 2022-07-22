@@ -13,7 +13,7 @@ The following diagram shows the flow of messages (and actions):
 :::{figure-md} sequence-diagram
 :class: figure
 
-<img src="sequence.svg" alt="OpenCoin sequence" class="bg-primary"  width="100%">
+<img src="sequence.*" alt="OpenCoin sequence" class="bg-primary"  width="100%">
 
 OpenCoin sequence diagram
 :::

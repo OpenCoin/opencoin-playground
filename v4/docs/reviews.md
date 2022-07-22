@@ -26,11 +26,13 @@ have another legal review.
 
 There was also a [freemind mindmap](legal.mm), exported as svg:
 
-```{image} images/legal_issues.svg
-:alt: legal issues mindmap
-:width: 650px
+:::{figure-md} legal_issues
+:class: figure
 
-```
+<img src="images/legal_issues.*" alt="Legal issues" class="bg-primary"  width="100%">
+
+Legal issues around OpenCoin
+:::
 
 It is also available as a [standalone html file](legal.html)
 

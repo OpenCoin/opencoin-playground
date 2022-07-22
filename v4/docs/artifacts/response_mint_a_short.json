@@ -1,17 +1,17 @@
 {
   "blind_signatures": [
     {
-      "blind_signature": "1735052b3ccbb3c4db5a5c6e0da4e5ed...",
+      "blind_signature": "64993ed3846732b100a541bfa38d4683ed28a38850708478...",
       "reference": "a0",
       "type": "blind signature"
     },
     {
-      "blind_signature": "c240dc5992fabff80c5a7644abfe658b...",
+      "blind_signature": "bcda1e764704fdc333dcb863eb4b98e0cd513a144b886313...",
       "reference": "a1",
       "type": "blind signature"
     },
     {
-      "blind_signature": "c6efe1785aac136831227a515e2af9a5...",
+      "blind_signature": "61dee1e26d5d5f492c1238e509b7a819e3cbb1805aac8eab...",
       "reference": "a2",
       "type": "blind signature"
     }

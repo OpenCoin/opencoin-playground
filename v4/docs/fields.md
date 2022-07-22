@@ -193,13 +193,9 @@ Used in: [CDDC](schemata.md#cddc)
 ### issuer_cipher_suite
 Identifier of the cipher suite that is used.
 
-The format is: SIGN-HASH-BLINDING, e.g. RSA1024-SHA256-CHAUM83. 
+The format is: SIGN-HASH-PADDING-BLINDING, e.g. RSA-SHA256-PSS-CHAUM82.
 
-```{warning}
-*RSA256-SHA1-CHAUM86* (and other obviously insecure suites): those were meant for documentation purposes only,
-and should never be used in production or implementation. But keys and hashes of that length fit nicely
-onto printed paper.
-```
+See [cipher suites](operations.md#cipher-suites).
 
 Type: String  
 Used in: [CDDC](schemata.md#cddc)

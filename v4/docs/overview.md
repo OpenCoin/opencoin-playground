@@ -14,7 +14,7 @@ is convertible to a "real" currency. But other uses can be imagined as well: a [
 :::{figure-md} overview-diagram
 :class: figure
 
-<img src="overview.svg" alt="Overview diagram" class="bg-primary" width="300px">
+<img src="overview.*" alt="Overview diagram" class="bg-primary" width="300px">
 
 Simplified overview of the OpenCoin flow.
 :::

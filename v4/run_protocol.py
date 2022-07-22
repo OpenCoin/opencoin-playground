@@ -135,7 +135,7 @@ def write(document, name):
         document = dict(document)
         document = json.dumps(document, indent=2)
 
-    shortened = re.sub(r'"([a-fA-F0-9]{32,}?)"',lambda match: f'"{match[1][:32]}..."', document)
+    shortened = re.sub(r'"([a-fA-F0-9]{48,}?)"',lambda match: f'"{match[1][:48]}..."', document)
 
     name_short = name.replace('.json', '_short.json')
 

@@ -4,17 +4,31 @@
 
 We define cipher suites that need to be supported by implementations.
 
-### INSECURE-RSA256-SHA1-CHAUM86
+### RSA-SHA256-PSS-CHAUM82
 
-```{warning}
-This suite is insecure, and MUST not be used in production
+This suite uses RSA for the crypto operations. SHA256 is used as a hashing
+algorithm, and PSS for padding in certificate signatures.
+
+CHAUM82 is used for the blinding, e.g. raw RSA  signatures.
+
+The signing process is initialized following the [cryptography.io example](https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#signing):
+
+```python
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding
+
+private_key = rsa.generate_private_key(65537, 512)
+signature = private_key.sign(
+    "The json dump",
+    padding.PSS(
+        mgf=padding.MGF1(hashes.SHA256()),
+        salt_length=padding.PSS.MAX_LENGTH
+    ),
+    hashes.SHA256()
+)
 ```
-
-The purpose of this cipher suite is documentation only: we want to keep the numbers relatively short to not distract
-from the actual fields in the schemata.
-
-So, don't ever use this suite for anything other than documentation.
-
+See the [documentation code](../rsa_suite.py) 
 
 ## Tokenizing
 

@@ -1,26 +1,26 @@
 {
   "blinds": [
     {
-      "blinded_payload_hash": "6b7d5c2f58d8cf4fd471c2b410b2c3e67d0be3058436fd43376a48e654b4ed1884134dcb54f01c5b2b4486df894438b272965cf771e37346b656096466785f6f",
-      "mint_key_id": "1c375bee69b6a118fc7455d8fb0a78117c6f6591",
+      "blinded_payload_hash": "99c3a4481a85808343fbe81527667ca82c4725d8b1be8230595cab328c32c64db44dffff5c974501332971668d7ea7e6af180e2d2d063488117f295dd3500849",
+      "mint_key_id": "d7de09afd036633fbb03f88fbe3759ce460f13f0",
       "reference": "b0",
       "type": "blinded payload hash"
     },
     {
-      "blinded_payload_hash": "75ddcf965acaf2b5adf3de4aab9865a77376bc1978e825f209d8a305174093af21e4725b456e0a01c005129a9ddb660edf41f1f2c9158fbd25debdb52517f8d7",
-      "mint_key_id": "1c375bee69b6a118fc7455d8fb0a78117c6f6591",
+      "blinded_payload_hash": "6ad3c774a1b06940201f610360f953a1bce88cb6b26e1416f5d2fba5500cf31e30bf1152bac75be7ea8c08a199168e68c40d7653336c581ba086bd4f6e55bdb4",
+      "mint_key_id": "d7de09afd036633fbb03f88fbe3759ce460f13f0",
       "reference": "b1",
       "type": "blinded payload hash"
     },
     {
-      "blinded_payload_hash": "25b90338c75328060c352141731e5ef96bab291c87d79a992a72bca51c6cb126aa84597fc27d8c4b2077da96e9fd5ec03f17e538b8428ea4e7f317a911a1e94d",
-      "mint_key_id": "1c375bee69b6a118fc7455d8fb0a78117c6f6591",
+      "blinded_payload_hash": "5f90969a5d6da48abacf38d90ea35060438f1080a5994ae0c17c6b4a82813a4dc9d554dec0babda43c2324507698f1c8876c095ed9f57a6eb0adde040f3a02",
+      "mint_key_id": "d7de09afd036633fbb03f88fbe3759ce460f13f0",
       "reference": "b2",
       "type": "blinded payload hash"
     },
     {
-      "blinded_payload_hash": "b8515884e7cd4de15bb20b7ddfe606bdf6a2ca8e873320b94c6439c6914c38df963b23bf6ba2c8dbc5a3a5512cc96ceae87cbeb1ab0e48480acfa5e6386d2c42",
-      "mint_key_id": "1c375bee69b6a118fc7455d8fb0a78117c6f6591",
+      "blinded_payload_hash": "62af0ad77514484face0996f46a1e2b42d7afb08a065dae612cd35d0bf0d92d9751d0c0637f9bb2e83ed99e7e5ae086f533fc52243da95d17094bf9deca85b72",
+      "mint_key_id": "d7de09afd036633fbb03f88fbe3759ce460f13f0",
       "reference": "b3",
       "type": "blinded payload hash"
     }
@@ -30,39 +30,39 @@
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 1,
-        "issuer_id": "563c6fa43256d3ad4abe55061a867f8d8e5b9a11",
-        "mint_key_id": "c8a718392745dc6681d54fa124424a8a10c56dc9",
+        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
+        "mint_key_id": "b5913a64bfe4fd0cb7103059344edba2081c9cf3",
         "protocol_version": "https://opencoin.org/1.0",
         "serial": "cd613e30d8f16adf91b7584a2265b1f5",
         "type": "payload"
       },
-      "signature": "3b4dcc676c14fb4c1c506a0f43970f050706e223ceb7b69c036261e4b51d44dfca68de21efdc487823a32a6b02893892cb85e861f6e2f8c429fe44709f840900",
+      "signature": "623a4ee638cc441fbc8d2525350451597889ef6c7db76ecda64db94adf5099846ae222133ec14fc6325687a53be93864e645eb1b5808a9489f9416a59a362fa2",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 2,
-        "issuer_id": "563c6fa43256d3ad4abe55061a867f8d8e5b9a11",
-        "mint_key_id": "1c375bee69b6a118fc7455d8fb0a78117c6f6591",
+        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
+        "mint_key_id": "d7de09afd036633fbb03f88fbe3759ce460f13f0",
         "protocol_version": "https://opencoin.org/1.0",
         "serial": "78e510617311d8a3c2ce6f447ed4d57b",
         "type": "payload"
       },
-      "signature": "39893289269c31499d5bdf549c4c0015bd94f00647570968cae0fdd07009f83a343ba21e199ea40b06df0514da67970c4e12da1f43efeac950b1a25a4f2d92ee",
+      "signature": "38589b4421cb49ba27043e856061780e2f55d73f998277f2767ea4f444932af6503cebefa4941287b5262321a733e9176cc645cd6e4a61202d4f2713eaa4c14e",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 5,
-        "issuer_id": "563c6fa43256d3ad4abe55061a867f8d8e5b9a11",
-        "mint_key_id": "b60a40fe72c41b0df5e5898c136029eba3478216",
+        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
+        "mint_key_id": "85197b7524619fa189c83ef51b3c7edab8d6e30e",
         "protocol_version": "https://opencoin.org/1.0",
         "serial": "e4b06ce60741c7a87ce42c8218072e8c",
         "type": "payload"
       },
-      "signature": "5b7ff50f01a2d17b3cb65c7aebc283c40a1e7098e58d3229020b1a869daee986ac1bd71a248d812297a9d5eecba9ef7f5fa83152358e47721ec77aa956471615",
+      "signature": "20196f7e9354a5d8c6a4bb687f34f090653216eb72b17f1f7dda988bb0c65110f4ef81f284603601cd2c1c8cf6746e970c8c4b10f83fc70cf9965a3519806b6d",
       "type": "coin"
     }
   ],
