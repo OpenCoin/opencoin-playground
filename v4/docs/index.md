@@ -1,6 +1,6 @@
 # OpenCoin
 
-*a protocol for privacy preserving electronic cash payments*
+*A protocol for privacy preserving electronic cash payments*
 
 Version: 0.4 - draft (July 2022)
 

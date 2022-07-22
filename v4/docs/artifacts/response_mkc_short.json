@@ -3,58 +3,58 @@
     {
       "mint_key": {
         "cdd_serial": 1,
-        "coins_expiry_date": "2023-10-30T10:40:49.910946",
+        "coins_expiry_date": "2023-10-30T15:45:53.164685",
         "denomination": 1,
-        "id": "b5913a64bfe4fd0cb7103059344edba2081c9cf3",
-        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
+        "id": "1ceb977bb531c65f133ab8b0d60862b17369d96",
+        "issuer_id": "23ed956e629ba35f0002eaf833ea436aea7db5c2",
         "public_mint_key": {
-          "modulus": "c6dade6aae61e3c9223dbcdb6cd30ad08bb34a0f9b095412...",
+          "modulus": "ce3af9b91d6a6da0fe8def8870743428c0c4c60f5a...",
           "public_exponent": 65537,
           "type": "rsa public key"
         },
-        "sign_coins_not_after": "2023-07-22T10:40:49.910946",
-        "sign_coins_not_before": "2022-07-22T10:40:49.910946",
+        "sign_coins_not_after": "2023-07-22T15:45:53.164685",
+        "sign_coins_not_before": "2022-07-22T15:45:53.164685",
         "type": "mint key"
       },
-      "signature": "69ea445702064d3642c70946ee37f85633348cd6539aaae7...",
+      "signature": "84aceee2562297d127560bff4d66654e881e89eae2...",
       "type": "mint key certificate"
     },
     {
       "mint_key": {
         "cdd_serial": 1,
-        "coins_expiry_date": "2023-10-30T10:40:49.910946",
+        "coins_expiry_date": "2023-10-30T15:45:53.164685",
         "denomination": 2,
-        "id": "d7de09afd036633fbb03f88fbe3759ce460f13f0",
-        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
+        "id": "f2864e5cd937dbaa4825e73a81062de162143682",
+        "issuer_id": "23ed956e629ba35f0002eaf833ea436aea7db5c2",
         "public_mint_key": {
-          "modulus": "c2694340c0920b7c8eeb4ca12f5ce9fff2b988cec4925962...",
+          "modulus": "ca03c4fa5a94144c5649d1f5d7cb9780e45911323c...",
           "public_exponent": 65537,
           "type": "rsa public key"
         },
-        "sign_coins_not_after": "2023-07-22T10:40:49.910946",
-        "sign_coins_not_before": "2022-07-22T10:40:49.910946",
+        "sign_coins_not_after": "2023-07-22T15:45:53.164685",
+        "sign_coins_not_before": "2022-07-22T15:45:53.164685",
         "type": "mint key"
       },
-      "signature": "87075921b34fc7a70b09d9e5e7041c9b297e91d36e273943...",
+      "signature": "2db1d5a728a841f415f414a07767b7d43ab3d62235...",
       "type": "mint key certificate"
     },
     {
       "mint_key": {
         "cdd_serial": 1,
-        "coins_expiry_date": "2023-10-30T10:40:49.910946",
+        "coins_expiry_date": "2023-10-30T15:45:53.164685",
         "denomination": 5,
-        "id": "85197b7524619fa189c83ef51b3c7edab8d6e30e",
-        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
+        "id": "897a16bf12bd9ba474ef7be0e3a53553a7b4ece8",
+        "issuer_id": "23ed956e629ba35f0002eaf833ea436aea7db5c2",
         "public_mint_key": {
-          "modulus": "d6b9d958b0a1788a19a671ba9761235ff4e8e364c3f17150...",
+          "modulus": "d35f9a322c851eb071f557f8b5723d10c7889ad7ba...",
           "public_exponent": 65537,
           "type": "rsa public key"
         },
-        "sign_coins_not_after": "2023-07-22T10:40:49.910946",
-        "sign_coins_not_before": "2022-07-22T10:40:49.910946",
+        "sign_coins_not_after": "2023-07-22T15:45:53.164685",
+        "sign_coins_not_before": "2022-07-22T15:45:53.164685",
         "type": "mint key"
       },
-      "signature": "13058f2564b57b0ccc4f2b352840cb4552a9ed635df4ac21...",
+      "signature": "9a76c1f3223817de54632b9f2eb5c94a0426d26738...",
       "type": "mint key certificate"
     }
   ],

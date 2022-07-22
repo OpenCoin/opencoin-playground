@@ -4,39 +4,39 @@
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 1,
-        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
-        "mint_key_id": "b5913a64bfe4fd0cb7103059344edba2081c9cf3",
+        "issuer_id": "23ed956e629ba35f0002eaf833ea436aea7db5c2",
+        "mint_key_id": "1ceb977bb531c65f133ab8b0d60862b17369d96",
         "protocol_version": "https://opencoin.org/1.0",
         "serial": "cd613e30d8f16adf91b7584a2265b1f5",
         "type": "payload"
       },
-      "signature": "623a4ee638cc441fbc8d2525350451597889ef6c7db76ecd...",
+      "signature": "2ec0af339566b19fb9867b491ce58025dcefcab649...",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 2,
-        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
-        "mint_key_id": "d7de09afd036633fbb03f88fbe3759ce460f13f0",
+        "issuer_id": "23ed956e629ba35f0002eaf833ea436aea7db5c2",
+        "mint_key_id": "f2864e5cd937dbaa4825e73a81062de162143682",
         "protocol_version": "https://opencoin.org/1.0",
         "serial": "78e510617311d8a3c2ce6f447ed4d57b",
         "type": "payload"
       },
-      "signature": "38589b4421cb49ba27043e856061780e2f55d73f998277f2...",
+      "signature": "6aefa7472518ed0a1ec64971220ce3a3a921a70bb0...",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 5,
-        "issuer_id": "e76edd7a02ef41dec518c1dc7f138a5915a62730",
-        "mint_key_id": "85197b7524619fa189c83ef51b3c7edab8d6e30e",
+        "issuer_id": "23ed956e629ba35f0002eaf833ea436aea7db5c2",
+        "mint_key_id": "897a16bf12bd9ba474ef7be0e3a53553a7b4ece8",
         "protocol_version": "https://opencoin.org/1.0",
         "serial": "e4b06ce60741c7a87ce42c8218072e8c",
         "type": "payload"
       },
-      "signature": "20196f7e9354a5d8c6a4bb687f34f090653216eb72b17f1f...",
+      "signature": "72da93670f666c529f26fcf15092a63c0fa48c8387...",
       "type": "coin"
     }
   ],

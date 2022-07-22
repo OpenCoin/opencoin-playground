@@ -23,7 +23,7 @@ alice->issuer: RequestMKCs
 issuer->alice: ResponseMKCs
 rnote right of alice: MKCs
 
-bob-->bob: also fetch\nissuer documents
+bob-->bob: fetch\nissuer documents
 rnote right of bob: CDDC\nMKCs
 
 alice --> alice: prepare blinds

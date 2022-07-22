@@ -1,7 +1,6 @@
 # Reviews
 
-For the first version of OpenCoin we had funding from the [LDA](https://en.wikipedia.org/wiki/London_Development_Agency),
-which allowed us to get OpenCoin reviewed from a technical and legal perspective.
+For the first version of OpenCoin we had funding from the [LDA](https://en.wikipedia.org/wiki/London_Development_Agency), which allowed us to get OpenCoin reviewed from a technical and legal perspective.
 
 ## Technical / Crypto review
 
@@ -21,10 +20,9 @@ We also had a legal review of our ideas by:
 - [George Walker](http://www.ccls.edu/staff/walker.html)
 
 The [legal report](opencoin_legal_summary.doc) examines under which circumstances
-OpenCoin could be run (at the time). Legal circumstances have changed since then, so we would recommend do 
-have another legal review.
+OpenCoin could be run (at the time). Legal circumstances have changed since then, so we would recommend do have another legal review.
 
-There was also a [freemind mindmap](legal.mm), exported as svg:
+There was also a [freemind mindmap](legal.mm), that shows the structure of the legal issues. Here exported as an image:
 
 :::{figure-md} legal_issues
 :class: figure

@@ -85,3 +85,5 @@ latex_elements = {
     'papersize': 'a4paper',
     'pointsize': '12pt'
 }
+
+today_fmt = "%d.%m.%Y, %H:%M"

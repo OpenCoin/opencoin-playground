@@ -1,6 +1,6 @@
 # Scope
 
-We scope the protocol, and it's description in the following way:
+We scope the protocol, and this documentation in the following way:
 
 **Targeted at developers** - developers should be enabled (and motivated) by the OpenCoin protocol to implement standard confirming software components and apps. However, we hope that this documentation is also understandable for the interested user (or founder, investor, auditor, etc.)
 
@@ -10,4 +10,4 @@ We scope the protocol, and it's description in the following way:
 
 [^grug]: See "The Grug Brained Developer", https://grugbrain.dev/. 
 
-**Only the core** - lots of developments have happened since [we started](history.md#history). Take the example of messengers like Signal, Telegram or WhatsApp. The have opened new ways to transport messages, and they take care of identifying the communication partner. This especially means that message transport and authentication stays out of scope.
+**Only the core** - lots of developments have happened since [we started](history.md#history). Take the example of messengers like Signal, Telegram or WhatsApp: they have opened new ways to transport messages, and they take care of identifying the communication partner. This especially means that message transport and authentication stay out of scope.
