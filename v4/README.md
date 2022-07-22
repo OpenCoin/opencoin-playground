@@ -12,13 +12,13 @@ flowchart TD
 
 run_protocol.py--uses-->containers.py--uses-->schemata.py
 run_protocol.py--generates-->artifacts[docs/artifacts]
-run_protocol.py--uses-->oc_crypto.py--uses-->rsa
+run_protocol.py--uses-->rsa_suite.py--uses-->cryptograpy
 artifacts --described in--> readme[docs]
 ```
 
 `run_protocol.py` is the main file, that generates the examples in the `docs/artifacts` directory. These files have a suffix
-of `.oc`, as in OpenCoin, but really are just json files. It uses `oc_crypto.py`, which is a minimalistic layer 
-on top of the [`python-rsa`](https://pypi.org/project/rsa/) package - we don't want to implement our own crypto.
+of `.oc`, as in OpenCoin, but really are just json files. It uses `rsa_suite.py`, which is a minimalistic layer 
+on top of the [`cryptography`](https://cryptography.io) package - we don't want to implement our own crypto.
 Having said that, there are some small helper functions to help with the blinding.
 
 `schemata.py` contains the actual schemata for the different opencoin messages, using 
