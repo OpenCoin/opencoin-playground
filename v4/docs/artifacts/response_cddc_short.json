@@ -1,0 +1,42 @@
+{
+  "cddc": {
+    "cdd": {
+      "additional_info": "",
+      "cdd_expiry_date": "2023-07-22T09:50:59.297375",
+      "cdd_location": "https://opencent.org",
+      "cdd_serial": 1,
+      "cdd_signing_date": "2022-07-22T09:50:59.297375",
+      "currency_divisor": 100,
+      "currency_name": "OpenCent",
+      "denominations": [1, 2, 5],
+      "id": "563c6fa43256d3ad4abe55061a867f8d...",
+      "info_service": [
+        [10, "https://opencent.org"]
+      ],
+      "issuer_cipher_suite": "RSA512-SHA256-PSS-CHAUM82",
+      "issuer_public_master_key": {
+        "modulus": "cf73f8a47bc6afa23fee00c19a458eef...",
+        "public_exponent": 65537,
+        "type": "rsa public key"
+      },
+      "mint_service": [
+        [10, "https://opencent.org"],
+        [20, "https://opencent.com/validate"]
+      ],
+      "protocol_version": "https://opencoin.org/1.0",
+      "redeem_service": [
+        [10, "https://opencent.org"]
+      ],
+      "renew_service": [
+        [10, "https://opencent.org"]
+      ],
+      "type": "cdd"
+    },
+    "signature": "a80c2721ca0521c952b6f668dd3ba1d3...",
+    "type": "cdd certificate"
+  },
+  "message_reference": 100001,
+  "status_code": 200,
+  "status_description": "ok",
+  "type": "response cddc"
+}

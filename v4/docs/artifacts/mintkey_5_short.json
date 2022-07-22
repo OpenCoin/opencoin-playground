@@ -1,0 +1,15 @@
+{
+  "cdd_serial": 1,
+  "coins_expiry_date": "2023-10-30T09:50:59.297375",
+  "denomination": 5,
+  "id": "b60a40fe72c41b0df5e5898c136029eb...",
+  "issuer_id": "563c6fa43256d3ad4abe55061a867f8d...",
+  "public_mint_key": {
+    "modulus": "ceb0a31f91c092125a3828342836e3c0...",
+    "public_exponent": 65537,
+    "type": "rsa public key"
+  },
+  "sign_coins_not_after": "2023-07-22T09:50:59.297375",
+  "sign_coins_not_before": "2022-07-22T09:50:59.297375",
+  "type": "mint key"
+}

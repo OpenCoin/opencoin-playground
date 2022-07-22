@@ -39,17 +39,19 @@ Always part of a [CDDC](#cddc)
 
 ### Example
 
-```{literalinclude} artifacts/cdd.json
+```{literalinclude} artifacts/cdd_short.json
 :language: json
 ```
+Complete example: [cdd.json](artifacts/cdd.json)
 
 #### Secret key
 
 To make this documentation completely reproducible, here is the data for the secret issuer key:
 
-```{literalinclude} artifacts/issuer_secret.json
+```{literalinclude} artifacts/issuer_secret_short.json
 :language: json
 ```
+Complete example: [issuer_secret.json](artifacts/issuer_secret.json)
 
 ```{warning}
 Don't ever publish your secret keys!
@@ -67,9 +69,10 @@ The certificate for the [CDD](#cdd), signed with the secret master key. This is 
 
 ### Example
 
-```{literalinclude} artifacts/cddc.json
+```{literalinclude} artifacts/cddc_short.json
 :language: json
 ```
+Complete example: [cddc.json](artifacts/cddc.json)
 
 
 ## PublicKey
@@ -87,9 +90,10 @@ Always part of a [CDD](#cdd) or [MKC](#mkc).
 
 ### Example
 
-```{literalinclude} artifacts/issuer_public_master_key.json
+```{literalinclude} artifacts/issuer_public_master_key_short.json
 :language: json
 ```
+Complete example: [issuer_public_master_key.json](artifacts/issuer_public_master_key.json)
 
 ## MintKey
 
@@ -122,17 +126,19 @@ Always part of a [MKC](#mkc)
 
 ### Example
 
-```{literalinclude} artifacts/mintkey_1.json
+```{literalinclude} artifacts/mintkey_1_short.json
 :language: json
 ```
+Complete example: [mintkey_1.json](artifacts/mintkey_1.json)
 
 #### Secret key
 
 To make this documentation completely reproducible, here is the data for the secret mint key for the value 1:
 
-```{literalinclude} artifacts/mintkey_1_secret.json
+```{literalinclude} artifacts/mintkey_1_secret_short.json
 :language: json
 ```
+Complete example: [mintkey_1_secret.json](artifacts/mintkey_1_secret.json)
 
 ```{warning}
 Don't ever publish your secret keys!
@@ -152,9 +158,10 @@ A *Mint Key Certificate* for the [MKC](#mkc). Signed with the secret master key 
 
 ### Example
 
-```{literalinclude} artifacts/mkc_1.json
+```{literalinclude} artifacts/mkc_1_short.json
 :language: json
 ```
+Complete example: [mkc_1.json](artifacts/mkc_1.json)
 
 ## Payload
 
@@ -172,9 +179,10 @@ These are the "innards" of [Coin](#coin). The mint key id is a helper so that th
 
 ### Example
 
-```{literalinclude} artifacts/payload_a0.json
+```{literalinclude} artifacts/payload_a0_short.json
 :language: json
 ```
+Complete example: [payload_a0.json](artifacts/payload_a0.json)
 
 ## Blind
 
@@ -190,9 +198,10 @@ to connect signatures to blinds later on (we don't want to rely on list orders).
 
 ### Example
 
-```{literalinclude} artifacts/blind_a0.json
+```{literalinclude} artifacts/blind_a0_short.json
 :language: json
 ```
+Complete example: [blind_a0.json](artifacts/blind_a0.json)
 
 ## BlindSignature
 
@@ -206,9 +215,10 @@ The signature for a blind. The blind is specified with the reference.
 
 ### Example
 
-```{literalinclude} artifacts/blind_signature_a0.json
+```{literalinclude} artifacts/blind_signature_a0_short.json
 :language: json
 ```
+Complete example: [blind_signature_a0.json](artifacts/blind_signature_a0.json)
 
 ## Coin
 
@@ -222,9 +232,10 @@ The certificate for a payload. The signature is the unblinded [BlindSignature](#
 
 ### Example
 
-```{literalinclude} artifacts/coin_a0.json
+```{literalinclude} artifacts/coin_a0_short.json
 :language: json
 ```
+Complete example: [coin_a0.json](artifacts/coin_a0.json)
 
 ## RequestCDDSerial Message
 
@@ -237,9 +248,10 @@ This message asks for the cdd_serial of the current [CDDC](#cddc).
 
 ### Example
 
-```{literalinclude} artifacts/request_cddc_serial.json
+```{literalinclude} artifacts/request_cddc_serial_short.json
 :language: json
 ```
+Complete example: [request_cddc_serial.json](artifacts/request_cddc_serial.json)
 
 ## ResponseCDDSerial Message
 
@@ -255,9 +267,10 @@ Returns the current cdd_serial.
 
 ### Example
 
-```{literalinclude} artifacts/response_cddc_serial.json
+```{literalinclude} artifacts/response_cddc_serial_short.json
 :language: json
 ```
+Complete example: [response_cddc_serial.json](artifacts/response_cddc_serial.json)
 
 ## RequestCDDC Message
 
@@ -271,9 +284,10 @@ This requests the [CDDC](#cddc) specified by the cdd_serial. If cdd_serial is se
 
 ### Example
 
-```{literalinclude} artifacts/request_cddc.json
+```{literalinclude} artifacts/request_cddc_short.json
 :language: json
 ```
+Complete example: [request_cddc.json](artifacts/request_cddc.json)
 
 ## ResponseCDDC Message
 
@@ -289,9 +303,10 @@ This response carries the [CDDC](#cddc).
 
 ### Example
 
-```{literalinclude} artifacts/response_cddc.json
+```{literalinclude} artifacts/response_cddc_short.json
 :language: json
 ```
+Complete example: [response_cddc.json](artifacts/response_cddc.json)
 
 ## RequestMKCs Message
 
@@ -306,9 +321,10 @@ This requests one or more [MKCs](#mkc). The fields *denominations* and *mint_key
 
 ### Example
 
-```{literalinclude} artifacts/request_mkc.json
+```{literalinclude} artifacts/request_mkc_short.json
 :language: json
 ```
+Complete example: [request_mkc.json](artifacts/request_mkc.json)
 
 ## ResponseMKCs Message
 
@@ -324,9 +340,10 @@ This delivers the [MKCs] as specified in the [RequestMKCs](#requestmkcs-message)
 
 ### Example
 
-```{literalinclude} artifacts/response_mkc.json
+```{literalinclude} artifacts/response_mkc_short.json
 :language: json
 ```
+Complete example: [response_mkc.json](artifacts/response_mkc.json)
 
 ## RequestMint Message
 
@@ -343,9 +360,10 @@ The client asking for this action should be authenticated, and the issuer should
 
 ### Example
 
-```{literalinclude} artifacts/request_mint.json
+```{literalinclude} artifacts/request_mint_short.json
 :language: json
 ```
+Complete example: [request_mint.json](artifacts/request_mint.json)
 
 ## ResponseMint Message
 
@@ -361,9 +379,10 @@ This delivers the [BlindSignatures](#blindsignature). The client is to unblind t
 
 ### Example
 
-```{literalinclude} artifacts/response_mint_a.json
+```{literalinclude} artifacts/response_mint_a_short.json
 :language: json
 ```
+Complete example: [response_mint_a.json](artifacts/response_mint_a.json)
 
 ## CoinStack Message
 
@@ -377,9 +396,10 @@ This holds a set of coins. It is not a message in the strict sense, but a contai
 
 ### Example
 
-```{literalinclude} artifacts/coinstack.json
+```{literalinclude} artifacts/coinstack_short.json
 :language: json
 ```
+Complete example: [coinstack.json](artifacts/coinstack.json)
 
 ## RequestRenew Message
 
@@ -405,9 +425,10 @@ Also see [](operations.md#tokenizing) for a sample implementation.
 
 ### Example
 
-```{literalinclude} artifacts/request_renew.json
+```{literalinclude} artifacts/request_renew_short.json
 :language: json
 ```
+Complete example: [request_renew.json](artifacts/request_renew.json)
 
 ## ResponseDelay Message
 
@@ -422,9 +443,10 @@ This message is used by the issuer to signal a delay in minting or renewing coin
 
 ### Example
 
-```{literalinclude} artifacts/response_delay.json
+```{literalinclude} artifacts/response_delay_short.json
 :language: json
 ```
+Complete example: [response_delay.json](artifacts/response_delay.json)
 
 ## RequestResume Message
 
@@ -438,9 +460,10 @@ This message request that an action that was delayed before with a [ResponseDela
 
 ### Example
 
-```{literalinclude} artifacts/request_resume.json
+```{literalinclude} artifacts/request_resume_short.json
 :language: json
 ```
+Complete example: [request_resume.json](artifacts/request_resume.json)
 
 ## RequestRedeem Message
 
@@ -456,9 +479,10 @@ The client needs to be authenticated for this request (outside this protocol), s
 
 ### Example
 
-```{literalinclude} artifacts/request_redeem.json
+```{literalinclude} artifacts/request_redeem_short.json
 :language: json
 ```
+Complete example: [request_redeem.json](artifacts/request_redeem.json)
 
 ## ResponseRedeem Message
 
@@ -473,8 +497,9 @@ This just answers to a [RequestRedeem](#requestredeem-message), and doesn't hold
 
 ### Example
 
-```{literalinclude} artifacts/response_redeem.json
+```{literalinclude} artifacts/response_redeem_short.json
 :language: json
 ```
+Complete example: [response_redeem.json](artifacts/response_redeem.json)
 
 [^partial]: GNU Taler experiments with this approach: in essence coins don't have serials but keys, which can sign a partial amount to be spent. This requires more smartness to avoid double spending, introducing new problems to be solved.

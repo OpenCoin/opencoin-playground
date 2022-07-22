@@ -1,0 +1,23 @@
+{
+  "blind_signatures": [
+    {
+      "blind_signature": "1735052b3ccbb3c4db5a5c6e0da4e5ed...",
+      "reference": "a0",
+      "type": "blind signature"
+    },
+    {
+      "blind_signature": "c240dc5992fabff80c5a7644abfe658b...",
+      "reference": "a1",
+      "type": "blind signature"
+    },
+    {
+      "blind_signature": "c6efe1785aac136831227a515e2af9a5...",
+      "reference": "a2",
+      "type": "blind signature"
+    }
+  ],
+  "message_reference": 100003,
+  "status_code": 200,
+  "status_description": "ok",
+  "type": "response mint"
+}

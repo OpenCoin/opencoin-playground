@@ -1,5 +1,6 @@
 import datetime
 import os
+import re
 from itertools import count
 
 
@@ -133,6 +134,14 @@ def write(document, name):
     elif type(document) in [dict,AttrDict]:
         document = dict(document)
         document = json.dumps(document, indent=2)
+
+    shortened = re.sub(r'"([a-fA-F0-9]{32,}?)"',lambda match: f'"{match[1][:32]}..."', document)
+
+    name_short = name.replace('.json', '_short.json')
+
+    with open(os.path.join(artifacts_dir, name_short), 'w') as f:
+        f.write(shortened)
+
 
     with open(os.path.join(artifacts_dir, name), 'w') as f:
         f.write(document)

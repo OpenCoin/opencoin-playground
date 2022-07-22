@@ -1,0 +1,28 @@
+{
+  "blind_signatures": [
+    {
+      "blind_signature": "36767d2bed1eb4078ee013617bc6e569...",
+      "reference": "b0",
+      "type": "blind signature"
+    },
+    {
+      "blind_signature": "370d19cb75aca95c20443faea1fa7b29...",
+      "reference": "b1",
+      "type": "blind signature"
+    },
+    {
+      "blind_signature": "a96409569a1a8579b384fa9f111e8494...",
+      "reference": "b2",
+      "type": "blind signature"
+    },
+    {
+      "blind_signature": "97ce2921ee52c83d5672ed74698066ec...",
+      "reference": "b3",
+      "type": "blind signature"
+    }
+  ],
+  "message_reference": 100004,
+  "status_code": 200,
+  "status_description": "ok",
+  "type": "response mint"
+}

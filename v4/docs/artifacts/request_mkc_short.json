@@ -1,0 +1,6 @@
+{
+  "denominations": [1, 2, 5],
+  "message_reference": 100002,
+  "mint_key_ids": [],
+  "type": "request mint key certificates"
+}

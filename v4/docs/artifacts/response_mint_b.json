@@ -1,22 +1,22 @@
 {
   "blind_signatures": [
     {
-      "blind_signature": "5026c95c2e5dd7ae91fc517720452b08d6f48bc7ecc12a89212d78e79eeeec24c80022a6d7e5ed1d40360a944280393c66c668a73d7342dfb40c1f6343b07e35",
+      "blind_signature": "36767d2bed1eb4078ee013617bc6e569e217b75e68539fd60aaca3a401eef936eda854d53bf8e38c96d153e2109fd58529db4217291cadff6aa0d7509805548a",
       "reference": "b0",
       "type": "blind signature"
     },
     {
-      "blind_signature": "761cd8825cb12a20ca38122691c3e57b8ad9d39d24044afc26076c2a8621ec45965df3a5b90f99f60cc02526cf692392dae53282df509415d388d1e3810fc814",
+      "blind_signature": "370d19cb75aca95c20443faea1fa7b29606e60c36d5d087126f061bd3539e4770fd5ddd66eb1601711a40a8232af186aa0421ed014ecb944e8707d066017fc69",
       "reference": "b1",
       "type": "blind signature"
     },
     {
-      "blind_signature": "4d00585ce881464b2d818ba51fff5bbdafec0cb4352b2da6dd64e8e28f9957e92c7500bc3ff0a0edf31cc605dd764c9928fea464a3db4e909e6a78013ab56b2",
+      "blind_signature": "a96409569a1a8579b384fa9f111e8494ae03241be665293531b43842e072542514d666d94c668ed7bb9888334a4ca274b6f409e07c58fc45ac90104c21122add",
       "reference": "b2",
       "type": "blind signature"
     },
     {
-      "blind_signature": "6798c487cea1f454e5c6d87a177bebfd1702b2bf873f48a3e7d57d6f0ea65bd99ba9b7d3a0a06cffbe184219a7c3597f35faad126074b414f897f55e6f07b01d",
+      "blind_signature": "97ce2921ee52c83d5672ed74698066ec38158e7f863f010fe481d06b03f6d2aacbd9583196f7f1d52f1dbb1bde14906ac70f6ec35e3e1c0f3caffa77ad930869",
       "reference": "b3",
       "type": "blind signature"
     }
