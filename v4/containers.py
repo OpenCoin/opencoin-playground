@@ -2,7 +2,6 @@ import hashlib
 import json
 import re
 
-import oc_crypto
 import schemata
 
 from attr_dict import AttrDict, to_attr_dict
@@ -152,12 +151,6 @@ class MintKey(Container):
 class MKC(SignedContainer):
     schema = schemata.MKC()
     document_class = MintKey
-
-    @property
-    def public_key(self):
-        return oc_crypto.PublicKey(self.mint_key.public_mint_key.modulus,
-                                   self.mint_key.public_mint_key.public_exponent)
-
 
 class Payload(Container):
     schema = schemata.Payload()

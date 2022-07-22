@@ -1,48 +1,67 @@
+"""
+Demo implementation of a cipher suite for documentation purposes only.
+
+Layer on top of cryptography.io, but also adds blinding support.
+"""
 import math
-import random
+import random  # this is insecure, but doesn't matter for documentation
 
 import cryptography.exceptions
+from cryptography.hazmat.backends.openssl.backend import Backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.backends.openssl.backend import Backend
-
-
 
 
 class Suite:
+    """
+    Represents an RSA cipher suite.
 
-    def __init__(self, key_length = 2048, hash_alg="SHA256", random_length=128):
+    Used to work towards a shared interface
+    """
+
+    def __init__(self, key_length=2048, hash_alg="SHA256", random_length=128):
         self.key_length = key_length
         self.hash_alg = hash_alg
         self.random_length = random_length
 
     def get_hasher(self):
+        """Returns the configured hash algorithm"""
+
         return getattr(hashes, self.hash_alg)()
 
-    def generate_keys(self, key_length = None):
+    def generate_keys(self, key_length=None):
+        """Generate public, private keys"""
         if key_length is None:
             key_length = self.key_length
         private = PrivateKey(rsa.generate_private_key(65537, key_length), self)
         return private.pubkey, private
 
     def get_random_bits(self, length=None):
+        """Random bits, here only pseudo random. Shortcut to have uniform length"""
         if length is None:
             length = self.random_length
         return random.getrandbits(length)
 
     def get_random_bytes(self, length):
+        """Random bytes"""
         return random.randbytes(length)
 
     def get_padding(self):
+        """Returns the padding mechanism"""
         return padding.PSS(mgf=padding.MGF1(self.get_hasher()),
                            salt_length=padding.PSS.MAX_LENGTH)
 
     def name(self):
+        """Returns the string describing the suite as configured"""
         return f"RSA-{self.hash_alg}-PSS-CHAUM82"
 
-
     def restore_public_key(self, e, n):
+        """Needed to create a public key from JSON
+
+        We don't need an equivalent for private keys, because they are never
+        transferred.
+        """
         public_numbers = rsa.RSAPublicNumbers(e, n)
         backend = Backend()
         return PubKey(backend.load_rsa_public_numbers(public_numbers), self)
@@ -87,6 +106,7 @@ class PubKey:
         self.suite = suite
 
     def blinding_factors(self):
+        """Return blinder, unblinder"""
         while 1:
             unblinder = self.suite.get_random_bits(self.suite.random_length)
             if math.gcd(unblinder, self.n) == 1:  # relative prime
@@ -94,14 +114,16 @@ class PubKey:
         blinder = pow(rsa._modinv(unblinder, self.n), self.e, self.n)
         return blinder, unblinder
 
-    def blinding_operation(self, m, secret, n):
+    def _blinding_operation(self, m, secret, n):
         return (m * secret) % n
 
-    def blind(self, m, secret):
-        return self.blinding_operation(m, secret, self.n)
+    def blind(self, m: int, secret: int):
+        """Blind a message with a secret"""
+        return self._blinding_operation(m, secret, self.n)
 
-    def unblind(self, m, secret):
-        return self.blinding_operation(m, secret, self.n)
+    def unblind(self, m: int, secret: int):
+        """Unblind a message using a secret"""
+        return self._blinding_operation(m, secret, self.n)
 
     def verify(self, signature, message):
         """Proper RSA padded signature verification"""
@@ -110,24 +132,25 @@ class PubKey:
             message = message.encode('utf-8')
         try:
             self.public_key.verify(
-                signature,
-                message,
+                    signature,
+                    message,
                     self.suite.get_padding(),
                     self.suite.get_hasher())
         except cryptography.exceptions.InvalidSignature:
             return False
         return True
 
-    def verify_blind(self, signature: int, message:int):
+    def verify_blind(self, signature: int, message: int):
+        """Verify the signature on a coin"""
         verified = pow(signature, self.e, self.n)
         return verified == message
+
 
 if __name__ == '__main__':
     random.seed(1)
     suite = Suite(key_length=512)
     print(suite.name())
-    private = suite.generate_keys()
-    public = private.pubkey
+    public, private = suite.generate_keys()
 
     serial = suite.get_random_bits()
     print(serial)
@@ -141,8 +164,7 @@ if __name__ == '__main__':
 
     print(public.verify_blind(unblinded, serial))
 
-
     text = 'my message'
     signature = private.sign(text)
-    print(int.from_bytes(signature,'big'))
+    print(int.from_bytes(signature, 'big'))
     print(public.verify(signature, text))

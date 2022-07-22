@@ -1,3 +1,5 @@
+# This file is here only for historic purposes
+
 from rsa_oc import get_blinding_factors, blind, unblind, sign, verify, generate_keys, getrandbits
 
 
