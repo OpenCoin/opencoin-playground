@@ -4,39 +4,39 @@
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 1,
-        "issuer_id": "9d79304b575010699be1ee412bd91f5ef8d3cffb",
-        "mint_key_id": "cc45d9eaede89c34c83d1147b03cf6018439cbea",
+        "issuer_id": "a3aa3b4178cb9d8db7460fb5fc2dd165ecf64db4",
+        "mint_key_id": "a3120146a2af473c933afea6de2efcfe1529c442",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "bc937d7e064d7a2f723280c3e1df6f91",
+        "serial": "cd613e30d8f16adf91b7584a2265b1f5",
         "type": "payload"
       },
-      "signature": "8861f61e9c4ae85f8b4bb241fe92bc1078715ed79ea7512ff10d0eefe38363f6",
+      "signature": "3b07ec6bbf030b663f46de38388e708c51906224c23f15515964cfa526a705977d88e5eab6060e480bc9d957b3d7942babf6dd0fdc4b2aaa49d03e052d4f5164",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 2,
-        "issuer_id": "9d79304b575010699be1ee412bd91f5ef8d3cffb",
-        "mint_key_id": "9b4b84d9e33b90c94217e128abaea0629936f6f3",
+        "issuer_id": "a3aa3b4178cb9d8db7460fb5fc2dd165ecf64db4",
+        "mint_key_id": "eaade16d47114f7ebaa963364afe53334d4307d",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "407dbb94fe145171da64b870935ac8d9",
+        "serial": "78e510617311d8a3c2ce6f447ed4d57b",
         "type": "payload"
       },
-      "signature": "f57d641c03ee42c33b86c965baf6753e1ce9b4a736a4a3ca3911845214a2873",
+      "signature": "c8369ee62a630b6011394dbf698e16efb4d736ccb62a3fd7a1fc7fdc9777c022341964c6c7ace788bccf7138f05ffeff7ca00a7a034392c46f151db9d5c46f66",
       "type": "coin"
     },
     {
       "payload": {
         "cdd_location": "https://opencent.org",
         "denomination": 5,
-        "issuer_id": "9d79304b575010699be1ee412bd91f5ef8d3cffb",
-        "mint_key_id": "9e999aaff034e7f2a3113d764866fc5b13cb2f86",
+        "issuer_id": "a3aa3b4178cb9d8db7460fb5fc2dd165ecf64db4",
+        "mint_key_id": "1f6c29288bdbfff293f80ae6f90c1e3a314ea899",
         "protocol_version": "https://opencoin.org/1.0",
-        "serial": "e66743dc5e3c1d969721c6e50597ebc1",
+        "serial": "e4b06ce60741c7a87ce42c8218072e8c",
         "type": "payload"
       },
-      "signature": "9007144ca15f07774cb13abd476ee0c85304f9b5014f37c08fb8727e4930216",
+      "signature": "27bf33bb5b32d440dbfe7a99ec96a6d40c334f8eb2d67b7831464d17f5490accf8c3e905be3612c0bdab09d260c8f6876fdfb0fbd427d89be5c7f75d536c0192",
       "type": "coin"
     }
   ],

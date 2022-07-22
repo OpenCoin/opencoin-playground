@@ -1,20 +1,20 @@
 {
   "additional_info": "",
-  "cdd_expiry_date": "2023-07-21T10:23:33.105189",
+  "cdd_expiry_date": "2023-07-22T09:25:02.936825",
   "cdd_location": "https://opencent.org",
   "cdd_serial": 1,
-  "cdd_signing_date": "2022-07-21T10:23:33.105189",
+  "cdd_signing_date": "2022-07-22T09:25:02.936825",
   "currency_divisor": 100,
   "currency_name": "OpenCent",
   "denominations": [1, 2, 5],
-  "id": "9d79304b575010699be1ee412bd91f5ef8d3cffb",
+  "id": "a3aa3b4178cb9d8db7460fb5fc2dd165ecf64db4",
   "info_service": [
         [10, "https://opencent.org"]
       ],
-  "issuer_cipher_suite": "INSECURE-RSA256-SHA1-CHAUM86",
+  "issuer_cipher_suite": "RSA512-SHA256-PSS-CHAUM82",
   "issuer_public_master_key": {
-    "modulus": "b9954241c4cbf976ff52ae263aebe7b54d0b5bd7c0e56b54e3e577bcd2023935",
-    "public_exponent": 19,
+    "modulus": "96adcef2877be887df740398a13e5fbf11dc3ce6dec67673c436a0786b66157fe69963592b0f2e491255c653165c3c30e01d5e53d477190f1495063da7445be1",
+    "public_exponent": 65537,
     "type": "rsa public key"
   },
   "mint_service": [

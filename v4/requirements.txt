@@ -6,3 +6,10 @@ Pillow
 sphinx-book-theme
 linkify-it-py
 pytest
+setuptools
+rsa
+pyasn1
+docutils
+beautifulsoup4
+marshmallow
+cryptography

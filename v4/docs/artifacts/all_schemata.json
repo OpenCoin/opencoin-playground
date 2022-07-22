@@ -2,12 +2,6 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
     "Blind": {
-      "required": [
-        "blinded_payload_hash",
-        "mint_key_id",
-        "reference",
-        "type"
-      ],
       "properties": {
         "blinded_payload_hash": {
           "title": "blinded_payload_hash",
@@ -30,15 +24,16 @@
           ]
         }
       },
+      "required": [
+        "blinded_payload_hash",
+        "mint_key_id",
+        "reference",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "BlindSignature": {
-      "required": [
-        "blind_signature",
-        "reference",
-        "type"
-      ],
       "properties": {
         "blind_signature": {
           "title": "blind_signature",
@@ -57,15 +52,15 @@
           ]
         }
       },
+      "required": [
+        "blind_signature",
+        "reference",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "PublicKey": {
-      "required": [
-        "modulus",
-        "public_exponent",
-        "type"
-      ],
       "properties": {
         "modulus": {
           "title": "modulus",
@@ -84,29 +79,15 @@
           ]
         }
       },
+      "required": [
+        "modulus",
+        "public_exponent",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "CDD": {
-      "required": [
-        "additional_info",
-        "cdd_expiry_date",
-        "cdd_location",
-        "cdd_serial",
-        "cdd_signing_date",
-        "currency_divisor",
-        "currency_name",
-        "denominations",
-        "id",
-        "info_service",
-        "issuer_cipher_suite",
-        "issuer_public_master_key",
-        "mint_service",
-        "protocol_version",
-        "redeem_service",
-        "renew_service",
-        "type"
-      ],
       "properties": {
         "additional_info": {
           "title": "additional_info",
@@ -231,15 +212,29 @@
           ]
         }
       },
+      "required": [
+        "additional_info",
+        "cdd_expiry_date",
+        "cdd_location",
+        "cdd_serial",
+        "cdd_signing_date",
+        "currency_divisor",
+        "currency_name",
+        "denominations",
+        "id",
+        "info_service",
+        "issuer_cipher_suite",
+        "issuer_public_master_key",
+        "mint_service",
+        "protocol_version",
+        "redeem_service",
+        "renew_service",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "CDDC": {
-      "required": [
-        "cdd",
-        "signature",
-        "type"
-      ],
       "properties": {
         "cdd": {
           "type": "object",
@@ -258,19 +253,15 @@
           ]
         }
       },
+      "required": [
+        "cdd",
+        "signature",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "Payload": {
-      "required": [
-        "cdd_location",
-        "denomination",
-        "issuer_id",
-        "mint_key_id",
-        "protocol_version",
-        "serial",
-        "type"
-      ],
       "properties": {
         "cdd_location": {
           "title": "cdd_location",
@@ -305,15 +296,19 @@
           ]
         }
       },
+      "required": [
+        "cdd_location",
+        "denomination",
+        "issuer_id",
+        "mint_key_id",
+        "protocol_version",
+        "serial",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "Coin": {
-      "required": [
-        "payload",
-        "signature",
-        "type"
-      ],
       "properties": {
         "payload": {
           "type": "object",
@@ -332,15 +327,15 @@
           ]
         }
       },
+      "required": [
+        "payload",
+        "signature",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "CoinStack": {
-      "required": [
-        "coins",
-        "subject",
-        "type"
-      ],
       "properties": {
         "coins": {
           "title": "coins",
@@ -363,21 +358,15 @@
           ]
         }
       },
+      "required": [
+        "coins",
+        "subject",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "MintKey": {
-      "required": [
-        "cdd_serial",
-        "coins_expiry_date",
-        "denomination",
-        "id",
-        "issuer_id",
-        "public_mint_key",
-        "sign_coins_not_after",
-        "sign_coins_not_before",
-        "type"
-      ],
       "properties": {
         "cdd_serial": {
           "title": "cdd_serial",
@@ -423,15 +412,21 @@
           ]
         }
       },
+      "required": [
+        "cdd_serial",
+        "coins_expiry_date",
+        "denomination",
+        "id",
+        "issuer_id",
+        "public_mint_key",
+        "sign_coins_not_after",
+        "sign_coins_not_before",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "MKC": {
-      "required": [
-        "mint_key",
-        "signature",
-        "type"
-      ],
       "properties": {
         "mint_key": {
           "type": "object",
@@ -450,15 +445,15 @@
           ]
         }
       },
+      "required": [
+        "mint_key",
+        "signature",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "RequestCDDC": {
-      "required": [
-        "cdd_serial",
-        "message_reference",
-        "type"
-      ],
       "properties": {
         "cdd_serial": {
           "title": "cdd_serial",
@@ -477,14 +472,15 @@
           ]
         }
       },
+      "required": [
+        "cdd_serial",
+        "message_reference",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "RequestCDDSerial": {
-      "required": [
-        "message_reference",
-        "type"
-      ],
       "properties": {
         "message_reference": {
           "title": "message_reference",
@@ -499,16 +495,14 @@
           ]
         }
       },
+      "required": [
+        "message_reference",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "RequestMKCs": {
-      "required": [
-        "denominations",
-        "message_reference",
-        "mint_key_ids",
-        "type"
-      ],
       "properties": {
         "denominations": {
           "title": "denominations",
@@ -539,16 +533,16 @@
           ]
         }
       },
+      "required": [
+        "denominations",
+        "message_reference",
+        "mint_key_ids",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "RequestMint": {
-      "required": [
-        "blinds",
-        "message_reference",
-        "transaction_reference",
-        "type"
-      ],
       "properties": {
         "blinds": {
           "title": "blinds",
@@ -575,15 +569,16 @@
           ]
         }
       },
+      "required": [
+        "blinds",
+        "message_reference",
+        "transaction_reference",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "RequestRedeem": {
-      "required": [
-        "coins",
-        "message_reference",
-        "type"
-      ],
       "properties": {
         "coins": {
           "title": "coins",
@@ -606,17 +601,15 @@
           ]
         }
       },
+      "required": [
+        "coins",
+        "message_reference",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "RequestRenew": {
-      "required": [
-        "blinds",
-        "coins",
-        "message_reference",
-        "transaction_reference",
-        "type"
-      ],
       "properties": {
         "blinds": {
           "title": "blinds",
@@ -651,15 +644,17 @@
           ]
         }
       },
-      "type": "object",
-      "additionalProperties": false
-    },
-    "RequestResume": {
       "required": [
+        "blinds",
+        "coins",
         "message_reference",
         "transaction_reference",
         "type"
       ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "RequestResume": {
       "properties": {
         "message_reference": {
           "title": "message_reference",
@@ -678,16 +673,15 @@
           ]
         }
       },
+      "required": [
+        "message_reference",
+        "transaction_reference",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "ResponseCDDC": {
-      "required": [
-        "cddc",
-        "message_reference",
-        "status_description",
-        "type"
-      ],
       "properties": {
         "cddc": {
           "type": "object",
@@ -717,16 +711,16 @@
           ]
         }
       },
-      "type": "object",
-      "additionalProperties": false
-    },
-    "ResponseCDDSerial": {
       "required": [
-        "cdd_serial",
+        "cddc",
         "message_reference",
         "status_description",
         "type"
       ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseCDDSerial": {
       "properties": {
         "cdd_serial": {
           "title": "cdd_serial",
@@ -756,15 +750,16 @@
           ]
         }
       },
-      "type": "object",
-      "additionalProperties": false
-    },
-    "ResponseDelay": {
       "required": [
+        "cdd_serial",
         "message_reference",
         "status_description",
         "type"
       ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseDelay": {
       "properties": {
         "message_reference": {
           "title": "message_reference",
@@ -790,16 +785,15 @@
           ]
         }
       },
-      "type": "object",
-      "additionalProperties": false
-    },
-    "ResponseMKCs": {
       "required": [
-        "keys",
         "message_reference",
         "status_description",
         "type"
       ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseMKCs": {
       "properties": {
         "keys": {
           "title": "keys",
@@ -833,16 +827,16 @@
           ]
         }
       },
-      "type": "object",
-      "additionalProperties": false
-    },
-    "ResponseMint": {
       "required": [
-        "blind_signatures",
+        "keys",
         "message_reference",
         "status_description",
         "type"
       ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseMint": {
       "properties": {
         "blind_signatures": {
           "title": "blind_signatures",
@@ -876,15 +870,16 @@
           ]
         }
       },
-      "type": "object",
-      "additionalProperties": false
-    },
-    "ResponseRedeem": {
       "required": [
+        "blind_signatures",
         "message_reference",
         "status_description",
         "type"
       ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ResponseRedeem": {
       "properties": {
         "message_reference": {
           "title": "message_reference",
@@ -910,6 +905,11 @@
           ]
         }
       },
+      "required": [
+        "message_reference",
+        "status_description",
+        "type"
+      ],
       "type": "object",
       "additionalProperties": false
     }

@@ -65,18 +65,6 @@ class Container:
             output = re.sub(r'\]\s+\],', ']\n      ],', output)
             output = re.sub(r'\[\[', '[\n        [', output)
             output = output.replace('[ ', '[')
-            # output = re.sub(r'\[([\s,\d]+)\]',replace_int_list, output, flags=re.S)
-            # output = re.sub(r'": \[(.*?)\]((\s+?})?,\s+"[^"]+?": )', replace_list_space, output, flags=re.S)
-            # output = re.sub(r'\[\s+\[\s+',r'[[',output, flags=re.S)
-            # output = re.sub(r'(\d+),\s{6}',r'\1,',output)
-            # output = re.sub(r'\]\s+\]', r']]', output, flags=re.S)
-            # output = re.sub(r'\[(\s+)(\d+),\s+"(.*?)"\s+\]',r'[\2,"\3"]',output)
-            # output = re.sub(r'\],\s+\[',r'],[',output)
-
-            # output = re.sub(r'": \[\s+', '": [', output, flags=re.S)
-            # output = re.sub(r'",\s+', '", ', output, flags=re.S)
-            # output = re.sub(r'"\s+]', '"]', output, flags=re.S)
-            ...
         return output
 
     def __str__(self):
@@ -118,8 +106,8 @@ class SignedContainer(Container):
         return [k for k in self.schema.fields.keys() if k not in ['signature', 'type']][0]
 
     def sign(self, private_key):
-        document = self.document_class(self.data[self.document_field]).hash()
-        signature = oc_crypto.sign(document, private_key)
+        document = self.document_class(self.data[self.document_field]).dumps(2)
+        signature = int.from_bytes(private_key.sign(document),'big')
         self.data.signature = signature
         return self.data.signature
 

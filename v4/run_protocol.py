@@ -4,20 +4,23 @@ from itertools import count
 
 
 import containers
-import oc_crypto
 from attr_dict import AttrDict
 import json
 
 import random
+from rsa_suite import Suite
 
 ###################### SETUP #########################
-cipher_name = 'INSECURE-RSA'
-key_length = 256
-rand_length = 128
-hasher = 'sha1'
-
 random.seed(1)
+key_length = 512
 ######################################################
+
+suite = Suite(512)
+
+def public_mint_key(mkc):
+    return suite.restore_public_key(mkc.mint_key.public_mint_key.public_exponent,
+                                    mkc.mint_key.public_mint_key.modulus)
+
 
 class DummyIssuer:
 
@@ -28,10 +31,11 @@ class DummyIssuer:
 
     def sign(self, blind):
         mk_id = blind.mint_key_id
-        bsignature = oc_crypto.sign_blind(blind.blinded_payload_hash,
-                                          self.mkc_private[mk_id][1])
+        # bsignature = oc_crypto.sign_blind(blind.blinded_payload_hash,
+        #                                   self.mkc_private[mk_id][1])
+        blind_signature = self.mkc_private[mk_id][1].sign_blind(blind.blinded_payload_hash)
         return create(containers.BlindSignature,
-                      blind_signature=bsignature,
+                      blind_signature=blind_signature,
                       reference=blind.reference)
 
     def sum_blinds(self, blinds):
@@ -61,7 +65,7 @@ class DummyWallet:
         self.mkc_by_denomination[mkc.mint_key.denomination] = mkc
 
     def prepare_blind(self, reference, denomination):
-        serial = oc_crypto.getrandbits(rand_length)
+        serial = suite.get_random_bits()
         mkc = self.mkc_by_denomination[denomination]
         payload = create(containers.Payload,
                          protocol_version=cdd.data.protocol_version,
@@ -72,10 +76,11 @@ class DummyWallet:
                          serial=serial)
         self.payloads[reference] = payload
 
-        mk_public = mkc.public_key
+        mk_public = public_mint_key(mkc)
 
-        bf, bi = oc_crypto.get_blinding_factors(mk_public)
-        blinded = oc_crypto.blind_message(payload.hash(), bf, mk_public)
+        bf, bi = mk_public.blinding_factors()
+        # blinded = oc_crypto.blind_message(payload.hash(), bf, mk_public)
+        blinded = mk_public.blind(payload.hash(), bf)
         blind = create(containers.Blind,
                        reference=reference,
                        blinded_payload_hash=blinded,
@@ -89,10 +94,10 @@ class DummyWallet:
         reference = blind_signature.reference
         mk_id = self.blinds[reference].mint_key_id
         mkc = self.mkc[mk_id]
-        mk_pub = mkc.public_key
+        mk_pub = public_mint_key(mkc)
         bsignature = blind_signature.blind_signature
-        signature = oc_crypto.unblind(bsignature, self.blinds_private[reference][1], mk_pub)
-        validated = oc_crypto.decrypt(signature, mk_pub) == self.payloads[reference].hash()
+        signature = mk_pub.unblind(bsignature, self.blinds_private[reference][1])
+        validated = mk_pub.verify_blind(signature, self.payloads[reference].hash())
         if not validated:
             raise Exception('unblinded invalid signature')
         coin = create(containers.Coin,
@@ -106,8 +111,8 @@ class DummyWallet:
 def validate_coin(wallet_holder, coin):
     mk_id = coin.payload.mint_key_id
     mkc = wallet_holder.mkc[mk_id]
-    mk_pub = mkc.public_key
-    return oc_crypto.decrypt(coin.signature, mk_pub) == containers.Payload(data=coin.payload).hash()
+    mk_pub = public_mint_key(mkc)
+    return mk_pub.verify_blind(coin.signature, containers.Payload(data=coin.payload).hash())
 
 message_id = count(start=100000)
 
@@ -145,10 +150,10 @@ issuer = DummyIssuer()
 alice = DummyWallet()
 bob = DummyWallet()
 
-cipher_suite = f'{cipher_name}{key_length}-{hasher.upper()}-CHAUM86'
+cipher_suite = suite.name()
 print(cipher_suite)
 
-(issuer_public, issuer_secret) = oc_crypto.newkeys(key_length)
+(issuer_public, issuer_secret) = suite.generate_keys()
 secret_issuer_key = dict(d=hex(issuer_secret.d)[2:], n=hex(issuer_secret.n)[2:])
 write(secret_issuer_key, f'issuer_secret.json')
 
@@ -192,7 +197,7 @@ mint_keys = {}
 mint_keys_by_id = {}
 mint_key_certificates = {}
 for d in cdd.data.denominations:
-    (public, secret) = oc_crypto.newkeys(key_length)
+    (public, secret) = suite.generate_keys()
     mint_keys[d] = (public, secret)
     secret_mint_key = dict(d=hex(secret.d)[2:],n=hex(secret.n)[2:])
     write(secret_mint_key,f'mintkey_{d}_secret.json')
@@ -277,7 +282,7 @@ for i, denomination in enumerate(cdd.denominations):
 
 request_minting = create(containers.RequestMint,
                          message_reference=next(message_id),
-                         transaction_reference=oc_crypto.getrandbits(rand_length),
+                         transaction_reference=suite.get_random_bits(),
                          blinds=[blind.data for blind in alice.blinds.values()])
 write(request_minting, 'request_mint')
 
@@ -325,7 +330,7 @@ for i in range(4):
 
 request_renewal = create(containers.RequestRenew,
                          message_reference=next(message_id),
-                         transaction_reference=oc_crypto.getrandbits(rand_length),
+                         transaction_reference=suite.get_random_bits(),
                          coins=coinstack.coins,
                          blinds=[blind.data for blind in bob.blinds.values()]
                          )

@@ -33,3 +33,7 @@ We find however that in the "real world" taxation is enforced using a different 
 
 You have to talk with your lawyer to check the current situation for country and purpose. The old [legal report](reviews.md#legal-review) can be a starting point.
 
+## Can OpenCoin be used offline?
+
+When receiving a coin, the coin needs to be [renewed](OpenCoin.md#requestrenew). This is needed to prevent the sender to double spend the coin. To reach the issuer you will most likely to be online. However, if you trust the center, you could delay the renewal operation as long as you like. The magic of trust...
+

@@ -48,9 +48,9 @@ Also, Bitcoin is environmentally insane.
 
 ### GNU Taler
 
-[GNU Taler](https://taler.net) is build around the same central idea as OpenCoin. It started later, and is more complete than OpenCoin. They differ in the way the take care of the [renewal step](schemata.md#requestrenew-message) and coin splitting. They also make more assumptions regarding the clients (e.g. clients having keys identifying them, which effectively requires the role-out of a whole PKI infrastructure), they have clearer roles (e.g. consumer and merchant) and by all of this hope to get around the inherent problems of untraceable transfers, e.g. tax-ability.
+[GNU Taler](https://taler.net) is build around the same central idea as OpenCoin. It started later, and is more complete than OpenCoin. They differ in the way the take care of the [renewal step](schemata.md#requestrenew-message) and coin splitting. They also make more assumptions regarding the clients, they have clearer roles (e.g. consumer and merchant). GNU Taler is also much more a finished product than OpenCoin.
 
-The trade-off seems to be that their system is harder is more complex and harder to understand. We also doubt that these complexities are necessary to reach the stated goals. We also doubt that the goals can really be reached, and also find that the system's documentation is quite hard to understand. This might be because they deliver implementations for all necessary software components, and are not really targeted at other implementations of they system.
+OpenCoin is a protocol, a shared ground to build multiple implementations upon. We also think that some issues (like tax-ability) could be solved to some extent within OpenCoin, but are [better solved outside the transfer system anyhow](faq.md#what-about-taxation). 
 
 
 [^chaum82]: David Chaum, “Blind signatures for untraceable payments”, Advances in Cryptology - Crypto ‘82, Springer-Verlag (1983), 199-203.

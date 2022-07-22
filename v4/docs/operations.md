@@ -7,7 +7,7 @@ We define cipher suites that need to be supported by implementations.
 ### INSECURE-RSA256-SHA1-CHAUM86
 
 ```{warning}
-This scheme is insecure, and MUST not be used in production
+This suite is insecure, and MUST not be used in production
 ```
 
 The purpose of this cipher suite is documentation only: we want to keep the numbers relatively short to not distract

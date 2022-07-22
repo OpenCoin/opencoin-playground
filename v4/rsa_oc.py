@@ -22,20 +22,7 @@ from random import getrandbits
 
 
 def get_random_bytes(howMany):
-    factor = 8 * 8  # bytesize time security factor
-    bits = howMany * factor
-    if bits % factor:
-        bits = bits + (16 - (bits % factor))
-    number = random.getrandbits(bits)
-    bytes_ = numberToBytes(number)
-    out = b''
-
-    # Assuming we haven't used a good source of randomness, but the
-    # Mersenne twister, we hash a bit to make it secure
-    while bytes_:
-        out += sha256(bytes_[:factor]).digest()
-        bytes_ = bytes_[factor:]
-    return stringToBytes(out[:howMany])
+    return random.randbytes(howMany)
 
 
 def log(x, base=10):
@@ -43,10 +30,7 @@ def log(x, base=10):
 
 
 def gcd(a, b):
-    a, b = max(a, b), min(a, b)
-    while b:
-        a, b = b, a % b
-    return a
+    return math.gcd(a,b)
 
 
 def bytes2int(bytes_):
@@ -70,9 +54,7 @@ def rsa_operation(message, ekey, n):
     """Encrypts a message using encryption key 'ekey', working modulo
     n"""
 
-    if type(message) is int:
-        message = int(message)
-    elif type(message) is str:
+    if type(message) is str:
         message = int(bytes2int(message))
 
     if type(message) is not int:
@@ -110,7 +92,7 @@ def generate_keys(bits):  # needed
     t = (p - 1) * (q - 1)
     n = p * q
 
-    e = 17
+    e = 65537
     while 1 and gcd(e, t) != 1:
         e += 2
 
