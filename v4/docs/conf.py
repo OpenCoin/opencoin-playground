@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'OpenCoin'
-copyright = '2022, The OpenCoin Collective'
-author = 'The OpenCoin Collective'
+copyright = '2022, The OpenCoin Crew'
+author = 'The OpenCoin Crew'
 
 # The full version, including alpha/beta/rc tags
 release = '0.4'
@@ -80,3 +80,8 @@ html_theme_options = {
 }
 html_favicon='favicon.ico'
 html_title = "OpenCoin v0.4<br>-draft-"
+
+latex_elements = {
+    'papersize': 'a4paper',
+    'pointsize': '12pt'
+}

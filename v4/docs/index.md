@@ -19,6 +19,8 @@ We will remove this warning when it is not longer necessary.
 For more information go to **https://opencoin.org**, or mail us 
 at [collective@opencoin.org](mailto:collective@opencoin.org)
 
+You can read the documentation as a [website](https://opencoin.org/0.4) or as 
+as [pdf](https://opencoin.org/0.4/opencoin.pdf).
 
 
 ```{toctree}
