@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'OpenCoin'
-copyright = '2022, The OpenCoin Crew'
-author = 'The OpenCoin Crew'
+copyright = '2022, CC BY-SA 4.0'
+author = 'Jörg Baach for the OpenCoin Crew'
 
 # The full version, including alpha/beta/rc tags
 release = '0.4'
@@ -79,7 +79,7 @@ html_theme_options = {
     "use_repository_button": True,
 }
 html_favicon='favicon.ico'
-html_title = "OpenCoin v0.4<br>-draft-"
+html_title = "OpenCoin<br><br>v0.4"
 
 latex_elements = {
     'papersize': 'a4paper',

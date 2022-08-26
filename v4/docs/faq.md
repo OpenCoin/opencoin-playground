@@ -42,7 +42,7 @@ When receiving a coin, the coin needs to be [renewed](OpenCoin.md#requestrenew).
 
 ## OpenCoin and ripple?
 
-The OpenCoin project that started in 2007 to create an open source protocol for the the electronic cash system invented by David Chaum. It is about minting tokens that can be transferred in a non-traceable way. It is fast, and the user has full flexibility on how to do the transfer.
+The OpenCoin project that started in 2007 to create an open source protocol for the electronic cash system invented by David Chaum. It is about minting tokens that can be transferred in a non-traceable way. It is fast, and the user has full flexibility on how to do the transfer.
 
 It had nothing to do with "OpenCoin Inc.", a younger company that was developing the ripple network. Unfortunately they decided in 2012 to name their company the same as our project. That created a bit of confusion, as both are about electronic transfers.
 
